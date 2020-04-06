@@ -1,1 +1,1 @@
-export const APP_UPDATE = 'APP_UPDATE';
+export const APP_UPDATE = 'APP_UPDATE'

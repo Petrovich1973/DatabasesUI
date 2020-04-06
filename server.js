@@ -15,7 +15,7 @@ app.get('/api/current', (req, res) => {
         version: '1.0.0',
         user: {
             name: 'administrator',
-            right: ['VIEW_ALL', 'WRITE_ALL']
+            rights: ['VIEW_ALL', 'WRITE_ALL', 'KAFKA_USE']
         }
     })
 })

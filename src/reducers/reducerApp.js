@@ -1,9 +1,13 @@
 import * as type from '../constants/actionTypes'
 
 const initialState = {
-    isVisible: false,
-    position: [0, 0],
-    menuItems: []
+    current: {
+        version: '',
+        user: {
+            name: '',
+            rights: ['VIEW_ALL', 'WRITE_ALL', 'KAFKA_USE']
+        }
+    }
 }
 
 const reducer = (state = initialState, action) => {

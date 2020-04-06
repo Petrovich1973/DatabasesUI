@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react';
-import './NotFoundPage.less'
+import React, {useEffect} from 'react'
 
 const NotFoundPage = () => {
 
     useEffect(() => {
         document.title = 'Not Found'
-    });
+    })
 
     return(
         <div>
@@ -14,4 +13,4 @@ const NotFoundPage = () => {
     )
 }
 
-export default NotFoundPage;
+export default NotFoundPage
