@@ -1,0 +1,1 @@
+export const APP_UPDATE = 'APP_UPDATE';
