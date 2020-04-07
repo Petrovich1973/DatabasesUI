@@ -1,9 +1,37 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import './Header.less'
 
-const Header = () => (
+const Header = ({nav = []}) => (
     <header>
-        Header
+        <nav>
+            <ul>
+                {nav
+                    .map(route => {
+                        if (route.headerNav && route.childs && route.childs.length) {
+                            return (
+                                <li key={route.path}>
+                                    <ul>
+                                        {route.childs.map((subRoute, idxSub) => (
+                                            <li key={idxSub}>
+                                                <NavLink to={route.path + subRoute.path}>
+                                                    <span>{subRoute.title}</span>
+                                                </NavLink>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            )
+                        } else {
+                            return (
+                                <li key={route.path}>
+                                    <NavLink to={route.path}>{route.title}</NavLink>
+                                </li>
+                            )
+                        }
+                    })}
+            </ul>
+        </nav>
     </header>
 )
 

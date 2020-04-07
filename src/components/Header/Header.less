@@ -2,4 +2,32 @@
 
 header {
   padding: @size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  nav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: flex-end;
+      li {
+        font-size: 80%;
+        text-transform: uppercase;
+        a {
+          display: flex;
+          text-decoration: none;
+          color: darkblue;
+          padding: @size / 3 @size / 1.2;
+          border-bottom: 1px solid black;
+          &:hover, &.active {
+            color: white;
+            background-color: black;
+          }
+        }
+      }
+    }
+  }
 }

@@ -13,24 +13,27 @@ const App = (props) => {
     const renderRoutes = routes
         .filter(route => {
             const {rights = []} = route
+            if(!rights.length) return true
             return isRight(rights, rightsCurrent)
-        })
-        .map(route => {
-            const {path} = route
-            return (
-                <Route
-                    key={path}
-                    path={path}
-                    render={props => <route.component {...props} {...{...route}}/>}/>
-            )
         })
 
     return (
         <div className="App">
-            <Header/>
+            <Header nav={renderRoutes}/>
             <Switch>
                 <Redirect exact from='/' to='/index'/>
-                {renderRoutes}
+                {renderRoutes
+                    .map(route => {
+                        const {path} = route
+                        return (
+                            <Route
+                                key={path}
+                                path={path}
+                                render={props => <route.component
+                                    {...props}
+                                    {...{...route}}/>}/>
+                        )
+                    })}
                 <Route component={NotFoundPage}/>
             </Switch>
         </div>

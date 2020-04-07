@@ -3,6 +3,7 @@ import {
     DashboardPage,
     ConsolePage,
     KafkaPage,
+    GridGainPage,
     PostgreSQLPage
 } from './pages'
 
@@ -10,13 +11,13 @@ const routes = [
     {
         component: DashboardPage,
         path: '/index',
-        title: 'Dashboard Page'
+        title: 'Dashboard'
     },
     {
         component: ConsolePage,
         path: '/console',
         title: 'Console Page',
-        rights: [right.WRITE_ALL, right.VIEW_ALL],
+        headerNav: true,
         childs: [
             {
                 // Kafka Clusters
@@ -26,10 +27,16 @@ const routes = [
                 rights: [right.WRITE_ALL, right.VIEW_ALL, right.KAFKA_USE]
             },
             {
+                component: GridGainPage,
+                path: '/gridgain',
+                title: 'GridGain',
+                rights: [right.WRITE_ALL, right.VIEW_ALL, right.GRIDGAIN_USE]
+            },
+            {
                 component: PostgreSQLPage,
                 path: '/postgre',
                 title: 'PostgreSQL',
-                rights: [right.WRITE_ALL, right.VIEW_ALL, right.KAFKA_USE]
+                rights: [right.WRITE_ALL, right.VIEW_ALL, right.POSTGRESQL_USE]
             }
         ]
 

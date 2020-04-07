@@ -5,3 +5,27 @@
   flex-direction: column;
   height: 100%;
 }
+
+.align-right {
+  text-align: right;
+}
+
+.table {
+  border-collapse: collapse;
+  tr:hover {
+    background-color: #edf7f7;
+  }
+  th, td {
+    padding: @size / 2 @size;
+    line-height: 1;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-size: 60%;
+    text-transform: uppercase;
+  }
+  td {
+    border-left: 1px dotted #ccc;
+  }
+}

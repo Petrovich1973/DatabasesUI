@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Redirect, Route, Switch, useRouteMatch, Link} from 'react-router-dom'
+import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom'
 import NotFoundPage from "../NotFoundPage"
 import isRight from "../../utils/isRight"
 
@@ -16,30 +16,22 @@ const ConsolePage = (props) => {
         })
 
     return (
-        <>
-            <Link to={`${match.path}`}>
-                {title}
-            </Link>
-            {renderRoutes.map(route => <Link key={route.path} to={`${match.path}${route.path}`}>
-                {route.title}
-            </Link>)}
-            <Switch>
-                <Redirect exact from={`${match.path}`} to={`${match.path}${first.path}`}/>
-                {renderRoutes
-                    .map(route => {
-                        const {path} = route
-                        return (
-                            <Route
-                                key={path}
-                                path={`${match.path}${path}`}
-                                render={props => <route.component
-                                    {...props}
-                                    {...{...route}}/>}/>
-                        )
-                    })}
-                <Route component={NotFoundPage}/>
-            </Switch>
-        </>
+        <Switch>
+            <Redirect exact from={`${match.path}`} to={`${match.path}${first.path}`}/>
+            {renderRoutes
+                .map((route, i) => {
+                    const {path} = route
+                    return (
+                        <Route
+                            key={i}
+                            path={`${match.path}${path}`}
+                            render={props => <route.component
+                                {...props}
+                                {...{...route}}/>}/>
+                    )
+                })}
+            <Route component={NotFoundPage}/>
+        </Switch>
     )
 }
 
