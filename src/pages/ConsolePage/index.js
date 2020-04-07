@@ -5,7 +5,7 @@ import NotFoundPage from "../NotFoundPage"
 import isRight from "../../utils/isRight"
 
 const ConsolePage = (props) => {
-    const {title = 'Наименование страницы', childs = [], rightsCurrent = []} = props
+    const {childs = [], rightsCurrent = []} = props
     let match = useRouteMatch()
     const [first] = childs
 
