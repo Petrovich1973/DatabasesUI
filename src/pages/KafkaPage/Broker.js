@@ -1,10 +1,15 @@
-import React from 'react'
-import {useParams} from 'react-router-dom'
+import React, {useState} from 'react'
+import {Redirect, Route, Switch, NavLink, useParams, useRouteMatch} from 'react-router-dom'
 import TitlePage from "../../components/TitlePage"
+import Partitions from "./Partitions"
 
 const Broker = (props) => {
     const {brokers = []} = props
+    const match = useRouteMatch()
     const {id} = useParams()
+    const [brokerRouters] = useState([
+        {title: 'Partitions', path: `/partitions`, component: Partitions}
+    ])
 
     const {
         name = null,
@@ -39,6 +44,30 @@ const Broker = (props) => {
                     </tbody>
                 </table>
             </div>
+            <nav>
+                <ul className="flex-center">
+                    {brokerRouters.map((item, i) => (
+                        <li key={i}>
+                            <NavLink to={`${match.url}${item.path}`}>{item.title}</NavLink>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+            <Switch>
+                <Redirect exact from={`${match.path}`} to={`${match.path}/partitions`}/>
+                {brokerRouters
+                    .map(route => {
+                        const {path} = route
+                        return (
+                            <Route
+                                key={path}
+                                path={`${match.path}${path}`}
+                                render={props => <route.component
+                                    {...props}
+                                    {...{...route}}/>}/>
+                        )
+                    })}
+            </Switch>
         </div>
     )
 }
