@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 
 const Brokers = (props) => {
+    const {parentPath = ''} = props
     const [brokers] = useState(initializeBrockeers)
 
     return (
         <div className="flex-center">
+            <h4>{parentPath}</h4>
             <table className="table">
                 <thead>
                 <tr>

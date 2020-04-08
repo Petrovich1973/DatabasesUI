@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Redirect, Route, Switch, useRouteMatch, NavLink} from 'react-router-dom'
+import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom'
 import TitlePage from "../../components/TitlePage"
 import Brokers from "./Brokers"
 import Clusters from "./Clusters"
@@ -17,15 +17,6 @@ const KafkaPage = (props) => {
     return (
         <div>
             <TitlePage label={title} className={'titlePage align-center'}/>
-            <nav>
-                <ul className="flex-center">
-                    {kafkaRoutes.map((item, i) => (
-                        <li key={i}>
-                            <NavLink to={`${match.path}${item.path}`}>{item.title}</NavLink>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
             <Switch>
                 <Redirect exact from={`${match.path}`} to={`${match.path}/clusters`}/>
                 {kafkaRoutes
@@ -37,9 +28,12 @@ const KafkaPage = (props) => {
                                 path={`${match.path}${path}`}
                                 render={props => <route.component
                                     {...props}
-                                    {...{...route}}/>}/>
+                                    {...{...route, parentPath: match.path}}/>}/>
                         )
                     })}
+                    <Route path={`${match.path}/:id`}>
+                        <Brokers/>
+                    </Route>
             </Switch>
         </div>
     )

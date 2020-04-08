@@ -1,72 +1,89 @@
 import React, {useState} from 'react'
+import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
+import TitlePage from "../../components/TitlePage"
+import Cluster from "./Cluster"
 
 const Clusters = (props) => {
     const [clusters] = useState(initializeClusters)
+    const match = useRouteMatch()
+    const {pathname} = useLocation()
+
+    const isVisibleTitle = match.path === pathname
 
     return (
-        <div className="flex-center">
-            <table className="table">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>имя</th>
-                    <th>адреса zookeeper'ов</th>
-                    <th>brokers</th>
-                    <th>topics</th>
-                    <th>partitions</th>
-                    <th>producers</th>
-                </tr>
-                </thead>
-                <tbody>
-                {clusters.map((row, i) => {
-                    const {
-                        id = null,
-                        name = '',
-                        addresses_zookeepers = [],
-                        total_brokers = null,
-                        total_topics = null,
-                        total_partitions = null,
-                        total_consumers = null,
-                        total_producers = null
-                    } = row
-                    return (
-                        <tr key={i}>
-                            <td>{id}</td>
-                            <td>{name}</td>
-                            <td>
-                                <div>
-                                    {addresses_zookeepers
-                                        .map((address, i) => <small key={i}>{address}</small>)
-                                        .reduce((prev, curr, i) => (
-                                            [prev, <small key={i + 1000}>, </small>, curr]
-                                        ))}
-                                </div>
-                            </td>
-                            <td>
-                                <div className="align-right">{total_brokers}</div>
-                            </td>
-                            <td>
-                                <div className="align-right">{total_topics}</div>
-                            </td>
-                            <td>
-                                <div className="align-right">{total_partitions}</div>
-                            </td>
-                            <td>
-                                <div className="align-right">{total_consumers}</div>
-                            </td>
-                            <td>
-                                <div className="align-right">{total_producers}</div>
-                            </td>
-                        </tr>)
-                })}
-                </tbody>
-            </table>
+        <div>
+            {isVisibleTitle ? <TitlePage label={'clusters'} tag={'h4'} className={'titlePage align-center'}/> : null}
+            <Switch>
+                <Route exact path={`${match.path}`}>
+                    <div className="flex-center">
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>имя</th>
+                                <th>адреса zookeeper'ов</th>
+                                <th>brokers</th>
+                                <th>topics</th>
+                                <th>partitions</th>
+                                <th>consumer</th>
+                                <th>producers</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {clusters.map((row, i) => {
+                                const {
+                                    id = null,
+                                    name = '',
+                                    addresses_zookeepers = [],
+                                    total_brokers = null,
+                                    total_topics = null,
+                                    total_partitions = null,
+                                    total_consumers = null,
+                                    total_producers = null
+                                } = row
+                                return (
+                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.path}/${id}`)}>
+                                        <td>{id}</td>
+                                        <td>{name}</td>
+                                        <td>
+                                            <div>
+                                                {addresses_zookeepers
+                                                    .map((address, i) => <small key={i}>{address}</small>)
+                                                    .reduce((prev, curr, i) => (
+                                                        [prev, <small key={i + 1000}>, </small>, curr]
+                                                    ))}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="align-right">{total_brokers}</div>
+                                        </td>
+                                        <td>
+                                            <div className="align-right">{total_topics}</div>
+                                        </td>
+                                        <td>
+                                            <div className="align-right">{total_partitions}</div>
+                                        </td>
+                                        <td>
+                                            <div className="align-right">{total_consumers}</div>
+                                        </td>
+                                        <td>
+                                            <div className="align-right">{total_producers}</div>
+                                        </td>
+                                    </tr>)
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                </Route>
+                <Route path={`${match.path}/:id`}>
+                    <Cluster clusters={clusters}/>
+                </Route>
+            </Switch>
         </div>
     )
 }
 
 export default Clusters
-
 
 
 const initializeClusters = [
