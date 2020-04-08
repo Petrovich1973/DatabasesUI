@@ -63,6 +63,7 @@
 .panel-gray {
   background-color: #e4e4e4;
   padding: @size;
+  margin-bottom: @size;
 }
 
 .noStyles {
@@ -81,6 +82,10 @@
 
 .sm {
   font-size: 60%;
+}
+
+.md {
+  font-size: 80%;
 }
 
 .table {
@@ -105,6 +110,16 @@
   }
   td:not(:first-child) {
     border-left: 1px dotted #ccc;
+  }
+  &.sm {
+    th, td {
+      padding: @size / 4 @size / 2;
+    }
+  }
+  &.md {
+    th, td {
+      padding: @size / 3 @size;
+    }
   }
 }
 

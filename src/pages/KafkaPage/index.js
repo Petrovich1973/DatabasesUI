@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom'
 import TitlePage from "../../components/TitlePage"
-import Brokers from "./Brokers"
+// import Brokers from "./Brokers"
 import Clusters from "./Clusters"
-import Topics from "./Topics"
+// import Topics from "./Topics"
 
 const KafkaPage = (props) => {
     const {title = 'Наименование страницы'} = props
-    const [kafkaRoutes] = useState(initializeRoutes)
+    // const [kafkaRoutes] = useState(initializeRoutes)
     const match = useRouteMatch()
 
     useEffect(() => {
@@ -19,7 +19,10 @@ const KafkaPage = (props) => {
             <TitlePage label={title} className={'titlePage align-center'}/>
             <Switch>
                 <Redirect exact from={`${match.path}`} to={`${match.path}/clusters`}/>
-                {kafkaRoutes
+                <Route path={`${match.path}/clusters`}>
+                    <Clusters {...props}/>
+                </Route>
+                {/*{kafkaRoutes
                     .map(route => {
                         const {path} = route
                         return (
@@ -30,10 +33,7 @@ const KafkaPage = (props) => {
                                     {...props}
                                     {...{...route, parentPath: match.path}}/>}/>
                         )
-                    })}
-                    <Route path={`${match.path}/:id`}>
-                        <Brokers/>
-                    </Route>
+                    })}*/}
             </Switch>
         </div>
     )
@@ -41,7 +41,7 @@ const KafkaPage = (props) => {
 
 export default KafkaPage
 
-const initializeRoutes = [
+/*const initializeRoutes = [
     {
         component: Clusters,
         path: '/clusters',
@@ -57,4 +57,4 @@ const initializeRoutes = [
         path: '/topics',
         title: 'Topics'
     },
-]
+]*/

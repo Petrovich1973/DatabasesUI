@@ -13,8 +13,6 @@ const Cluster = (props) => {
         {title: 'Topics', path: `/topics`, component: Topics}
     ])
 
-    console.log(match)
-
     const {
         name = '',
         addresses_zookeepers = [],
@@ -29,7 +27,7 @@ const Cluster = (props) => {
         <div>
             <TitlePage label={`cluster - ${name}`} tag={'h4'} className={'titlePage align-center'}/>
             <div className="flex-center panel-gray">
-                <table>
+                <table className="table md">
                     <tbody>
                     <tr>
                         <td>total_brokers</td>
