@@ -1,3 +1,4 @@
+import React from 'react'
 import * as right from './constants/rights'
 import {
     DashboardPage,
@@ -6,12 +7,14 @@ import {
     GridGainPage,
     PostgreSQLPage
 } from './pages'
+import {IconDashboard, IconKafka} from './svg'
 
 const routes = [
     {
         component: DashboardPage,
         path: '/index',
-        title: 'Dashboard'
+        title: 'Dashboard',
+        icon: <IconDashboard/>
     },
     {
         component: ConsolePage,
@@ -22,7 +25,8 @@ const routes = [
             {
                 component: KafkaPage,
                 path: '/kafka',
-                title: 'Kafka',
+                title: 'Apache Kafka',
+                icon: <IconKafka/>,
                 rights: [right.WRITE_ALL, right.VIEW_ALL, right.KAFKA_USE]
             },
             {

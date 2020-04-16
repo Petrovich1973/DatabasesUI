@@ -9,7 +9,7 @@ const DashboardPage = (props) => {
     })
 
     return (
-        <div>
+        <div className="align-center">
             <TitlePage label={title}/>
             <h2>Dashboard Page</h2>
             <h3>Dashboard Page</h3>

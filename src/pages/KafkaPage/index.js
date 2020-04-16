@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {Redirect, Route, Switch, useRouteMatch} from 'react-router-dom'
 import TitlePage from "../../components/TitlePage"
 import Clusters from "./Clusters"
+import {IconKafka} from "../../svg"
 
 const KafkaPage = (props) => {
     const {title = 'Наименование страницы'} = props
@@ -14,7 +15,10 @@ const KafkaPage = (props) => {
 
     return (
         <div>
-            <TitlePage label={title} className={'titlePage align-center'}/>
+            <TitlePage
+                icon={<IconKafka height={'1em'} width={'1em'}/>}
+                label={title}
+                className={'titlePage align-center'}/>
             <Switch>
                 <Redirect exact from={`${match.path}`} to={`${match.path}/clusters`}/>
                 <Route path={`${match.path}/clusters`}>

@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Route, Switch, useRouteMatch, NavLink} from 'react-router-dom'
 import Cluster from "./Cluster"
+import {IconClusters} from "../../svg"
 
 const Clusters = (props) => {
     const [clusters] = useState(initializeClusters)
@@ -10,7 +11,7 @@ const Clusters = (props) => {
         <div>
             <nav>
                 <ul className="flex-center">
-                    <li><NavLink to={match.path}>clusters</NavLink></li>
+                    <li><NavLink to={match.path}><IconClusters/><span>clusters</span></NavLink></li>
                 </ul>
             </nav>
             <Switch>

@@ -21,7 +21,10 @@ const Broker = (props) => {
 
     return (
         <div>
-            <TitlePage label={<span>broker - {name}<span className="btn">&#9874;</span></span>} tag={'h5'} className={'titlePage align-center'}/>
+            <TitlePage
+                label={<span>broker - {name}<span className="btn">&#9874;</span></span>}
+                tag={'h4'}
+                className={'titlePage align-center'}/>
             <div className="flex-center panel-gray">
                 <table className="table md">
                     <tbody>

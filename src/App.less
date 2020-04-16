@@ -61,7 +61,7 @@
 }
 
 .panel-gray {
-  background-color: #e4e4e4;
+  background-color: #f1f1f1;
   padding: @size;
   margin-bottom: @size;
 }
@@ -113,12 +113,12 @@
   }
   &.sm {
     th, td {
-      padding: @size / 4 @size / 2;
+      padding: 0 @size / 2;
     }
   }
   &.md {
     th, td {
-      padding: @size / 3 @size;
+      padding: @size / 4 @size / 2;
     }
   }
 }
@@ -135,6 +135,7 @@ nav {
       text-transform: uppercase;
       a {
         display: flex;
+        align-items: center;
         text-decoration: none;
         color: darkblue;
         padding: @size / 3 @size / 1.2;
@@ -142,6 +143,12 @@ nav {
         &:hover, &.active {
           color: white;
           background-color: black;
+        }
+        & > * {
+          display: block;
+        }
+        & > * + * {
+          margin-left: @size / 2;
         }
       }
     }
