@@ -1,3 +1,4 @@
-const isRight = (rights, currentRights) => rights.some(right => currentRights.includes(right))
-
-export default isRight
+export default ({
+                    rights = [],
+                    rightsCurrent = []
+                }) => rights.some(right => rightsCurrent.includes(right))

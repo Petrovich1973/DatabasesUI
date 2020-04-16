@@ -1,18 +1,13 @@
 import React, {useState} from 'react'
-import {Route, Switch, useRouteMatch, useLocation, NavLink} from 'react-router-dom'
-// import TitlePage from "../../components/TitlePage"
+import {Route, Switch, useRouteMatch, NavLink} from 'react-router-dom'
 import Cluster from "./Cluster"
 
 const Clusters = (props) => {
     const [clusters] = useState(initializeClusters)
     const match = useRouteMatch()
-    // const {pathname} = useLocation()
-
-    // const isVisibleTitle = match.path === pathname
 
     return (
         <div>
-            {/*{isVisibleTitle ? <TitlePage label={'clusters'} tag={'h4'} className={'titlePage align-center'}/> : null}*/}
             <nav>
                 <ul className="flex-center">
                     <li><NavLink to={match.path}>clusters</NavLink></li>

@@ -15,12 +15,12 @@ const Cluster = (props) => {
 
     const {
         name = '',
-        addresses_zookeepers = [],
+        // addresses_zookeepers = [],
         total_brokers = null,
         total_topics = null,
         total_partitions = null,
-        total_consumers = null,
-        total_producers = null
+        // total_consumers = null,
+        // total_producers = null
     } = clusters.find(item => item.id === +id) || {}
 
     return (

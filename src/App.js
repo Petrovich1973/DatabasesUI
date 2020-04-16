@@ -1,28 +1,38 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {NotFoundPage} from './pages'
 import './App.less'
-import routes from './routes'
+import routesApp from './routes'
 import Header from "./components/Header"
 import isRight from "./utils/isRight"
 
 const App = (props) => {
-    const {rightsCurrent} = props
+    const {rightsCurrent = []} = props
+    const [navHeader, setNavHeader] = useState([])
 
-    const renderRoutes = routes
-        .filter(route => {
-            const {rights = []} = route
-            if(!rights.length) return true
-            return isRight(rights, rightsCurrent)
-        })
+    const renderRoutes = routes => routes.filter(route => {
+        const {rights = []} = route
+        if(!rights.length) return true
+        return isRight({rights, rightsCurrent})
+    })
+
+    useEffect(() => {
+        createNavHeader()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const createNavHeader = () => {
+        const [first, second] = routesApp
+        setNavHeader([first, ...renderRoutes(second.routes).map(rout => ({...rout, path: `${second.path}${rout.path}`}))])
+    }
 
     return (
         <div className="App">
-            <Header nav={renderRoutes}/>
+            <Header nav={navHeader}/>
             <Switch>
-                <Redirect exact from='/' to='/index'/>
-                {renderRoutes
+                <Redirect exact from='/' to='/console'/>
+                {renderRoutes(routesApp)
                     .map(route => {
                         const {path} = route
                         return (

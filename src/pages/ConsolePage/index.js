@@ -5,14 +5,14 @@ import NotFoundPage from "../NotFoundPage"
 import isRight from "../../utils/isRight"
 
 const ConsolePage = (props) => {
-    const {childs = [], rightsCurrent = []} = props
+    const {routes = [], rightsCurrent = []} = props
     let match = useRouteMatch()
-    const [first] = childs
+    const [first] = routes
 
-    const renderRoutes = childs
+    const renderRoutes = routes
         .filter(route => {
             const {rights = []} = route
-            return isRight(rights, rightsCurrent)
+            return isRight({rights, rightsCurrent})
         })
 
     return (

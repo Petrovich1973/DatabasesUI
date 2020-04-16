@@ -18,6 +18,7 @@ header {
         text-transform: uppercase;
         a {
           display: flex;
+          align-items: center;
           text-decoration: none;
           color: darkblue;
           padding: @size / 3 @size / 1.2;
@@ -25,6 +26,12 @@ header {
           &:hover, &.active {
             color: white;
             background-color: black;
+          }
+          & > * {
+            display: block;
+          }
+          & > * + * {
+            margin-left: @size / 2;
           }
         }
       }

@@ -2,10 +2,10 @@ import * as type from '../constants/actionTypes'
 
 const initialState = {
     current: {
-        version: '',
+        version: '1.0.0',
         user: {
-            name: '',
-            rights: ['VIEW_ALL', 'WRITE_ALL', 'KAFKA_USE']
+            name: 'SBT-Tanko-IP',
+            rights: [/*'VIEW_ALL', 'WRITE_ALL',*/ 'KAFKA_USE']
         }
     }
 }

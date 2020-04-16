@@ -18,9 +18,8 @@ const routes = [
         path: '/console',
         title: 'Console Page',
         headerNav: true,
-        childs: [
+        routes: [
             {
-                // Kafka Clusters
                 component: KafkaPage,
                 path: '/kafka',
                 title: 'Kafka',

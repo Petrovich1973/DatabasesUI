@@ -1,11 +1,10 @@
 import React, {useState} from 'react'
-import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
+import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Broker from "./Broker"
 
 const Partitions = (props) => {
     const [partitions] = useState(initializePartitions)
     const match = useRouteMatch()
-    const {pathname} = useLocation()
 
     return (
         <div>
