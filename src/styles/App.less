@@ -1,0 +1,257 @@
+@import (reference) "./variables.less";
+
+body {
+  font-family: @font;
+  font-size: @md;
+  font-weight: 100;
+  color: @color;
+  background-color: @gray;
+  background-image: radial-gradient(circle, fade(@violet, 30%) 0%, @gray 100%);
+}
+
+html, body, #root {
+  height: 100vh;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+a {
+  display: inline-block;
+  color: lighten(@blue, 20%);
+  border-bottom: 1px solid @blue;
+}
+
+.button {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: @md;
+  padding: @paddingMd;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background-color: transparent;
+
+  &.border {
+    border: 1px solid fade(@color, 50%);
+  }
+  &.radius {
+    border-radius: @radius;
+  }
+  &.lg {
+    font-size: @lg;
+    padding: @paddingLg;
+  }
+  &.sm {
+    font-size: @sm;
+    padding: @paddingSm;
+  }
+  &.sl {
+    text-transform: uppercase;
+    font-weight: 100;
+    font-size: @sl;
+    padding: @paddingSl;
+  }
+  &.black {
+    background-color: @black;
+    color: @color;
+    &.border {
+      border-color: @black;
+    }
+    &:hover {
+      color: @white;
+      background-image: linear-gradient(fade(@color, 10%) 0%, fade(@color, 10%) 100%);
+    }
+  }
+  &.white {
+    background-color: @white;
+    color: @black;
+    &.border {
+      border-color: @white;
+    }
+  }
+  &.violet {
+    background-color: @violet;
+    color: @color;
+    &.border {
+      border-color: @violet;
+    }
+  }
+  &.red {
+    background-color: @red;
+    color: @color;
+    &.border {
+      border-color: @red;
+    }
+  }
+  &.orange {
+    background-color: @orange;
+    color: @color;
+    &.border {
+      border-color: @orange;
+    }
+  }
+  &.yellow {
+    background-color: @yellow;
+    color: @black;
+    font-weight: 700;
+    &.border {
+      border-color: @yellow;
+    }
+  }
+  &.blue {
+    background-color: @blue;
+    color: @color;
+    &.border {
+      border-color: @blue;
+    }
+  }
+  &.green {
+    background-color: @green;
+    color: @color;
+    &.border {
+      border-color: @green;
+    }
+  }
+  & > * {
+    display: block;
+  }
+  & .svg {
+    height: 1em;
+  }
+  & > * + * {
+    margin-left: @size / 1.8;
+  }
+  &:hover {
+    background-image: linear-gradient(fade(@black, 10%) 0%, fade(@black, 10%) 100%);
+  }
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-top {
+  vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-bottom {
+  vertical-align: bottom;
+}
+
+.panel-gray {
+  background-color: #f1f1f1;
+  padding: @size;
+  margin-bottom: @size;
+}
+
+.noStyles {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  background: inherit;
+}
+
+.arrowBack {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 @size;
+}
+
+.table {
+  border-collapse: collapse;
+  thead {
+    user-select: none;
+  }
+  tbody {
+    tr:hover {
+      background-color: #edf7f7;
+    }
+  }
+  th, td {
+    padding: @size / 2 @size;
+    line-height: 1;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    font-size: 60%;
+    text-transform: uppercase;
+  }
+  td:not(:first-child) {
+    border-left: 1px dotted #ccc;
+  }
+  &.sm {
+    th, td {
+      padding: 0 @size / 2;
+    }
+  }
+  &.md {
+    th, td {
+      padding: @size / 4 @size / 2;
+    }
+  }
+}
+
+nav {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: flex-end;
+    li {
+      font-size: 80%;
+      text-transform: uppercase;
+      a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: darkblue;
+        padding: @size / 3 @size / 1.2;
+        border-bottom: 1px solid black;
+        &:hover, &.active {
+          color: white;
+          background-color: black;
+        }
+        & > * {
+          display: block;
+        }
+        & > * + * {
+          margin-left: @size / 2;
+        }
+      }
+    }
+  }
+}

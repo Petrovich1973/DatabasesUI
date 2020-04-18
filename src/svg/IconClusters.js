@@ -1,12 +1,15 @@
 import React from 'react';
 
 export const IconClusters = props => {
-    const {width = 14, height = 14} = props
+    const {size = '100%', style = {}, color = null} = props
     return (
         <svg
-            style={{width, height}}
+            style={style}
+            height={size}
+            fill={color || "currentColor"}
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 31.574 31.574"
-            fill="currentColor"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <path d="M7.212,11.134c0-0.016,0.004-0.029,0.004-0.046c0-1.992-1.615-3.608-3.607-3.608C1.615,7.479,0,9.096,0,11.088
 			c0,1.873,1.433,3.395,3.259,3.572C3.659,12.769,5.254,11.334,7.212,11.134z"/>

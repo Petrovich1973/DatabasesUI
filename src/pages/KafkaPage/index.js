@@ -18,7 +18,7 @@ const KafkaPage = (props) => {
             <TitlePage
                 icon={<IconKafka height={'1em'} width={'1em'}/>}
                 label={title}
-                className={'titlePage align-center'}/>
+                className={'align-center'}/>
             <Switch>
                 <Redirect exact from={`${match.path}`} to={`${match.path}/clusters`}/>
                 <Route path={`${match.path}/clusters`}>

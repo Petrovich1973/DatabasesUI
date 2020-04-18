@@ -29,7 +29,7 @@ const Cluster = (props) => {
             <TitlePage
                 label={<>cluster &#10142; <strong>{name}</strong></>}
                 tag={'h4'}
-                className={'titlePage align-center'}/>
+                className={'align-center'}/>
             <div className="flex-center panel-gray">
                 <table className="table md">
                     <tbody>
