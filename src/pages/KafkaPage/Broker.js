@@ -22,7 +22,7 @@ const Broker = (props) => {
     return (
         <div>
             <TitlePage
-                label={<span>broker - {name}<span className="btn">&#9874;</span></span>}
+                label={<>broker &#10142; <strong>{name}</strong></>}
                 tag={'h4'}
                 className={'titlePage align-center'}/>
             <div className="flex-center panel-gray">
@@ -48,7 +48,7 @@ const Broker = (props) => {
                 </table>
             </div>
             <nav>
-                <ul className="flex-center">
+                <ul className="flex-center sm">
                     {brokerRouters.map((item, i) => (
                         <li key={i}>
                             <NavLink to={`${match.url}${item.path}`}>{item.title}</NavLink>

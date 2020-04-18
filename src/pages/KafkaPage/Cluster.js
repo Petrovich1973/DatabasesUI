@@ -3,14 +3,15 @@ import Brokers from "./Brokers";
 import Topics from "./Topics";
 import {Redirect, Route, Switch, useRouteMatch, NavLink, useParams} from 'react-router-dom'
 import TitlePage from "../../components/TitlePage";
+import {IconTopic} from "../../svg"
 
 const Cluster = (props) => {
     const {clusters = []} = props
     const match = useRouteMatch()
     const {id} = useParams()
     const [clusterRouters] = useState([
-        {title: 'Brokers', path: `/brokers`, component: Brokers},
-        {title: 'Topics', path: `/topics`, component: Topics}
+        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconTopic/>},
+        {title: 'Topics', path: `/topics`, component: Topics, icon: <IconTopic/>}
     ])
 
     const {
@@ -25,7 +26,10 @@ const Cluster = (props) => {
 
     return (
         <div>
-            <TitlePage label={`cluster - ${name}`} tag={'h4'} className={'titlePage align-center'}/>
+            <TitlePage
+                label={<>cluster &#10142; <strong>{name}</strong></>}
+                tag={'h4'}
+                className={'titlePage align-center'}/>
             <div className="flex-center panel-gray">
                 <table className="table md">
                     <tbody>
@@ -45,10 +49,13 @@ const Cluster = (props) => {
                 </table>
             </div>
             <nav>
-                <ul className="flex-center">
+                <ul className="flex-center sm">
                     {clusterRouters.map((item, i) => (
                         <li key={i}>
-                            <NavLink to={`${match.url}${item.path}`}>{item.title}</NavLink>
+                            <NavLink to={`${match.url}${item.path}`}>
+                                {item.icon}
+                                <span>{item.title}</span>
+                            </NavLink>
                         </li>
                     ))}
                 </ul>

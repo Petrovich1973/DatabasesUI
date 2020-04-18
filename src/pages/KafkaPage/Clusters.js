@@ -10,7 +10,7 @@ const Clusters = (props) => {
     return (
         <div>
             <nav>
-                <ul className="flex-center">
+                <ul className="flex-center sm">
                     <li><NavLink to={match.path}><IconClusters/><span>clusters</span></NavLink></li>
                 </ul>
             </nav>
