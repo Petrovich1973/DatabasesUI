@@ -14,7 +14,7 @@ const KafkaPage = (props) => {
     }, [])
 
     return (
-        <div>
+        <div className="screenPage">
             <TitlePage
                 icon={<IconKafka height={'1em'} width={'1em'}/>}
                 label={title}

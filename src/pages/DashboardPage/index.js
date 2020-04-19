@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import TitlePage from "../../components/TitlePage"
 import {IconKafka, IconFolder, IconTopic, IconDelete} from "../../svg"
+import Button from "../../components/Button"
 
 const DashboardPage = (props) => {
     const {title = 'Наименование страницы'} = props
@@ -17,89 +18,36 @@ const DashboardPage = (props) => {
             <h4>h4 Dashboard Page</h4>
             <h5>h5 Dashboard Page</h5>
             <h6>h6 Dashboard Page</h6>
-            <p>Some text <a href="#">Link some text</a> text text text</p>
+            <p>Some text <a href="/">Link some text</a> text text text</p>
             <p>
-                <span className="button">
-                    <button className="btn lg">
-                        <span className="svg"><IconTopic/></span>
-                        <span>Button lg</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn border lg">
-                        <span className="svg"><IconKafka/></span>
-                        <span>Button lg</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn red lg">
-                        <span className="svg"><IconDelete/></span>
-                        <span>Button lg</span>
-                    </button>
-                </span>
+                <Button icon={<IconTopic/>} text={'Button lg'} className="lg"/>
+                <Button icon={<IconKafka/>} text={'Button lg'} className="lg border"/>
+                <Button text={'Button lg'} className="lg red"/>
             </p>
             <p>
-                <span className="button">
-                    <button className="btn">Button</button>
-                </span>
-                <span className="button">
-                    <button className="btn white radius border">
-                        <span className="svg"><IconKafka/></span>
-                        <span>Button border and radius</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn violet radius border">
-                        <span className="svg"><IconKafka/></span>
-                        <span>Button border and radius</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn border">Button border</button>
-                </span>
+                <Button text={'Button'}/>
+                <Button icon={<IconDelete/>} text={'Button border and radius'} className="white border radius"/>
+                <Button icon={<IconKafka/>} text={'Button border and radius'} className="violet border radius"/>
+                <Button text={'Button border'} className="border"/>
             </p>
             <p>
-                <span className="button">
-                    <button className="btn sm red">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn sm orange">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn sm yellow">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn sm border blue radius">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn sm green">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn sm">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn border sm">Button sm</button>
-                </span>
-                <span className="button">
-                    <button className="btn black sm">Button sm</button>
-                </span>
+                <Button icon={<IconDelete/>} text={'Button sm'} className="sm red"/>
+                <Button text={'Button sm'} className="sm orange"/>
+                <Button text={'Button sm'} className="sm yellow"/>
+                <Button icon={<IconFolder/>} text={'Button sm'} className="sm blue border radius"/>
+                <Button text={'Button sm'} className="sm"/>
+                <Button text={'Button sm'} className="sm border"/>
+                <Button text={'Button sm'} className="sm black"/>
             </p>
             <p>
-                <span className="button">
-                    <button className="btn sl">
-                        <span className="svg"><IconTopic/></span>
-                        <span>Button sl</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn black sl">
-                        <span className="svg"><IconFolder/></span>
-                        <span>Button sl long context</span>
-                    </button>
-                </span>
-                <span className="button">
-                    <button className="btn border sl">Button sl</button>
-                </span>
+                <Button text={'Button sl'} className="sl"/>
+                <Button text={'Button sl long context'} className="black sl"/>
+                <Button text={'Name button'} className="border radius sl"/>
+            </p>
+            <p>
+                <Button icon={<IconFolder/>}/>
+                <Button icon={<IconTopic/>}/>
+                <Button icon={<IconKafka/>}/>
             </p>
         </div>
     )
