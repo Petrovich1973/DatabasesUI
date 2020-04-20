@@ -1,11 +1,12 @@
 @import (reference) "../../styles/variables.less";
 
 header {
-  padding: 0 @size;
+  padding: @size;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1;
+  background-color: @black;
   nav {
     ul {
       list-style: none;
@@ -20,12 +21,11 @@ header {
           display: flex;
           align-items: center;
           text-decoration: none;
-          color: darkblue;
+          color: fade(@color, 40%);
           padding: @size / 3 @size / 1.2;
           border-bottom: 1px solid black;
           &:hover, &.active {
-            color: white;
-            background-color: black;
+            color: @color;
           }
           & > * {
             display: block;
