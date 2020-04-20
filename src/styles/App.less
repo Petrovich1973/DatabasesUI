@@ -6,7 +6,7 @@ body {
   font-weight: 100;
   color: @color;
   background-color: @gray;
-  background-image: radial-gradient(circle, fade(@violet, 30%) 0%, @gray 100%);
+  background-image: linear-gradient(15deg, transparent 0%, transparent 70%, fade(@white, 10%) 100%), radial-gradient(circle, fade(@violet, 30%) 0%, @gray 100%);
 }
 
 html, body, #root {
@@ -96,6 +96,40 @@ a {
   display: inline-block;
   color: lighten(@blue, 20%);
   border-bottom: 1px solid @blue;
+}
+
+.white {
+  color: @white;
+}
+.black {
+  color: @black;
+}
+.gray {
+  color: @gray;
+}
+.blue {
+  color: @blue;
+}
+.green {
+  color: lighten(@green, 30%);
+}
+.red {
+  color: lighten(@red, 30%);
+}
+.yellow {
+  color: @yellow;
+}
+.orange {
+  color: @orange;
+}
+.pink {
+  color: @pink;
+}
+.purple {
+  color: @purple;
+}
+.violet {
+  color: @violet;
 }
 
 .btn {
@@ -273,6 +307,10 @@ a {
       text-transform: uppercase;
       user-select: none;
     }
+  }
+  .label {
+    opacity: .5;
+    white-space: nowrap;
   }
   tbody {
     td {
