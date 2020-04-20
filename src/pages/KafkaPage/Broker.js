@@ -52,17 +52,25 @@ const Broker = (props) => {
                 <table className="table md">
                     <tbody>
                     <tr>
-                        <td className="align-right"><small>version</small></td>
+                        <td className="align-right label">
+                            <small>version</small>
+                        </td>
                         <td>{version}</td>
                         <td/>
-                        <td className="align-right"><small>address</small></td>
+                        <td className="align-right label">
+                            <small>address</small>
+                        </td>
                         <td>{address}</td>
                     </tr>
                     <tr>
-                        <td className="align-right"><small>controller</small></td>
+                        <td className="align-right label">
+                            <small>controller</small>
+                        </td>
                         <td>{controller}</td>
                         <td/>
-                        <td className="align-right"><small>velocity</small></td>
+                        <td className="align-right label">
+                            <small>velocity</small>
+                        </td>
                         <td>{velocity}</td>
                     </tr>
                     </tbody>

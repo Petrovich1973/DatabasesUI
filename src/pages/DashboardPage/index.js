@@ -12,6 +12,7 @@ const DashboardPage = (props) => {
 
     return (
         <div className="align-center">
+            &nbsp;
             <TitlePage icon={<IconDashboard size={'1em'}/>} label={title} className="flex-center"/>
             <h2>h2 Dashboard Page</h2>
             <h3>h3 Dashboard Page</h3>
