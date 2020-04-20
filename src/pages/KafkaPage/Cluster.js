@@ -6,12 +6,13 @@ import OverView from "./OverView"
 import Brokers from "./Brokers"
 import Topics from "./Topics"
 import Consumers from "./Consumers"
+import Acls from "./Acls"
 import KafkaConnect from "./KafkaConnect"
 import Settings from "./Settings"
 import RollingRestart from "./RollingRestart"
 import RollingUpgrade from "./RollingUpgrade"
 import KafkaSberEdition from "./KafkaSberEdition"
-import TitlePage from "../../components/TitlePage";
+import TitlePage from "../../components/TitlePage"
 
 const Cluster = (props) => {
     const {clusters = []} = props
@@ -22,6 +23,7 @@ const Cluster = (props) => {
         {title: 'Brokers', path: `/brokers`, component: Brokers, icon: null},
         {title: 'Topics', path: `/topics`, component: Topics, icon: null},
         {title: 'Consumers', path: `/consumers`, component: Consumers, icon: null},
+        {title: 'ACLs', path: `/acls`, component: Acls, icon: null},
         {title: 'Kafka Connect', path: `/kafkaConnect`, component: KafkaConnect, icon: null},
         {title: 'Settings', path: `/settings`, component: Settings, icon: null},
         {title: 'Rolling Restart', path: `/rollingRestart`, component: RollingRestart, icon: null},
