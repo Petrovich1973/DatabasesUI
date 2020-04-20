@@ -16,7 +16,7 @@
       },
       "controllerId": 32461,
       "system": {
-        "cpu": 67,
+        "cpu": 27,
         "disk": "1000Gb/120000Gb",
         "ram": "6200Mb/240000Mb"
       }
@@ -37,7 +37,7 @@
       },
       "controllerId": 32461,
       "system": {
-        "cpu": 67,
+        "cpu": 82,
         "disk": "1000Gb/120000Gb",
         "ram": "6200Mb/240000Mb"
       }
@@ -79,7 +79,7 @@
       },
       "controllerId": 72461,
       "system": {
-        "cpu": 67,
+        "cpu": 97,
         "disk": "1000Gb/120000Gb",
         "ram": "6200Mb/240000Mb"
       }
@@ -100,7 +100,7 @@
       },
       "controllerId": 12461,
       "system": {
-        "cpu": 67,
+        "cpu": 96,
         "disk": "1000Gb/120000Gb",
         "ram": "6200Mb/240000Mb"
       }
@@ -121,7 +121,7 @@
       },
       "controllerId": 12461,
       "system": {
-        "cpu": 607,
+        "cpu": 60,
         "disk": "1000Gb/120000Gb",
         "ram": "6200Mb/240000Mb"
       }

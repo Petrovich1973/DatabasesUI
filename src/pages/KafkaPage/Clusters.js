@@ -5,6 +5,7 @@ import * as api from "../../constants/api"
 import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Cluster from "./Cluster"
 import axios from "axios"
+import classnames from "classnames"
 
 const Clusters = (props) => {
     const [waiting, setWaiting] = useState(true)
@@ -39,6 +40,12 @@ const Clusters = (props) => {
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const cpuColor = value => {
+        if (value < 30) return 'green'
+        if (value < 80) return 'yellow'
+        return 'red'
+    }
 
     return (
         <>
@@ -112,7 +119,7 @@ const Clusters = (props) => {
                                         <td className="align-center">{outOfSync}</td>
                                         <td className="align-center">{underReplicated}</td>
                                         <td className="align-center">{controllerId}</td>
-                                        <td className="align-center">{cpu}</td>
+                                        <td className={classnames("align-center", cpuColor(cpu))}>{cpu}</td>
                                         <td className="align-center">{disk}</td>
                                         <td className="align-center">{ram}</td>
                                     </tr>)
