@@ -7,7 +7,7 @@ import Cluster from "./Cluster"
 import axios from "axios"
 
 const Clusters = (props) => {
-    const [clusters, setClusters] = useState(initializeClusters)
+    const [clusters, setClusters] = useState([])
     const match = useRouteMatch()
 
     useEffect(() => {

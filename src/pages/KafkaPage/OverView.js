@@ -26,45 +26,45 @@ const OverView = (props) => {
             <table className="table md">
                 <tbody>
                 <tr>
-                    <td>host</td>
+                    <td className="align-right"><small>host</small></td>
                     <td>{host}</td>
                     <td/>
-                    <td>topics</td>
+                    <td className="align-right"><small>topics</small></td>
                     <td>{totalTopic}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
-                    <td>partitions</td>
+                    <td className="align-right"><small>partitions</small></td>
                     <td>{totalPart}</td>
                     <td/>
-                    <td>online</td>
+                    <td className="align-right"><small>online</small></td>
                     <td>{online}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
-                    <td>in Sync</td>
+                    <td className="align-right"><small>in Sync</small></td>
                     <td>{inSync}</td>
                     <td/>
-                    <td>out Of Sync</td>
+                    <td className="align-right"><small>out Of Sync</small></td>
                     <td>{outOfSync}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
-                    <td>under Replicated</td>
+                    <td className="align-right"><small>under Replicated</small></td>
                     <td>{underReplicated}</td>
                     <td/>
-                    <td>controller Id</td>
+                    <td className="align-right"><small>controller Id</small></td>
                     <td>{controllerId}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
-                    <td>cpu</td>
+                    <td className="align-right">cpu</td>
                     <td>{cpu}</td>
                     <td/>
-                    <td>disk</td>
+                    <td className="align-right">disk</td>
                     <td>{disk}</td>
                     <td/>
-                    <td>ram</td>
+                    <td className="align-right">ram</td>
                     <td>{ram}</td>
                 </tr>
                 </tbody>

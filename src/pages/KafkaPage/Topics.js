@@ -3,9 +3,12 @@ import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
 import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Topic from "./Topic"
+import axios from "axios"
+import * as api from "../../constants/api";
 
 const Topics = (props) => {
-    const [topics] = useState(initializeTopics)
+    const {cluster = {}} = props
+    const [topics, setTopics] = useState([])
     const match = useRouteMatch()
 
     useEffect(() => {
@@ -21,6 +24,17 @@ const Topics = (props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
+
+    useEffect(() => {
+        axios.get(`${api.kafka_clusters}/${cluster.id}/topics`)
+            .then(res => {
+                setTopics(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <>
@@ -116,71 +130,5 @@ const initializeTopics = [
         outOfSync: 52,
         bytesInPerSec: 55,
         bytesOutPerSec: 23
-    },
-    {
-        id: 3,
-        name: 'topicrName_003',
-        messagesRead: 85,
-        messagesWrite: 25,
-        underReplicated: 44,
-        inSync: 65,
-        outOfSync: 23,
-        bytesInPerSec: 66,
-        bytesOutPerSec: 23
-    },
-    {
-        id: 4,
-        name: 'topicrName_004',
-        messagesRead: 22,
-        messagesWrite: 23,
-        underReplicated: 76,
-        inSync: 22,
-        outOfSync: 67,
-        bytesInPerSec: 3,
-        bytesOutPerSec: 3
-    },
-    {
-        id: 5,
-        name: 'topicrName_005',
-        messagesRead: 84,
-        messagesWrite: 84,
-        underReplicated: 34,
-        inSync: 63,
-        outOfSync: 22,
-        bytesInPerSec: 88,
-        bytesOutPerSec: 33
-    },
-    {
-        id: 6,
-        name: 'topicrName_006',
-        messagesRead: 23,
-        messagesWrite: 23,
-        underReplicated: 65,
-        inSync: 21,
-        outOfSync: 54,
-        bytesInPerSec: 56,
-        bytesOutPerSec: 654
-    },
-    {
-        id: 7,
-        name: 'topicrName_007',
-        messagesRead: 85,
-        messagesWrite: 27,
-        underReplicated: 23,
-        inSync: 62,
-        outOfSync: 77,
-        bytesInPerSec: 23,
-        bytesOutPerSec: 454
-    },
-    {
-        id: 8,
-        name: 'topicrName_008',
-        messagesRead: 18,
-        messagesWrite: 53,
-        underReplicated: 82,
-        inSync: 74,
-        outOfSync: 25,
-        bytesInPerSec: 43,
-        bytesOutPerSec: 56
-    },
+    }
 ]

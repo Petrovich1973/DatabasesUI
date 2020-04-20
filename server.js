@@ -11,6 +11,7 @@ app.use(bodyParser.json())
 
 // data
 const clusters = require('./data/kafka/clusters')
+const topics = require('./data/kafka/topics')
 
 app.get('/api/current', (req, res) => {
     res.send({
@@ -23,11 +24,24 @@ app.get('/api/current', (req, res) => {
 })
 
 app.get('/api/clusters', (req, res) => {
-    res.send(clusters.clusters)
+    setTimeout(() => res.send(clusters.clusters), 2000)
 })
 
 app.get('/api/clusters/:id', (req, res) => {
     const result = clusters.clusters[req.params.id]
+    if(!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result)
+    }
+})
+
+app.get('/api/clusters/:cluster/topics', (req, res) => {
+    setTimeout(() => res.send(topics.topics), 1000)
+})
+
+app.get('/api/clusters/:cluster/topics/:id', (req, res) => {
+    const result = topics.topics[req.params.id]
     if(!result) {
         res.sendStatus(404)
     } else {
