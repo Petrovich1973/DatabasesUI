@@ -17,19 +17,30 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 }
 
 main {
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding-top: @size;
+  padding-bottom: @size;
+  box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
   .content {
     display: flex;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
     aside {
-      margin: @size;
+      margin: @size @size 0;
       line-height: 1;
       font-size: 86%;
       nav {
+        height: 100%;
+        overflow: auto;
         ul {
           margin: 0;
           padding: 0;
@@ -51,7 +62,16 @@ main {
       }
     }
     section {
-      margin: @size;
+      flex: 1;
+      padding: @size 0 0 @size;
+      box-sizing: border-box;
+      height: 100%;
+      overflow: hidden;
+      & > * {
+        box-sizing: border-box;
+        height: 100%;
+        overflow: auto;
+      }
     }
   }
 }

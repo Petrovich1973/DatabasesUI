@@ -2,7 +2,7 @@ import React from 'react'
 
 const Acls = () => {
     return (
-        <div style={{maxWidth: '600px'}}>
+        <div style={{width: '36em', maxWidth: '100%'}}>
             <h4>ACLs</h4>
             <p>Kafka ships with a pluggable Authorizer and an out-of-box authorizer implementation that uses ZooKeeper
                 to store all the ACLs. It is important to set ACLs because otherwise access to resources is limited to

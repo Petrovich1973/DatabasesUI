@@ -2,7 +2,7 @@ import React from 'react'
 
 const Consumers = () => {
     return (
-        <div style={{maxWidth: '600px'}}>
+        <div style={{width: '36em', maxWidth: '100%'}}>
             <h4>Consumers</h4>
             <p>Suppose you have an application that needs to read messages from a Kafka topic, run some validations
                 against them, and write the results to another data store. In this case your application will create a
