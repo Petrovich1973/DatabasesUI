@@ -1,23 +1,41 @@
-import React, {useState} from 'react'
-import {Route, Switch, useRouteMatch, NavLink} from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import * as type from "../../constants/actionTypes"
+import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Cluster from "./Cluster"
-import {IconClusters} from "../../svg"
 
 const Clusters = (props) => {
     const [clusters] = useState(initializeClusters)
     const match = useRouteMatch()
 
+    useEffect(() => {
+        props.dispatch({
+            type: type.KAFKA_BREADCRUMBS_UPDATE,
+            payload: {clusters: {label: 'clusters', path: match.url}}
+        })
+        return () => {
+            props.dispatch({
+                type: type.KAFKA_BREADCRUMBS_UPDATE,
+                payload: {clusters: {label: 'clusters', path: null}}
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [match.url])
+
+    console.log('Clusters', match)
+
     return (
-        <div>
-            <nav>
-                <ul className="flex-center sm">
-                    <li><NavLink to={match.path}><IconClusters/><span>clusters</span></NavLink></li>
-                </ul>
-            </nav>
+        <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div className="flex-center">
+                    <div>
                         <table className="table">
+                            <colgroup>
+                                <col span="4"/>
+                                <col className="col-yellow" span="5"/>
+                                <col span="1"/>
+                                <col className="col-blue" span="3"/>
+                            </colgroup>
                             <thead>
                             <tr>
                                 <th rowSpan={2}>id</th>
@@ -39,12 +57,6 @@ const Clusters = (props) => {
                                 <th>ram</th>
                             </tr>
                             </thead>
-                            <colgroup>
-                                <col span="4"/>
-                                <col className="col-yellow" span="5"/>
-                                <col span="1"/>
-                                <col className="col-blue" span="3"/>
-                            </colgroup>
                             <tbody>
                             {clusters.map((row, i) => {
                                 const {
@@ -70,7 +82,7 @@ const Clusters = (props) => {
                                 } = row
 
                                 return (
-                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.path}/${id}`)}>
+                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.url}/${id}`)}>
                                         <td className="align-center">{id}</td>
                                         <td className="align-center">{name}</td>
                                         <td className="align-center">{host}</td>
@@ -94,11 +106,13 @@ const Clusters = (props) => {
                     <Cluster clusters={clusters}/>
                 </Route>
             </Switch>
-        </div>
+        </>
     )
 }
 
-export default Clusters
+Clusters.displayName = 'Clusters'
+
+export default connect()(Clusters)
 
 
 const initializeClusters = [

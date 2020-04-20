@@ -1,82 +1,95 @@
-import React, {useState} from 'react'
-import Brokers from "./Brokers";
-import Topics from "./Topics";
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import * as type from '../../constants/actionTypes'
 import {Redirect, Route, Switch, useRouteMatch, NavLink, useParams} from 'react-router-dom'
+import OverView from "./OverView"
+import Brokers from "./Brokers"
+import Topics from "./Topics"
+import Consumers from "./Consumers"
+import KafkaConnect from "./KafkaConnect"
+import Settings from "./Settings"
+import RollingRestart from "./RollingRestart"
+import RollingUpgrade from "./RollingUpgrade"
+import KafkaSberEdition from "./KafkaSberEdition"
 import TitlePage from "../../components/TitlePage";
-import {IconTopic} from "../../svg"
 
 const Cluster = (props) => {
     const {clusters = []} = props
     const match = useRouteMatch()
     const {id} = useParams()
     const [clusterRouters] = useState([
-        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconTopic/>},
-        {title: 'Topics', path: `/topics`, component: Topics, icon: <IconTopic/>}
+        {title: 'OverView', path: `/overview`, component: OverView, icon: null},
+        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: null},
+        {title: 'Topics', path: `/topics`, component: Topics, icon: null},
+        {title: 'Consumers', path: `/consumers`, component: Consumers, icon: null},
+        {title: 'Kafka Connect', path: `/kafkaConnect`, component: KafkaConnect, icon: null},
+        {title: 'Settings', path: `/settings`, component: Settings, icon: null},
+        {title: 'Rolling Restart', path: `/rollingRestart`, component: RollingRestart, icon: null},
+        {title: 'Rolling Upgrade', path: `/rollingUpgrade`, component: RollingUpgrade, icon: null},
+        {title: 'Kafka SberEdition', path: `/kafkaSberEdition`, component: KafkaSberEdition, icon: null}
     ])
 
     const {
-        name = '',
-        // addresses_zookeepers = [],
-        total_brokers = null,
-        total_topics = null,
-        total_partitions = null,
-        // total_consumers = null,
-        // total_producers = null
+        name = ''
     } = clusters.find(item => item.id === +id) || {}
 
+    useEffect(() => {
+        props.dispatch({
+            type: type.KAFKA_BREADCRUMBS_UPDATE,
+            payload: {clusterName: {label: name, path: match.url}}
+        })
+        return () => {
+            props.dispatch({
+                type: type.KAFKA_BREADCRUMBS_UPDATE,
+                payload: {clusterName: {label: name, path: null}}
+            })
+        }
+    }, [match.url])
+
     return (
-        <div>
-            <TitlePage
-                label={<>cluster &#10142; <strong>{name}</strong></>}
-                tag={'h4'}
-                className={'align-center'}/>
-            <div className="flex-center panel-gray">
-                <table className="table md">
-                    <tbody>
-                    <tr>
-                        <td>total_brokers</td>
-                        <td>{total_brokers}</td>
-                    </tr>
-                    <tr>
-                        <td>total_topics</td>
-                        <td>{total_topics}</td>
-                    </tr>
-                    <tr>
-                        <td>total_partitions</td>
-                        <td>{total_partitions}</td>
-                    </tr>
-                    </tbody>
-                </table>
+        <>
+            <TitlePage tag={'h2'} label={<>
+                <small><small><em>cluster</em></small></small>
+                &nbsp;
+                {name}</>}/>
+
+            <div className="content">
+                <aside>
+                    <nav>
+                        <ul>
+                            {clusterRouters.map((item, i) => (
+                                <li key={i}>
+                                    <NavLink to={`${match.url}${item.path}`}>
+                                        {item.icon}
+                                        <span>{item.title}</span>
+                                    </NavLink>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </aside>
+                <section>
+                    <Switch>
+                        <Redirect exact from={`${match.path}`} to={`${match.path}/overview`}/>
+                        {clusterRouters
+                            .map(route => {
+                                const {path} = route
+                                return (
+                                    <Route
+                                        key={path}
+                                        path={`${match.path}${path}`}
+                                        render={props => <route.component
+                                            {...props}
+                                            {...{...route}}/>}/>
+                                )
+                            })}
+                    </Switch>
+                </section>
             </div>
-            <nav>
-                <ul className="flex-center sm">
-                    {clusterRouters.map((item, i) => (
-                        <li key={i}>
-                            <NavLink to={`${match.url}${item.path}`}>
-                                {item.icon}
-                                <span>{item.title}</span>
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-            <Switch>
-                <Redirect exact from={`${match.path}`} to={`${match.path}/brokers`}/>
-                {clusterRouters
-                    .map(route => {
-                        const {path} = route
-                        return (
-                            <Route
-                                key={path}
-                                path={`${match.path}${path}`}
-                                render={props => <route.component
-                                    {...props}
-                                    {...{...route}}/>}/>
-                        )
-                    })}
-            </Switch>
-        </div>
+        </>
     )
 }
 
-export default Cluster
+Cluster.displayName = 'Cluster'
+
+export default connect()(Cluster)

@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import {connect} from 'react-redux'
+import * as type from '../../constants/actionTypes'
 import {Redirect, Route, Switch, NavLink, useParams, useRouteMatch} from 'react-router-dom'
-import TitlePage from "../../components/TitlePage"
 import Partitions from "./Partitions"
 
 const Broker = (props) => {
@@ -12,52 +13,41 @@ const Broker = (props) => {
     ])
 
     const {
-        name = null,
-        version = '2.0.4',
-        address = 'localhost:3445',
-        controller = 452,
-        velocity = '345/23'
+        name = null
     } = brokers.find(item => item.id === +id) || {}
+
+    useEffect(() => {
+        props.dispatch({
+            type: type.KAFKA_BREADCRUMBS_UPDATE,
+            payload: {clusterChildName: {label: name, path: match.url}}
+        })
+        return () => {
+            props.dispatch({
+                type: type.KAFKA_BREADCRUMBS_UPDATE,
+                payload: {clusterChildName: {label: name, path: null}}
+            })
+        }
+    }, [match.url])
 
     return (
         <div>
-            <TitlePage
-                label={<>broker &#10142; <strong>{name}</strong></>}
-                tag={'h4'}
-                className={'align-center'}/>
-            <div className="flex-center panel-gray">
-                <table className="table md">
-                    <tbody>
-                    <tr>
-                        <td>version</td>
-                        <td>{version}</td>
-                    </tr>
-                    <tr>
-                        <td>address</td>
-                        <td>{address}</td>
-                    </tr>
-                    <tr>
-                        <td>controller</td>
-                        <td>{controller}</td>
-                    </tr>
-                    <tr>
-                        <td>velocity</td>
-                        <td>{velocity}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <nav>
-                <ul className="flex-center sm">
-                    {brokerRouters.map((item, i) => (
-                        <li key={i}>
-                            <NavLink to={`${match.url}${item.path}`}>{item.title}</NavLink>
-                        </li>
-                    ))}
+            <nav className="tabs">
+                <ul>
+                    <li>
+                        <NavLink to={`${match.url}`}>Detail</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to={`${match.url}/partitions`}>Partitions</NavLink>
+                    </li>
                 </ul>
             </nav>
             <Switch>
-                <Redirect exact from={`${match.path}`} to={`${match.path}/partitions`}/>
+                {/*<Route exact path={`${match.path}`}>
+                    <div>
+                        Detail Broker {name}
+                    </div>
+                </Route>*/}
+                <Redirect exact from={`${match.url}`} to={`${match.url}/partitions`}/>
                 {brokerRouters
                     .map(route => {
                         const {path} = route
@@ -75,4 +65,6 @@ const Broker = (props) => {
     )
 }
 
-export default Broker
+Broker.displayName = 'Broker'
+
+export default connect()(Broker)

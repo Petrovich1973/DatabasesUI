@@ -1,4 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import * as type from "../../constants/actionTypes"
 import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
 import Broker from "./Broker"
 
@@ -7,11 +9,25 @@ const Brokers = (props) => {
     const match = useRouteMatch()
     const {pathname} = useLocation()
 
+    useEffect(() => {
+        props.dispatch({
+            type: type.KAFKA_BREADCRUMBS_UPDATE,
+            payload: {clusterChild: {label: 'brokers', path: match.url}}
+        })
+        return () => {
+            props.dispatch({
+                type: type.KAFKA_BREADCRUMBS_UPDATE,
+                payload: {clusterChild: {label: 'brokers', path: null}}
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [match.url])
+
     return (
-        <div>
+        <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div className="flex-center">
+                    <div>
                         <table className="table">
                             <thead>
                             <tr>
@@ -58,11 +74,13 @@ const Brokers = (props) => {
                     <Broker brokers={brokers} {...props}/>
                 </Route>
             </Switch>
-        </div>
+        </>
     )
 }
 
-export default Brokers
+Brokers.displayName = 'Brokers'
+
+export default connect()(Brokers)
 
 const initializeBrockeers = [
     {id: 0, name: 'Broker_001', version: '2.0.4', address: 'localhost:3445', controller: 452, velocity: '345/23'},

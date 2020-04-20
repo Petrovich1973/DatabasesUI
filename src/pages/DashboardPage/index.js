@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import TitlePage from "../../components/TitlePage"
-import {IconKafka, IconFolder, IconTopic, IconDelete} from "../../svg"
+import {IconKafka, IconFolder, IconTopic, IconDelete, IconDashboard} from "../../svg"
 import Button from "../../components/Button"
 
 const DashboardPage = (props) => {
@@ -12,7 +12,7 @@ const DashboardPage = (props) => {
 
     return (
         <div className="align-center">
-            <TitlePage label={title}/>
+            <TitlePage icon={<IconDashboard size={'1em'}/>} label={title} className="flex-center"/>
             <h2>h2 Dashboard Page</h2>
             <h3>h3 Dashboard Page</h3>
             <h4>h4 Dashboard Page</h4>
