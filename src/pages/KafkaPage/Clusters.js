@@ -37,6 +37,9 @@ const Clusters = (props) => {
             })
             .catch(err => {
                 console.log(err)
+                setClusters(initializeClusters)
+                setClusterActive(1)
+                setWaiting(false)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -158,7 +161,7 @@ const initializeClusters = [
         },
         controllerId: 32461,
         system: {
-            cpu: 67,
+            cpu: 17,
             disk: '1000Gb/120000Gb',
             ram: '6200Mb/240000Mb'
         }
@@ -172,14 +175,14 @@ const initializeClusters = [
         },
         partitions: {
             total: 82,
-            online: 17,
+            online: 27,
             inSync: 58,
             outOfSync: 20,
             underReplicated: 0
         },
         controllerId: 32461,
         system: {
-            cpu: 67,
+            cpu: 27,
             disk: '1000Gb/120000Gb',
             ram: '6200Mb/240000Mb'
         }
@@ -200,7 +203,7 @@ const initializeClusters = [
         },
         controllerId: 32461,
         system: {
-            cpu: 67,
+            cpu: 87,
             disk: '1000Gb/120000Gb',
             ram: '6200Mb/240000Mb'
         }
@@ -242,7 +245,7 @@ const initializeClusters = [
         },
         controllerId: 12461,
         system: {
-            cpu: 67,
+            cpu: 97,
             disk: '1000Gb/120000Gb',
             ram: '6200Mb/240000Mb'
         }

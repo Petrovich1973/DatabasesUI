@@ -38,6 +38,9 @@ const Brokers = (props) => {
             })
             .catch(err => {
                 console.log(err)
+                setBrokers(initializeBrockeers)
+                setBrokerActive(1)
+                setWaiting(false)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

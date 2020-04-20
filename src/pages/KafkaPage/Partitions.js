@@ -37,6 +37,9 @@ const Partitions = (props) => {
             })
             .catch(err => {
                 console.log(err)
+                setPartitions(initializePartitions)
+                setPartitionActive(1)
+                setWaiting(false)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
