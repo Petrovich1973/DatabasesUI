@@ -7,7 +7,9 @@ import Cluster from "./Cluster"
 import axios from "axios"
 
 const Clusters = (props) => {
-    const [clusters, setClusters] = useState(initializeClusters)
+    const [waiting, setWaiting] = useState(true)
+    const [clusters, setClusters] = useState([])
+    const [clusterActive, setClusterActive] = useState(null)
     const match = useRouteMatch()
 
     useEffect(() => {
@@ -22,12 +24,15 @@ const Clusters = (props) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url])
+    }, [match.url, clusters])
 
     useEffect(() => {
+        setWaiting(true)
         axios.get(`${api.kafka_clusters}`)
             .then(res => {
                 setClusters(res.data)
+                setClusterActive(1)
+                setWaiting(false)
             })
             .catch(err => {
                 console.log(err)
@@ -40,7 +45,7 @@ const Clusters = (props) => {
             <Switch>
                 <Route exact path={`${match.path}`}>
                     <div>
-                        <table className="table">
+                        {!waiting ? <table className="table">
                             <colgroup>
                                 <col span="4"/>
                                 <col className="col-yellow" span="5"/>
@@ -93,7 +98,10 @@ const Clusters = (props) => {
                                 } = row
 
                                 return (
-                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.url}/${id}`)}>
+                                    <tr key={i} onClick={() => {
+                                        setClusterActive(id)
+                                        props.history.push(`${match.url}/${id}`)
+                                    }}>
                                         <td className="align-center">{id}</td>
                                         <td className="align-center">{name}</td>
                                         <td className="align-center">{host}</td>
@@ -110,11 +118,11 @@ const Clusters = (props) => {
                                     </tr>)
                             })}
                             </tbody>
-                        </table>
+                        </table> : <div className="waiting">waiting...</div>}
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>
-                    <Cluster clusters={clusters}/>
+                    {clusterActive ? <Cluster clusters={clusters}/> : <div className="waiting">waiting...</div>}
                 </Route>
             </Switch>
         </>

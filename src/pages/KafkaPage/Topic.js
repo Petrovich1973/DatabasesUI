@@ -55,29 +55,29 @@ const Topic = (props) => {
                 <table className="table md">
                     <tbody>
                     <tr>
-                        <td>messages Read</td>
+                        <td className="align-right"><small>messages Read</small></td>
                         <td>{messagesRead}</td>
                         <td/>
-                        <td>messages Write</td>
+                        <td className="align-right"><small>messages Write</small></td>
                         <td>{messagesWrite}</td>
                         <td/>
-                        <td>bytes Out PerSec</td>
+                        <td className="align-right"><small>bytes Out PerSec</small></td>
                         <td>{bytesOutPerSec}</td>
                     </tr>
                     <tr>
-                        <td>under Replicated</td>
+                        <td className="align-right"><small>under Replicated</small></td>
                         <td>{underReplicated}</td>
                         <td/>
-                        <td>in Sync</td>
+                        <td className="align-right"><small>in Sync</small></td>
                         <td>{inSync}</td>
                         <td/>
                         <td colSpan={2}/>
                     </tr>
                     <tr>
-                        <td>out Of Sync</td>
+                        <td className="align-right"><small>out Of Sync</small></td>
                         <td>{outOfSync}</td>
                         <td/>
-                        <td>bytes In PerSec</td>
+                        <td className="align-right"><small>bytes In PerSec</small></td>
                         <td>{bytesInPerSec}</td>
                         <td/>
                         <td colSpan={2}/>

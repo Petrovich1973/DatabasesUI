@@ -11,6 +11,9 @@ app.use(bodyParser.json())
 
 // data
 const clusters = require('./data/kafka/clusters')
+const topics = require('./data/kafka/topics')
+const brokers = require('./data/kafka/brokers')
+const partitions = require('./data/kafka/partitions')
 
 app.get('/api/current', (req, res) => {
     res.send({
@@ -23,11 +26,63 @@ app.get('/api/current', (req, res) => {
 })
 
 app.get('/api/clusters', (req, res) => {
-    res.send(clusters.clusters)
+    setTimeout(() => res.send(clusters.clusters), 200)
 })
 
 app.get('/api/clusters/:id', (req, res) => {
     const result = clusters.clusters[req.params.id]
+    if(!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result)
+    }
+})
+
+app.get('/api/clusters/:cluster/topics', (req, res) => {
+    setTimeout(() => res.send(topics.topics), 100)
+})
+
+app.get('/api/clusters/:cluster/topics/:id', (req, res) => {
+    const result = topics.topics[req.params.id]
+    if(!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result)
+    }
+})
+
+app.get('/api/clusters/:cluster/topics/:topic/partitions', (req, res) => {
+    setTimeout(() => res.send(partitions.partitions), 300)
+})
+
+app.get('/api/clusters/:cluster/topics/:topic/partitions/:id', (req, res) => {
+    const result = partitions.partitions[req.params.id]
+    if(!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result)
+    }
+})
+
+app.get('/api/clusters/:cluster/brokers', (req, res) => {
+    setTimeout(() => res.send(brokers.brokers), 100)
+})
+
+app.get('/api/clusters/:cluster/brokers/:id', (req, res) => {
+    const result = brokers.brokers[req.params.id]
+    if(!result) {
+        res.sendStatus(404)
+    } else {
+        res.send(result)
+    }
+})
+
+app.get('/api/clusters/:cluster/brokers/:broker/partitions', (req, res) => {
+    setTimeout(() => res.send(partitions.partitions), 300)
+})
+
+app.get('/api/clusters/:cluster/brokers/:broker/partitions/:id', (req, res) => {
+    const result = partitions.partitions[req.params.id]
     if(!result) {
         res.sendStatus(404)
     } else {
