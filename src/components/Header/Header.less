@@ -6,7 +6,8 @@ header {
   justify-content: center;
   align-items: center;
   line-height: 1;
-  background-color: @black;
+  background-color: @orange;
+  background: linear-gradient(90deg, darken(@gray, 6%) 0%, fade(@violet, 20%) 75%, @gray 100%);
   nav {
     ul {
       list-style: none;
@@ -23,7 +24,7 @@ header {
           text-decoration: none;
           color: fade(@color, 40%);
           padding: @size / 3 @size / 1.2;
-          border-bottom: 1px solid black;
+          border-bottom: none;
           &:hover, &.active {
             color: @color;
           }

@@ -109,7 +109,7 @@ export default connect()(Topics)
 
 const initializeTopics = [
     {
-        id: 0,
+        id: 1010,
         name: 'topicrName_000',
         messagesRead: 45,
         messagesWrite: 45,

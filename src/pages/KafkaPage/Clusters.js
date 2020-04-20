@@ -136,7 +136,7 @@ export default connect()(Clusters)
 
 const initializeClusters = [
     {
-        id: 0,
+        id: 1010,
         name: 'clusterName_000',
         host: 'localhost:9100',
         topics: {

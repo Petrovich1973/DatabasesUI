@@ -94,7 +94,7 @@ Partitions.displayName = 'Partitions'
 export default connect()(Partitions)
 
 const initializePartitions = [
-    {id: 0, name: 'Partition_001', role: 'LEADER', status: 'SUCCESS'},
+    {id: 1010, name: 'Partition_001', role: 'LEADER', status: 'SUCCESS'},
     {id: 1, name: 'Partition_002', role: 'FOLLOWER', status: 'WARNING'},
     {id: 2, name: 'Partition_003', role: 'FOLLOWER', status: 'SUCCESS'},
     {id: 3, name: 'Partition_004', role: 'LEADER', status: 'ERROR'}
