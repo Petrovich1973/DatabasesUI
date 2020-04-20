@@ -2,7 +2,7 @@ import React from 'react'
 
 const Settings = () => {
     return (
-        <div style={{maxWidth: '600px'}}>
+        <div style={{width: '36em', maxWidth: '100%'}}>
             <h4>Settings</h4>
             <p>The dynamic broker configuration option is enabled by default. The feature allows editing broker
                 configurations within Control Center that do not require a restart. Any configuration option that has a
