@@ -7,6 +7,14 @@ const initialState = {
             name: 'SBT-Tanko-IP',
             rights: [/*'VIEW_ALL', 'WRITE_ALL',*/ 'KAFKA_USE']
         }
+    },
+    breadcrumbsKafka: {
+        clusters: {label: 'Clusters', path: null},
+        clusterName: {label: 'clusterName', path: null},
+        clusterChild: {label: 'clusterChild', path: null},
+        clusterChildName: {label: 'clusterChildName', path: null},
+        clusterChildSecond: {label: 'clusterChildSecond', path: null},
+        clusterChildSecondName: {label: 'clusterChildSecondName', path: null},
     }
 }
 
@@ -16,6 +24,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            }
+        case type.KAFKA_BREADCRUMBS_UPDATE:
+            return {
+                ...state,
+                breadcrumbsKafka: {
+                    ...state.breadcrumbsKafka,
+                    ...action.payload
+                }
             }
         default:
             return state

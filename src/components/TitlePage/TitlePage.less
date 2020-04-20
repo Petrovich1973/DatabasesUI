@@ -1,9 +1,11 @@
-@import (reference) "../../variables.less";
+@import (reference) "../../styles/variables.less";
 
 .titlePage {
   display: flex;
-  justify-content: center;
   align-items: center;
   margin: 0;
-  padding: @size;
+  padding: 0 @size;
+  & > * + * {
+    margin-left: @size;
+  }
 }

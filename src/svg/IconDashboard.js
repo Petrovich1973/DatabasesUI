@@ -1,12 +1,15 @@
 import React from 'react';
 
 export const IconDashboard = props => {
-    const {width = 14, height = 14} = props
+    const {size = '100%', style = {}, color = null} = props
     return (
         <svg
-            style={{width, height}}
+            style={style}
+            height={size}
+            fill={color || "currentColor"}
+            xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 384"
-            fill="currentColor"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
         >
             <rect x="213.333" y="0" width="170.667" height="128"/>
             <rect x="0" y="0" width="170.667" height="213.333"/>

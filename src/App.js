@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import {NotFoundPage} from './pages'
-import './App.less'
+import './styles/App.less'
 import routesApp from './routes'
 import Header from "./components/Header"
 import isRight from "./utils/isRight"
@@ -13,7 +13,7 @@ const App = (props) => {
 
     const renderRoutes = routes => routes.filter(route => {
         const {rights = []} = route
-        if(!rights.length) return true
+        if (!rights.length) return true
         return isRight({rights, rightsCurrent})
     })
 
@@ -24,7 +24,11 @@ const App = (props) => {
 
     const createNavHeader = () => {
         const [first, second] = routesApp
-        setNavHeader([first, ...renderRoutes(second.routes).map(rout => ({...rout, path: `${second.path}${rout.path}`}))])
+        setNavHeader([
+            first,
+            ...renderRoutes(second.routes)
+                .map(rout => ({...rout, path: `${second.path}${rout.path}`}))
+        ])
     }
 
     return (

@@ -1,75 +1,101 @@
-import React, {useState} from 'react'
-import {Route, Switch, useRouteMatch, NavLink} from 'react-router-dom'
+import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import * as type from "../../constants/actionTypes"
+import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Cluster from "./Cluster"
-import {IconClusters} from "../../svg"
 
 const Clusters = (props) => {
     const [clusters] = useState(initializeClusters)
     const match = useRouteMatch()
 
+    useEffect(() => {
+        props.dispatch({
+            type: type.KAFKA_BREADCRUMBS_UPDATE,
+            payload: {clusters: {label: 'clusters', path: match.url}}
+        })
+        return () => {
+            props.dispatch({
+                type: type.KAFKA_BREADCRUMBS_UPDATE,
+                payload: {clusters: {label: 'clusters', path: null}}
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [match.url])
+
+    console.log('Clusters', match)
+
     return (
-        <div>
-            <nav>
-                <ul className="flex-center sm">
-                    <li><NavLink to={match.path}><IconClusters/><span>clusters</span></NavLink></li>
-                </ul>
-            </nav>
+        <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div className="flex-center">
+                    <div>
                         <table className="table">
+                            <colgroup>
+                                <col span="4"/>
+                                <col className="col-yellow" span="5"/>
+                                <col span="1"/>
+                                <col className="col-blue" span="3"/>
+                            </colgroup>
                             <thead>
                             <tr>
-                                <th>id</th>
-                                <th>имя</th>
-                                <th>адреса zookeeper'ов</th>
-                                <th>brokers</th>
-                                <th>topics</th>
-                                <th>partitions</th>
-                                <th>consumer</th>
-                                <th>producers</th>
+                                <th rowSpan={2}>id</th>
+                                <th rowSpan={2}>name</th>
+                                <th rowSpan={2}>host</th>
+                                <th rowSpan={2}>topics</th>
+                                <th className="border-bottom opacity" colSpan={5}>partitions</th>
+                                <th rowSpan={2}>controller id</th>
+                                <th className="border-bottom opacity" colSpan={3}>system</th>
+                            </tr>
+                            <tr>
+                                <th>total</th>
+                                <th>online</th>
+                                <th>in sync</th>
+                                <th>out of sync</th>
+                                <th>under replicated</th>
+                                <th>cpu</th>
+                                <th>disk</th>
+                                <th>ram</th>
                             </tr>
                             </thead>
                             <tbody>
                             {clusters.map((row, i) => {
                                 const {
                                     id = null,
-                                    name = '',
-                                    addresses_zookeepers = [],
-                                    total_brokers = null,
-                                    total_topics = null,
-                                    total_partitions = null,
-                                    total_consumers = null,
-                                    total_producers = null
+                                    name = null,
+                                    host = null,
+                                    topics: {
+                                        totalTopic = row.topics.total
+                                    },
+                                    partitions: {
+                                        totalPart = row.partitions.total,
+                                        online = null,
+                                        inSync = null,
+                                        outOfSync = null,
+                                        underReplicated = null
+                                    },
+                                    controllerId = null,
+                                    system: {
+                                        cpu = null,
+                                        disk = null,
+                                        ram = null
+                                    }
                                 } = row
+
                                 return (
-                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.path}/${id}`)}>
-                                        <td>{id}</td>
-                                        <td>{name}</td>
-                                        <td>
-                                            <div>
-                                                {addresses_zookeepers
-                                                    .map((address, i) => <small key={i}>{address}</small>)
-                                                    .reduce((prev, curr, i) => (
-                                                        [prev, <small key={i + 1000}>, </small>, curr]
-                                                    ))}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="align-right">{total_brokers}</div>
-                                        </td>
-                                        <td>
-                                            <div className="align-right">{total_topics}</div>
-                                        </td>
-                                        <td>
-                                            <div className="align-right">{total_partitions}</div>
-                                        </td>
-                                        <td>
-                                            <div className="align-right">{total_consumers}</div>
-                                        </td>
-                                        <td>
-                                            <div className="align-right">{total_producers}</div>
-                                        </td>
+                                    <tr key={i} onDoubleClick={() => props.history.push(`${match.url}/${id}`)}>
+                                        <td className="align-center">{id}</td>
+                                        <td className="align-center">{name}</td>
+                                        <td className="align-center">{host}</td>
+                                        <td className="align-center">{totalTopic}</td>
+                                        <td className="align-center">{totalPart}</td>
+                                        <td className="align-center">{online}</td>
+                                        <td className="align-center">{inSync}</td>
+                                        <td className="align-center">{outOfSync}</td>
+                                        <td className="align-center">{underReplicated}</td>
+                                        <td className="align-center">{controllerId}</td>
+                                        <td className="align-center">{cpu}</td>
+                                        <td className="align-center">{disk}</td>
+                                        <td className="align-center">{ram}</td>
                                     </tr>)
                             })}
                             </tbody>
@@ -80,62 +106,119 @@ const Clusters = (props) => {
                     <Cluster clusters={clusters}/>
                 </Route>
             </Switch>
-        </div>
+        </>
     )
 }
 
-export default Clusters
+Clusters.displayName = 'Clusters'
+
+export default connect()(Clusters)
 
 
 const initializeClusters = [
     {
         id: 0,
-        name: 'clusterName_001',
-        addresses_zookeepers: ['localhost:5100', 'localhost:5200'],
-        total_brokers: 4,
-        total_topics: 34,
-        total_partitions: 126,
-        total_consumers: 8,
-        total_producers: 58,
+        name: 'clusterName_000',
+        host: 'localhost:9100',
+        topics: {
+            total: 23
+        },
+        partitions: {
+            total: 78,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/240000Mb'
+        }
     },
     {
         id: 1,
-        name: 'clusterName_002',
-        addresses_zookeepers: ['localhost:6100', 'localhost:6200', 'localhost:6220', 'localhost:6230'],
-        total_brokers: 8,
-        total_topics: 64,
-        total_partitions: 326,
-        total_consumers: 12,
-        total_producers: 58,
+        name: 'clusterName_001',
+        host: 'localhost:4100',
+        topics: {
+            total: 42
+        },
+        partitions: {
+            total: 82,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/240000Mb'
+        }
     },
     {
         id: 2,
-        name: 'clusterName_003',
-        addresses_zookeepers: ['localhost:7100', 'localhost:7200'],
-        total_brokers: 2,
-        total_topics: 14,
-        total_partitions: 66,
-        total_consumers: 3,
-        total_producers: 9,
+        name: 'clusterName_002',
+        host: 'localhost:2100',
+        topics: {
+            total: 24
+        },
+        partitions: {
+            total: 81,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/240000Mb'
+        }
     },
     {
         id: 3,
-        name: 'clusterName_004',
-        addresses_zookeepers: ['localhost:8100', 'localhost:8200', 'localhost:8220'],
-        total_brokers: 44,
-        total_topics: 340,
-        total_partitions: 1260,
-        total_consumers: 80,
-        total_producers: 258,
+        name: 'clusterName_003',
+        host: 'localhost:3130',
+        topics: {
+            total: 34
+        },
+        partitions: {
+            total: 66,
+            online: 47,
+            inSync: 88,
+            outOfSync: 21,
+            underReplicated: 1
+        },
+        controllerId: 72461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/240000Mb'
+        }
     },
     {
         id: 4,
-        name: 'clusterName_005',
-        addresses_zookeepers: ['localhost:9100', 'localhost:9200'],
-        total_brokers: 9,
-        total_topics: 74,
-        total_partitions: 726,
-        total_consumers: 22,
-        total_producers: 88,
+        name: 'clusterName_004',
+        host: 'localhost:4430',
+        topics: {
+            total: 94
+        },
+        partitions: {
+            total: 16,
+            online: 88,
+            inSync: 22,
+            outOfSync: 73,
+            underReplicated: 3
+        },
+        controllerId: 12461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/240000Mb'
+        }
     }
 ]
