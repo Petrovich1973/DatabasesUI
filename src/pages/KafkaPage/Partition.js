@@ -40,11 +40,11 @@ const Partition = (props) => {
                 <table className="table md">
                     <tbody>
                     <tr>
-                        <td><small>role</small></td>
+                        <td className="align-right label"><small>role</small></td>
                         <td>{role}</td>
                     </tr>
                     <tr>
-                        <td><small>status</small></td>
+                        <td className="align-right label"><small>status</small></td>
                         <td>{status}</td>
                     </tr>
                     </tbody>
