@@ -37,6 +37,9 @@ const Topics = (props) => {
             })
             .catch(err => {
                 console.log(err)
+                setTopics(initializeTopics)
+                setTopicActive(1)
+                setWaiting(false)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
