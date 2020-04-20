@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import * as type from '../../constants/actionTypes'
-import {Redirect, Route, Switch, NavLink, useParams, useRouteMatch} from 'react-router-dom'
+import {Redirect, Route, Switch, NavLink, Link, useParams, useRouteMatch} from 'react-router-dom'
 import Partitions from "./Partitions"
 
 const Broker = (props) => {
@@ -13,7 +13,11 @@ const Broker = (props) => {
     ])
 
     const {
-        name = null
+        name = null,
+        version = '',
+        address = '',
+        controller = null,
+        velocity = ''
     } = brokers.find(item => item.id === +id) || {}
 
     useEffect(() => {
@@ -35,13 +39,44 @@ const Broker = (props) => {
             <nav className="tabs">
                 <ul>
                     <li>
-                        <NavLink to={`${match.url}`}>Detail</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={`${match.url}/partitions`}>Partitions</NavLink>
+                        <NavLink to={`${match.url}`}>
+                            <small><em>Broker</em></small>
+                            &nbsp;
+                            <span style={{fontSize: '140%'}}>{name}</span>
+                        </NavLink>
                     </li>
                 </ul>
             </nav>
+            &nbsp;
+            <div>
+                <table className="table md">
+                    <tbody>
+                    <tr>
+                        <td className="align-right"><small>version</small></td>
+                        <td>{version}</td>
+                        <td/>
+                        <td className="align-right"><small>address</small></td>
+                        <td>{address}</td>
+                    </tr>
+                    <tr>
+                        <td className="align-right"><small>controller</small></td>
+                        <td>{controller}</td>
+                        <td/>
+                        <td className="align-right"><small>velocity</small></td>
+                        <td>{velocity}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            &nbsp;
+            <nav className="tabs">
+                <ul>
+                    <li>
+                        <Link to={`${match.url}/partitions`}>Partitions</Link>
+                    </li>
+                </ul>
+            </nav>
+            &nbsp;
             <Switch>
                 <Redirect exact from={`${match.url}`} to={`${match.url}/partitions`}/>
                 {brokerRouters
