@@ -14,7 +14,7 @@ const routes = [
         component: DashboardPage,
         path: '/index',
         title: 'Dashboard',
-        icon: <IconDashboard/>
+        icon: <IconDashboard size={'1em'}/>
     },
     {
         component: ConsolePage,
@@ -26,7 +26,7 @@ const routes = [
                 component: KafkaPage,
                 path: '/kafka',
                 title: 'Apache Kafka',
-                icon: <IconKafka/>,
+                icon: <IconKafka size={'1em'}/>,
                 rights: [right.WRITE_ALL, right.VIEW_ALL, right.KAFKA_USE]
             },
             {

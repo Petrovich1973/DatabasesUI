@@ -29,9 +29,11 @@ const Cluster = (props) => {
         {title: 'Kafka SberEdition', path: `/kafkaSberEdition`, component: KafkaSberEdition, icon: null}
     ])
 
+    const cluster = clusters.find(item => item.id === +id) || {}
+
     const {
-        name = ''
-    } = clusters.find(item => item.id === +id) || {}
+        name = null
+    } = cluster
 
     useEffect(() => {
         props.dispatch({
@@ -80,7 +82,7 @@ const Cluster = (props) => {
                                         path={`${match.path}${path}`}
                                         render={props => <route.component
                                             {...props}
-                                            {...{...route}}/>}/>
+                                            {...{...route, cluster}}/>}/>
                                 )
                             })}
                     </Switch>
