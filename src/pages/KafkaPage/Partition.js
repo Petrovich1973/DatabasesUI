@@ -25,6 +25,7 @@ const Partition = (props) => {
                 payload: {clusterChildSecondName: {label: name, path: null}}
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
     return (

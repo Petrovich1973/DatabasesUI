@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 
-const RollingRestart = ({}) => {
+const RollingRestart = () => {
     return (
         <div>
             RollingRestart

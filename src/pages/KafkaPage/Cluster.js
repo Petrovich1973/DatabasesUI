@@ -48,12 +48,13 @@ const Cluster = (props) => {
                 payload: {clusterName: {label: name, path: null}}
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
     return (
         <>
             <TitlePage tag={'h2'} label={<>
-                <small><small><em>cluster</em></small></small>
+                <small><small><small><em>Cluster</em></small></small></small>
                 &nbsp;
                 {name}</>}/>
 

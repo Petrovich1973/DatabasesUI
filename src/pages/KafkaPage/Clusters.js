@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
+import * as api from "../../constants/api"
 import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Cluster from "./Cluster"
+import axios from "axios"
 
 const Clusters = (props) => {
-    const [clusters] = useState(initializeClusters)
+    const [clusters, setClusters] = useState(initializeClusters)
     const match = useRouteMatch()
 
     useEffect(() => {
@@ -22,7 +24,16 @@ const Clusters = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
-    console.log('Clusters', match)
+    useEffect(() => {
+        axios.get(`${api.kafka_clusters}`)
+            .then(res => {
+                setClusters(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <>

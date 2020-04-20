@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 
-const Consumers = ({}) => {
+const Consumers = () => {
     return (
         <div style={{maxWidth: '600px'}}>
             <h4>Consumers</h4>

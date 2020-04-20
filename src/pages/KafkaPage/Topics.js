@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
+import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Topic from "./Topic"
 
 const Topics = (props) => {
     const [topics] = useState(initializeTopics)
     const match = useRouteMatch()
-    const {pathname} = useLocation()
 
     useEffect(() => {
         props.dispatch({
@@ -22,7 +21,6 @@ const Topics = (props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
-    console.log('Topics', match)
 
     return (
         <>
