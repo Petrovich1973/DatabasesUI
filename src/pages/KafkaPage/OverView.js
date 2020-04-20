@@ -1,10 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 const OverView = (props) => {
     const {cluster = {}} = props
     const {
-        id = null,
-        name = null,
         host = null,
         topics: {
             totalTopic = cluster.topics.total

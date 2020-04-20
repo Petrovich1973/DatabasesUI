@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 
-const Acls = ({}) => {
+const Acls = () => {
     return (
         <div style={{maxWidth: '600px'}}>
             <h4>ACLs</h4>

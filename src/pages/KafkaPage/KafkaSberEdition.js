@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
+import React from 'react'
 
-const KafkaSberEdition = ({}) => {
+const KafkaSberEdition = () => {
     return (
         <div>
             KafkaSberEdition

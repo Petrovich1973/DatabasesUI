@@ -27,6 +27,7 @@ const Broker = (props) => {
                 payload: {clusterChildName: {label: name, path: null}}
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
     return (
@@ -42,11 +43,6 @@ const Broker = (props) => {
                 </ul>
             </nav>
             <Switch>
-                {/*<Route exact path={`${match.path}`}>
-                    <div>
-                        Detail Broker {name}
-                    </div>
-                </Route>*/}
                 <Redirect exact from={`${match.url}`} to={`${match.url}/partitions`}/>
                 {brokerRouters
                     .map(route => {

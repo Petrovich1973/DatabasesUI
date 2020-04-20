@@ -34,6 +34,7 @@ const Topic = (props) => {
                 payload: {clusterChildName: {label: name, path: null}}
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
     return (
