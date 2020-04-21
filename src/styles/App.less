@@ -50,6 +50,11 @@ main {
             a {
               display: flex;
               padding: @size / 1.8 @size / 1.4;
+              border-bottom-style: dotted;
+              &:hover {
+                color: @white;
+                background-color: fade(@blue, 50%);
+              }
               &.active {
                 color: @white;
                 background-color: @blue;

@@ -143,6 +143,30 @@ Clusters.displayName = 'Clusters'
 
 export default connect()(Clusters)
 
+// const scheme = {
+//     name: 'kafkaCluster1',
+//     zookeeper: 'grid1220:2181',
+//     saslMechanism: 'PLAIN',
+//     securityProtocol: 'PLAINTEXT',
+//     groupOffsetReaderThreadPoolSize: 8,
+//     rollingRestartConfig: {
+//         sshUser: 'kafka',
+//         sshPassword: 'kafka',
+//         pathToKafka: '/opt/u01/kafka',
+//         startBrokerScriptName: 'kafka-server-start',
+//         startBrokerPropertiesFilePath: '/opt/u01/kafka/etc/kafka/server.properties',
+//         stopBrokerScriptName: 'kafka-server-stop',
+//         kafkaServiceName: 'kafka.service',
+//         globalRestartTimeout: 3600000,
+//         stopBrokerCheckingTimeout: 10000,
+//         stopBrokerCheckingCount: 1000,
+//         brokerJmxPort: 7010,
+//         jmxUserLogin: 'myuser',
+//         jmxUserPassword: 'mypassword',
+//         sslJmx: false
+//     }
+// }
+
 
 const initializeClusters = [
     {
