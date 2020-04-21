@@ -6,28 +6,6 @@ const KafkaSberEdition = () => {
 
             <h4>Kafka SberEdition</h4>
 
-            <video
-                autoPlay
-                className="H_j_h l_e_g"
-                loop
-                poster="https://ak8.picdn.net/shutterstock/videos/33300148/thumb/1.jpg"
-                style={{
-                    transform: 'rotate(0deg)',
-                    width: '100%',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    opacity: .1,
-                    zIndex: -1
-                }}>
-                <source
-                    src="https://ak8.picdn.net/shutterstock/videos/33300148/preview/stock-footage-server-data-center-animation.webm"
-                    type="video/webm"/>
-                <source
-                    src="https://ak8.picdn.net/shutterstock/videos/33300148/preview/stock-footage-server-data-center-animation.mp4"
-                    type="video/mp4"/>
-            </video>
-
             <div style={{opacity: .6}}>
                 <p>Первые полеты в космос подтвердили, что человек может жить и работать в условиях невесомости. Но это
                     относится пока к сроку меньше недели. О периоде в несколько месяцев ничего определенного сказать
