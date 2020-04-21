@@ -10,7 +10,7 @@ const KafkaSberEdition = () => {
                 autoPlay
                 className="H_j_h l_e_g"
                 loop
-                poster="https://ak5.picdn.net/shutterstock/videos/1038624125/thumb/1.jpg"
+                poster="https://ak8.picdn.net/shutterstock/videos/33300148/thumb/1.jpg"
                 style={{
                     transform: 'rotate(0deg)',
                     width: '100%',
@@ -21,10 +21,10 @@ const KafkaSberEdition = () => {
                     zIndex: -1
                 }}>
                 <source
-                    src="https://ak5.picdn.net/shutterstock/videos/1038624125/preview/stock-footage--d-animation-d-rendering-k-server-room-data-center-storage-hosting-concept.webm"
+                    src="https://ak8.picdn.net/shutterstock/videos/33300148/preview/stock-footage-server-data-center-animation.webm"
                     type="video/webm"/>
                 <source
-                    src="https://ak5.picdn.net/shutterstock/videos/1038624125/preview/stock-footage--d-animation-d-rendering-k-server-room-data-center-storage-hosting-concept.mp4"
+                    src="https://ak8.picdn.net/shutterstock/videos/33300148/preview/stock-footage-server-data-center-animation.mp4"
                     type="video/mp4"/>
             </video>
 
