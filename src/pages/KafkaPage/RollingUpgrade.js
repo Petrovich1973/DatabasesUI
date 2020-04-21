@@ -4,8 +4,8 @@ const RollingUpgrade = () => {
     return (
         <div style={{maxWidth: '100%', paddingRight: '1em'}}>
             <h4>Rolling Upgrade</h4>
-            <h6>Upgrade procedures</h6>
             <div style={{opacity: .6}}>
+                <h6>Upgrade procedures</h6>
                 <ol>
                     <li>Consider using Confluent Control Center to
                         monitor broker status during the rolling restart.
