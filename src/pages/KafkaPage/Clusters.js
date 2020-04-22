@@ -185,9 +185,9 @@ const initializeClusters = [
         },
         controllerId: 32461,
         system: {
-            cpu: 17,
-            disk: '1000Gb/120000Gb',
-            ram: '6200Mb/240000Mb'
+            cpu: 27,
+            disk: '1000Gb/1200Gb',
+            ram: '920Mb/2400Mb'
         }
     },
     {
@@ -199,15 +199,15 @@ const initializeClusters = [
         },
         partitions: {
             total: 82,
-            online: 27,
+            online: 17,
             inSync: 58,
             outOfSync: 20,
             underReplicated: 0
         },
         controllerId: 32461,
         system: {
-            cpu: 27,
-            disk: '1000Gb/120000Gb',
+            cpu: 82,
+            disk: '2400Gb/3000Gb',
             ram: '6200Mb/240000Mb'
         }
     },
@@ -227,9 +227,9 @@ const initializeClusters = [
         },
         controllerId: 32461,
         system: {
-            cpu: 87,
-            disk: '1000Gb/120000Gb',
-            ram: '6200Mb/240000Mb'
+            cpu: 67,
+            disk: '1000Gb/2000Gb',
+            ram: '6200Mb/8400Mb'
         }
     },
     {
@@ -248,9 +248,9 @@ const initializeClusters = [
         },
         controllerId: 72461,
         system: {
-            cpu: 67,
-            disk: '1000Gb/120000Gb',
-            ram: '6200Mb/240000Mb'
+            cpu: 97,
+            disk: '7800Gb/9200Gb',
+            ram: '350Mb/800Mb'
         }
     },
     {
@@ -269,9 +269,30 @@ const initializeClusters = [
         },
         controllerId: 12461,
         system: {
-            cpu: 97,
+            cpu: 96,
             disk: '1000Gb/120000Gb',
-            ram: '6200Mb/240000Mb'
+            ram: '6200Mb/24000Mb'
+        }
+    },
+    {
+        id: 5,
+        name: 'clusterName_005',
+        host: 'localhost:4550',
+        topics: {
+            total: 935
+        },
+        partitions: {
+            total: 106,
+            online: 288,
+            inSync: 722,
+            outOfSync: 173,
+            underReplicated: 343
+        },
+        controllerId: 12461,
+        system: {
+            cpu: 60,
+            disk: '1000Gb/120000Gb',
+            ram: '16200Mb/24000Mb'
         }
     }
 ]
