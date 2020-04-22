@@ -31,7 +31,7 @@ const OverView = (props) => {
     } = cluster
 
     const cpuColor = value => {
-        if (value < 30) return '#46a546'
+        if (value < 50) return '#46a546'
         if (value < 80) return '#ffc40d'
         return '#c3325f'
     }

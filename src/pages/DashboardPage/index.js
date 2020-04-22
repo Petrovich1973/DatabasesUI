@@ -16,11 +16,10 @@ const DashboardPage = (props) => {
         document.title = title
     })
 
-    const color = value => {
-        if (value < 50) return 'green'
-        if (value < 75) return 'yellow'
-        if (value < 90) return 'orange'
-        return 'red'
+    const cpuColor = value => {
+        if (value < 50) return '#46a546'
+        if (value < 80) return '#ffc40d'
+        return '#c3325f'
     }
 
     return (
@@ -36,10 +35,9 @@ const DashboardPage = (props) => {
             <p>
                 <span style={{width: 200, display: 'inline-block'}}>
                 <Progress {...{
-                    to: 10000,
-                    value: 650,
-                    backgroundBar: 'red',
-                    color: 'white'
+                    to: 100,
+                    value: percentage,
+                    backgroundBar: `${cpuColor(100 / (100 / percentage))}`
                 }}/>
                 </span>
             </p>
@@ -67,8 +65,8 @@ const DashboardPage = (props) => {
                         // Can specify path transition in more detail, or remove it entirely
                         // pathTransition: 'none',
                         // Colors
-                        pathColor: `${color(percentage)}`,
-                        textColor: `${color(percentage)}`,
+                        pathColor: `${cpuColor(percentage)}`,
+                        textColor: `${cpuColor(percentage)}`,
                         trailColor: 'rgba(255,255,255, .2)',
                         backgroundColor: 'red',
                     })}
