@@ -6,7 +6,7 @@ body {
   font-weight: 100;
   color: @color;
   background-color: @gray;
-  background-image: linear-gradient(to top, fade(@black, 37%) 0%, fade(@black, 7%) 24%, transparent 75%, fade(@white, 7%) 90%, fade(@white, 21%) 100%), linear-gradient(15deg, transparent 0%, transparent 70%, fade(@white, 10%) 100%), radial-gradient(circle, fade(@violet, 30%) 0%, @gray 100%);
+  background-image: linear-gradient(to top, fade(@black, 27%) 0%, fade(@black, 7%) 24%, transparent 75%, fade(@white, 7%) 90%, fade(@white, 21%) 100%), linear-gradient(15deg, transparent 0%, transparent 70%, fade(@white, 10%) 100%), radial-gradient(circle, fade(@violet, 20%) 0%, @gray 100%);
 }
 
 html, body, #root {
@@ -107,6 +107,7 @@ main {
   display: flex;
   align-items: center;
   padding: @size;
+  user-select: none;
   & > * {
     display: flex;
   }
@@ -339,9 +340,10 @@ a {
   thead {
     th {
       vertical-align: bottom;
-      font-size: 60%;
+      font-size: 50%;
       text-transform: uppercase;
       user-select: none;
+      opacity: .5;
     }
   }
   .label {
