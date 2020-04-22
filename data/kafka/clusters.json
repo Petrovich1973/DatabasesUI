@@ -17,8 +17,8 @@
       "controllerId": 32461,
       "system": {
         "cpu": 27,
-        "disk": "1000Gb/120000Gb",
-        "ram": "6200Mb/240000Mb"
+        "disk": "1000Gb/1200Gb",
+        "ram": "920Mb/2400Mb"
       }
     },
     {
@@ -38,7 +38,7 @@
       "controllerId": 32461,
       "system": {
         "cpu": 82,
-        "disk": "1000Gb/120000Gb",
+        "disk": "2400Gb/3000Gb",
         "ram": "6200Mb/240000Mb"
       }
     },

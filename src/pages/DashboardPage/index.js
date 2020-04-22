@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react'
 import TitlePage from "../../components/TitlePage"
 import {IconKafka, IconFolder, IconTopic, IconDelete, IconDashboard} from "../../svg"
 import Button from "../../components/Button"
+import Progress from "../../components/Progress"
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+
 
 const DashboardPage = (props) => {
     const {title = 'Наименование страницы'} = props
@@ -15,9 +17,9 @@ const DashboardPage = (props) => {
     })
 
     const color = value => {
-        if(value < 50) return 'green'
-        if(value < 75) return 'yellow'
-        if(value < 90) return 'orange'
+        if (value < 50) return 'green'
+        if (value < 75) return 'yellow'
+        if (value < 90) return 'orange'
         return 'red'
     }
 
@@ -31,6 +33,16 @@ const DashboardPage = (props) => {
             <h5>h5 Dashboard Page</h5>
             <h6>h6 Dashboard Page</h6>
             <p>Some text <a href="/">Link some text</a> text text text</p>
+            <p>
+                <span style={{width: 200, display: 'inline-block'}}>
+                <Progress {...{
+                    to: 10000,
+                    value: 650,
+                    backgroundBar: 'red',
+                    color: 'white'
+                }}/>
+                </span>
+            </p>
             <p>
                 <input
                     style={{background: 'transparent', padding: '10px'}}

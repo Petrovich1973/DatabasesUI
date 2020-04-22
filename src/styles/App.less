@@ -246,6 +246,50 @@ a {
   padding: 0 @size;
 }
 
+.progress {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: fade(@color, 20%);
+  .from {
+    box-sizing: border-box;
+    padding: @size / 5;
+    position: relative;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    top: 100%;
+  }
+  .to {
+    box-sizing: border-box;
+    padding: @size / 5;
+    position: relative;
+    text-align: right;
+    display: flex;
+    align-items: flex-start;
+    top: 100%;
+  }
+  .thumb {
+    position: absolute;
+    padding: @size / 5;
+    box-sizing: border-box;
+    background-color: fade(@color, 20%);
+    width: 70%;
+    height: 100%;
+    left: 0;
+    span {
+      position: absolute;
+      width: 0px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      bottom: 100%;
+      left: 100%;
+    }
+  }
+}
+
 .panel-gray {
   background-color: #f1f1f1;
   padding: @size;
@@ -277,27 +321,27 @@ a {
 }
 
 .align-right {
-  text-align: right;
+  text-align: right !important;
 }
 
 .align-left {
-  text-align: left;
+  text-align: left !important;
 }
 
 .align-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .align-top {
-  vertical-align: top;
+  vertical-align: top !important;
 }
 
 .align-middle {
-  vertical-align: middle;
+  vertical-align: middle !important;
 }
 
 .align-bottom {
-  vertical-align: bottom;
+  vertical-align: bottom !important;
 }
 
 .border-left {
