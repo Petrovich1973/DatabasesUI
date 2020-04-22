@@ -1,10 +1,15 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import classnames from 'classnames'
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import Progress from "../../components/Progress";
 
 const OverView = (props) => {
     const {cluster = {}} = props
+    const [percent, setPercent] = useState({
+        percentDisk: {to: 100, value: 0, mimeType: ''},
+        percentRam: {to: 100, value: 0, mimeType: ''}
+    })
     const {
         host = null,
         topics: {
@@ -20,8 +25,8 @@ const OverView = (props) => {
         controllerId = null,
         system: {
             cpu = null,
-            disk = null,
-            ram = null
+            disk = '',
+            ram = ''
         }
     } = cluster
 
@@ -31,6 +36,26 @@ const OverView = (props) => {
         return '#c3325f'
     }
 
+    useEffect(() => {
+        setPercent({
+            percentDisk: sep(disk),
+            percentRam: sep(ram)
+        })
+    }, [disk, ram])
+
+    const sep = string => {
+        const [a, b] = string.split('/')
+
+        const [to, mimeType] = repl(b)
+        const [value] = repl(a)
+
+        return {to, value, mimeType}
+    }
+
+    const repl = value => value.replace(/([0-9])([a-z])/i, '$1,$2').split(',')
+
+    console.log(percent)
+
     return (
         <div>
             <table className="table md">
@@ -39,7 +64,9 @@ const OverView = (props) => {
                     <td className="align-right label">
                         <small>host</small>
                     </td>
-                    <td><small>{host}</small></td>
+                    <td>
+                        <small>{host}</small>
+                    </td>
                     <td/>
                     <td className="align-right label">
                         <small>topics</small>
@@ -84,7 +111,7 @@ const OverView = (props) => {
                     <td colSpan={3}/>
                 </tr>
                 <tr>
-                    <td className="align-right label">cpu</td>
+                    <td className="align-right align-middle label">cpu</td>
                     <td className={classnames(cpuColor(cpu))}>
                         <span style={{height: 100, width: 100, display: 'inline-block'}}>
                 <CircularProgressbar
@@ -111,11 +138,23 @@ const OverView = (props) => {
             </span>
                     </td>
                     <td/>
-                    <td className="align-right label">disk</td>
-                    <td>{disk}</td>
+                    <td className="align-right align-middle label">disk</td>
+                    <td className="align-middle" style={{width: 200}}>
+                        <Progress {...{
+                            to: percent.percentDisk.to,
+                            value: percent.percentDisk.value,
+                            backgroundBar: `${cpuColor(100 / (percent.percentDisk.to / percent.percentDisk.value))}`
+                        }}/>
+                    </td>
                     <td/>
-                    <td className="align-right label">ram</td>
-                    <td>{ram}</td>
+                    <td className="align-right align-middle label">ram</td>
+                    <td className="align-middle" style={{width: 200}}>
+                        <Progress {...{
+                            to: percent.percentRam.to,
+                            value: percent.percentRam.value,
+                            backgroundBar: `${cpuColor(100 / (percent.percentRam.to / percent.percentRam.value))}`
+                        }}/>
+                    </td>
                 </tr>
                 </tbody>
             </table>
