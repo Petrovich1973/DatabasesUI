@@ -1,17 +1,28 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import TitlePage from "../../components/TitlePage"
 import {IconKafka, IconFolder, IconTopic, IconDelete, IconDashboard} from "../../svg"
 import Button from "../../components/Button"
+import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 const DashboardPage = (props) => {
     const {title = 'Наименование страницы'} = props
+
+    const [percentage, setPercentage] = useState(67)
 
     useEffect(() => {
         document.title = title
     })
 
+    const color = value => {
+        if(value < 50) return 'green'
+        if(value < 75) return 'yellow'
+        if(value < 90) return 'orange'
+        return 'red'
+    }
+
     return (
-        <div className="align-center">
+        <div className="align-center" style={{height: '100%', overflow: 'auto'}}>
             &nbsp;
             <TitlePage icon={<IconDashboard size={'1em'}/>} label={title} className="flex-center"/>
             <h2>h2 Dashboard Page</h2>
@@ -20,6 +31,38 @@ const DashboardPage = (props) => {
             <h5>h5 Dashboard Page</h5>
             <h6>h6 Dashboard Page</h6>
             <p>Some text <a href="/">Link some text</a> text text text</p>
+            <p>
+                <input
+                    style={{background: 'transparent', padding: '10px'}}
+                    type="number"
+                    value={percentage}
+                    onChange={e => setPercentage(+e.target.value)}/>
+            </p>
+            <p>
+            <span style={{height: 200, width: 200, display: 'inline-block'}}>
+                <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                    styles={buildStyles({
+                        // Rotation of path and trail, in number of turns (0-1)
+                        rotation: 0,
+                        // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                        strokeLinecap: 'butt',
+                        // Text size
+                        textSize: '36px',
+                        // How long animation takes to go from one percentage to another, in seconds
+                        pathTransitionDuration: 0.5,
+                        // Can specify path transition in more detail, or remove it entirely
+                        // pathTransition: 'none',
+                        // Colors
+                        pathColor: `${color(percentage)}`,
+                        textColor: `${color(percentage)}`,
+                        trailColor: 'rgba(255,255,255, .2)',
+                        backgroundColor: 'red',
+                    })}
+                />
+            </span>
+            </p>
             <p>
                 <Button icon={<IconTopic/>} text={'Button lg'} className="lg"/>
                 <Button icon={<IconKafka/>} text={'Button lg'} className="lg border"/>
