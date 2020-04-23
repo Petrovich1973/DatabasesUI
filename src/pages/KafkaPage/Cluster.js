@@ -60,7 +60,7 @@ const Cluster = (props) => {
 
             <div className="content">
                 <aside>
-                    <nav>
+                    <nav className="scrollhide">
                         <ul>
                             {clusterRouters.map((item, i) => (
                                 <li key={i}>

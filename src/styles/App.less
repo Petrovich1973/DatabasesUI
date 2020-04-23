@@ -128,6 +128,23 @@ main {
   }
 }
 
+.scrollhide::-webkit-scrollbar {
+  display: none;
+}
+
+//.scrollhide {
+//  box-sizing: border-box;
+//  flex: 1;
+//  height: 100%;
+//  overflow: auto;
+//  table thead th {
+//    position: sticky;
+//    z-index: 1;
+//    top: 0;
+//    background: #000;
+//  }
+//}
+
 a {
   display: inline-block;
   color: lighten(@blue, 20%);
@@ -396,7 +413,7 @@ a {
       font-size: 50%;
       text-transform: uppercase;
       user-select: none;
-      opacity: .5;
+      color: darken(@color, 20%);
     }
   }
   .label {
@@ -406,13 +423,16 @@ a {
   tbody {
     td {
       vertical-align: top;
+      small {
+        font-size: 60%;
+      }
     }
+  }
+  thead + tbody {
     tr:hover {
       background-color: fade(@white, 6%);
       cursor: pointer;
     }
-  }
-  thead + tbody {
     tr:first-child td {
       padding-top: @size * 1.4
     }

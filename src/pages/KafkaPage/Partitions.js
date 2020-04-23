@@ -72,7 +72,7 @@ const Partitions = (props) => {
                                             props.history.push(`${match.url}/${id}`)
                                         }}>
                                             <td>{id}</td>
-                                            <td>{name}</td>
+                                            <td className="align-center"><small>{name}</small></td>
                                             <td>{role}</td>
                                             <td>{status}</td>
                                         </tr>

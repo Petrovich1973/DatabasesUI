@@ -35,7 +35,7 @@ const Broker = (props) => {
     }, [match.url])
 
     return (
-        <div>
+        <div className="scrollhide" style={{fontSize: '100%', height: '100%', overflow: 'auto'}}>
             <nav className="tabs">
                 <ul>
                     <li>
