@@ -54,7 +54,7 @@ const Clusters = (props) => {
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div>
+                    <div className="scrollhide" style={{fontSize: '100%', height: '100%', overflow: 'auto'}}>
                         {!waiting ? <table className="table">
                             <colgroup>
                                 <col span="4"/>
@@ -113,8 +113,8 @@ const Clusters = (props) => {
                                         props.history.push(`${match.url}/${id}`)
                                     }}>
                                         <td className="align-center">{id}</td>
-                                        <td className="align-center">{name}</td>
-                                        <td className="align-center">{host}</td>
+                                        <td className="align-center"><small>{name}</small></td>
+                                        <td className="align-center"><small>{host}</small></td>
                                         <td className="align-center">{totalTopic}</td>
                                         <td className="align-center">{totalPart}</td>
                                         <td className="align-center">{online}</td>
@@ -123,8 +123,8 @@ const Clusters = (props) => {
                                         <td className="align-center">{underReplicated}</td>
                                         <td className="align-center">{controllerId}</td>
                                         <td className={classnames("align-center", cpuColor(cpu))}>{cpu}</td>
-                                        <td className="align-center">{disk}</td>
-                                        <td className="align-center">{ram}</td>
+                                        <td className="align-center"><small>{disk}</small></td>
+                                        <td className="align-center"><small>{ram}</small></td>
                                     </tr>)
                             })}
                             </tbody>
@@ -187,7 +187,7 @@ const initializeClusters = [
         system: {
             cpu: 27,
             disk: '1000Gb/1200Gb',
-            ram: '920Mb/2400Mb'
+            ram: '1320Mb/2400Mb'
         }
     },
     {
@@ -207,7 +207,7 @@ const initializeClusters = [
         controllerId: 32461,
         system: {
             cpu: 82,
-            disk: '2400Gb/3000Gb',
+            disk: '2000Gb/3000Gb',
             ram: '6200Mb/240000Mb'
         }
     },
@@ -229,7 +229,7 @@ const initializeClusters = [
         system: {
             cpu: 67,
             disk: '1000Gb/2000Gb',
-            ram: '6200Mb/8400Mb'
+            ram: '7200Mb/8400Mb'
         }
     },
     {

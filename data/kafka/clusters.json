@@ -125,6 +125,111 @@
         "disk": "1000Gb/120000Gb",
         "ram": "16200Mb/24000Mb"
       }
+    },
+    {
+      "id": 6,
+      "name": "clusterName_006",
+      "host": "localhost:4550",
+      "topics": {
+        "total": 935
+      },
+      "partitions": {
+        "total": 106,
+        "online": 288,
+        "inSync": 722,
+        "outOfSync": 173,
+        "underReplicated": 343
+      },
+      "controllerId": 12461,
+      "system": {
+        "cpu": 60,
+        "disk": "1000Gb/120000Gb",
+        "ram": "16200Mb/24000Mb"
+      }
+    },
+    {
+      "id": 7,
+      "name": "clusterName_007",
+      "host": "localhost:4550",
+      "topics": {
+        "total": 935
+      },
+      "partitions": {
+        "total": 106,
+        "online": 288,
+        "inSync": 722,
+        "outOfSync": 173,
+        "underReplicated": 343
+      },
+      "controllerId": 12461,
+      "system": {
+        "cpu": 60,
+        "disk": "1000Gb/120000Gb",
+        "ram": "16200Mb/24000Mb"
+      }
+    },
+    {
+      "id": 8,
+      "name": "clusterName_008",
+      "host": "localhost:4550",
+      "topics": {
+        "total": 935
+      },
+      "partitions": {
+        "total": 106,
+        "online": 288,
+        "inSync": 722,
+        "outOfSync": 173,
+        "underReplicated": 343
+      },
+      "controllerId": 12461,
+      "system": {
+        "cpu": 60,
+        "disk": "1000Gb/120000Gb",
+        "ram": "16200Mb/24000Mb"
+      }
+    },
+    {
+      "id": 9,
+      "name": "clusterName_009",
+      "host": "localhost:4550",
+      "topics": {
+        "total": 935
+      },
+      "partitions": {
+        "total": 106,
+        "online": 288,
+        "inSync": 722,
+        "outOfSync": 173,
+        "underReplicated": 343
+      },
+      "controllerId": 12461,
+      "system": {
+        "cpu": 60,
+        "disk": "1000Gb/120000Gb",
+        "ram": "16200Mb/24000Mb"
+      }
+    },
+    {
+      "id": 10,
+      "name": "clusterName_010",
+      "host": "localhost:4550",
+      "topics": {
+        "total": 935
+      },
+      "partitions": {
+        "total": 106,
+        "online": 288,
+        "inSync": 722,
+        "outOfSync": 173,
+        "underReplicated": 343
+      },
+      "controllerId": 12461,
+      "system": {
+        "cpu": 60,
+        "disk": "1000Gb/120000Gb",
+        "ram": "16200Mb/24000Mb"
+      }
     }
   ]
 }

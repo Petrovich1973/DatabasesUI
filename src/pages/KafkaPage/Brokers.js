@@ -49,7 +49,7 @@ const Brokers = (props) => {
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div>
+                    <div className="scrollhide" style={{fontSize: '100%', height: '100%', overflow: 'auto'}}>
                         {!waiting ? <table className="table">
                                 <thead>
                                 <tr>
@@ -76,18 +76,12 @@ const Brokers = (props) => {
                                             setBrokerActive(id)
                                             props.history.push(`${match.url}/${id}`)
                                         }}>
-                                            <td>
-                                                <div className="align-right">{id}</div>
-                                            </td>
-                                            <td>{name}</td>
-                                            <td>{version}</td>
-                                            <td>
-                                                <small>{address}</small>
-                                            </td>
-                                            <td>
-                                                <div className="align-right">{controller}</div>
-                                            </td>
-                                            <td>{velocity}</td>
+                                            <td className="align-center">{id}</td>
+                                            <td className="align-center"><small>{name}</small></td>
+                                            <td className="align-center">{version}</td>
+                                            <td className="align-center"><small>{address}</small></td>
+                                            <td className="align-center">{controller}</td>
+                                            <td className="align-center">{velocity}</td>
                                         </tr>
                                     )
                                 })}

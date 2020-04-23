@@ -57,7 +57,7 @@ const OverView = (props) => {
     console.log(percent)
 
     return (
-        <div>
+        <div className="scrollhide" style={{height: '100%', overflow: 'auto'}}>
             <table className="table md">
                 <tbody>
                 <tr>

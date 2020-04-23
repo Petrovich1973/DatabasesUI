@@ -48,7 +48,7 @@ const Topics = (props) => {
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
-                    <div>
+                    <div className="scrollhide">
                         {!waiting ? <table className="table">
                                 <thead>
                                 <tr>
@@ -82,7 +82,7 @@ const Topics = (props) => {
                                             props.history.push(`${match.url}/${id}`)
                                         }}>
                                             <td className="align-center">{id}</td>
-                                            <td className="align-center">{name}</td>
+                                            <td className="align-center"><small>{name}</small></td>
                                             <td className="align-center">{messagesRead}</td>
                                             <td className="align-center">{messagesWrite}</td>
                                             <td className="align-center">{underReplicated}</td>

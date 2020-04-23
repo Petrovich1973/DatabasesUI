@@ -2,7 +2,7 @@ import React from 'react'
 
 const Settings = () => {
     return (
-        <div style={{width: '36em', maxWidth: '100%'}}>
+        <div style={{width: '36em', maxWidth: '100%'}} className="scrollhide">
             <h4>Settings</h4>
             <div style={{opacity: .6}}>
                 <p>The dynamic broker configuration option is enabled by default. The feature allows editing broker
