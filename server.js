@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const fs = require('fs')
 
 const port = 5000
 
@@ -15,6 +16,69 @@ const topics = require('./data/kafka/topics')
 const brokers = require('./data/kafka/brokers')
 const partitions = require('./data/kafka/partitions')
 
+// fs.exists('myjsonfile.json', function(exists) {
+//     if(exists) {
+//         console.log('exists true')
+//         fs.readFile('./data/kafka/clusters.json', function readFileCallback(err, data) {
+//             if (err) {
+//                 console.log(err)
+//             } else {
+//                 let obj = JSON.parse(data)
+//                     .map(item => {
+//                         return ({
+//                             ...item,
+//                             system: {
+//                                 ...item.system,
+//                                 cpu: 87
+//                             }
+//                         })
+//                     })
+//                 console.log(obj)
+//
+//                 let json = JSON.stringify(obj);
+//                 fs.writeFile('./data/kafka/clusters.json', json);
+//             }
+//         })
+//     } else {
+//         console.log('exists false')
+//     }
+// })
+function randomInteger(min, max) {
+    let rand = min - 0.5 + Math.random() * (max - min + 1);
+    return Math.round(rand);
+}
+
+let clustersList = [...clusters.clusters]
+
+const shiftNumber = value => {
+    const direct = Math.round(Math.random())
+    if(value === 100) return value - 1
+    if(value === 1) return value + 1
+    let result = value
+    if (direct) {
+        result = value + 1
+    } else {
+        result = value - 1
+    }
+
+    return result
+}
+
+const operation = () => {
+    clustersList = clustersList
+        .map(item => {
+            return ({
+                ...item,
+                system: {
+                    ...item.system,
+                    // cpu: randomInteger(1, 100)
+                    cpu: shiftNumber(item.system.cpu)
+                }
+            })
+        })
+}
+
+
 app.get('/api/current', (req, res) => {
     res.send({
         version: '1.0.0',
@@ -25,13 +89,15 @@ app.get('/api/current', (req, res) => {
     })
 })
 
-app.get('/api/clusters', (req, res) => {
-    setTimeout(() => res.send(clusters.clusters), 200)
+app.get('/api/clusters', async (req, res) => {
+    await operation()
+
+    res.send(clustersList)
 })
 
 app.get('/api/clusters/:id', (req, res) => {
     const result = clusters.clusters[req.params.id]
-    if(!result) {
+    if (!result) {
         res.sendStatus(404)
     } else {
         res.send(result)
@@ -44,7 +110,7 @@ app.get('/api/clusters/:cluster/topics', (req, res) => {
 
 app.get('/api/clusters/:cluster/topics/:id', (req, res) => {
     const result = topics.topics[req.params.id]
-    if(!result) {
+    if (!result) {
         res.sendStatus(404)
     } else {
         res.send(result)
@@ -57,7 +123,7 @@ app.get('/api/clusters/:cluster/topics/:topic/partitions', (req, res) => {
 
 app.get('/api/clusters/:cluster/topics/:topic/partitions/:id', (req, res) => {
     const result = partitions.partitions[req.params.id]
-    if(!result) {
+    if (!result) {
         res.sendStatus(404)
     } else {
         res.send(result)
@@ -70,7 +136,7 @@ app.get('/api/clusters/:cluster/brokers', (req, res) => {
 
 app.get('/api/clusters/:cluster/brokers/:id', (req, res) => {
     const result = brokers.brokers[req.params.id]
-    if(!result) {
+    if (!result) {
         res.sendStatus(404)
     } else {
         res.send(result)
@@ -83,7 +149,7 @@ app.get('/api/clusters/:cluster/brokers/:broker/partitions', (req, res) => {
 
 app.get('/api/clusters/:cluster/brokers/:broker/partitions/:id', (req, res) => {
     const result = partitions.partitions[req.params.id]
-    if(!result) {
+    if (!result) {
         res.sendStatus(404)
     } else {
         res.send(result)
