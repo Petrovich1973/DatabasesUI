@@ -10,8 +10,10 @@ const initialState = {
         clusterChildSecondName: {label: 'clusterChildSecondName', path: null},
     },
     clusters: [],
-    waiting: [],
-    firstReq: false
+    waiting: null,
+    firstReq: false,
+
+    cluster: {}
 }
 
 const reducer = (state = initialState, action) => {
