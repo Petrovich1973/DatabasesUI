@@ -41,6 +41,7 @@ const OverView = (props) => {
             percentDisk: sep(disk),
             percentRam: sep(ram)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [disk, ram])
 
     const sep = string => {
@@ -53,8 +54,6 @@ const OverView = (props) => {
     }
 
     const repl = value => value.replace(/([0-9])([a-z])/i, '$1,$2').split(',')
-
-    console.log(percent)
 
     return (
         <div className="scrollhide" style={{height: '100%', overflow: 'auto'}}>

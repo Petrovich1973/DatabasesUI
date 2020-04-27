@@ -52,8 +52,9 @@ let clustersList = [...clusters.clusters]
 
 const shiftNumber = value => {
     const direct = Math.round(Math.random())
-    if(value === 100) return value - 1
-    if(value === 1) return value + 1
+
+    if(value === 100 || value === 1) return value
+
     let result = value
     if (direct) {
         result = value + 1
@@ -91,8 +92,8 @@ app.get('/api/current', (req, res) => {
 
 app.get('/api/clusters', async (req, res) => {
     await operation()
-
-    res.send(clustersList)
+    // res.send(clustersList)
+    setTimeout(() => res.send(clustersList), 1000)
 })
 
 app.get('/api/clusters/:id', (req, res) => {

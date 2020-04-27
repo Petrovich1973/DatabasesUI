@@ -1,48 +1,44 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import * as api from "../../constants/api"
 import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Cluster from "./Cluster"
-import axios from "axios"
 import classnames from "classnames"
+import {loadClusters} from '../../actions/actionApp'
 
 const Clusters = (props) => {
-    const [waiting, setWaiting] = useState(true)
-    const [clusters, setClusters] = useState([])
+    const {store = {}, dispatch} = props
+    const {clusters = [], waiting = [], firstReq = false} = store
     const [clusterActive, setClusterActive] = useState(null)
     const match = useRouteMatch()
 
     useEffect(() => {
-        props.dispatch({
+        dispatch({
             type: type.KAFKA_BREADCRUMBS_UPDATE,
             payload: {clusters: {label: 'clusters', path: match.url}}
         })
         return () => {
-            props.dispatch({
+            dispatch({
                 type: type.KAFKA_BREADCRUMBS_UPDATE,
                 payload: {clusters: {label: 'clusters', path: null}}
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url, clusters])
+    }, [match.url])
 
     useEffect(() => {
-        setWaiting(true)
-        axios.get(`${api.kafka_clusters}`)
-            .then(res => {
-                setClusters(res.data)
-                setClusterActive(1)
-                setWaiting(false)
-            })
-            .catch(err => {
-                console.log(err)
-                setClusters(initializeClusters)
-                setClusterActive(1)
-                setWaiting(false)
-            })
+        let timeoutId = null
+        clearTimeout(timeoutId)
+        if(!waiting.length && firstReq) {
+            timeoutId = setTimeout(() => dispatch(loadClusters({})), 2000)
+        } else if(!firstReq) {
+            dispatch(loadClusters({}))
+        }
+        return () => {
+            clearTimeout(timeoutId)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [clusters])
 
     const cpuColor = value => {
         if (value < 30) return 'green'
@@ -50,12 +46,14 @@ const Clusters = (props) => {
         return 'red'
     }
 
+    console.log('Clusters', props)
+
     return (
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
                     <div className="scrollhide" style={{fontSize: '100%', height: '100%', overflow: 'auto'}}>
-                        {!waiting ? <table className="table">
+                        {firstReq ? <table className="table">
                             <colgroup>
                                 <col span="4"/>
                                 <col className="col-yellow" span="5"/>
@@ -128,11 +126,11 @@ const Clusters = (props) => {
                                     </tr>)
                             })}
                             </tbody>
-                        </table> : <div className="waiting">waiting...</div>}
+                        </table> : <div className="waiting">waiting clusters...</div>}
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>
-                    {clusterActive ? <Cluster clusters={clusters}/> : <div className="waiting">waiting...</div>}
+                    {clusters.length ? <Cluster clusters={clusters}/> : <div className="waiting">waiting cluster...</div>}
                 </Route>
             </Switch>
         </>
@@ -141,7 +139,11 @@ const Clusters = (props) => {
 
 Clusters.displayName = 'Clusters'
 
-export default connect()(Clusters)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(Clusters)
 
 // const scheme = {
 //     name: 'kafkaCluster1',

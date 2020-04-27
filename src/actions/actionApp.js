@@ -1,96 +1,45 @@
-import axios from 'axios';
+import axios from 'axios'
 
-import * as types from '../constants/actionTypes';
-import {BASE_URL} from '../constants/urls';
+import * as types from '../constants/actionTypes'
+import * as api from "../constants/api"
 
-// network actions
-export const getSearchPage = () => {
-    return function (dispatch, getState) {
-        const store = getState();
-
-        return store.searchPage;
-    }
-};
-
-const handleCatch = (err, dispatch, timeRequest) => {
+const handleCatch = (error) => {
     try {
-        const {data, status} = JSON.parse(JSON.stringify(err.response));
-        console.log('isResponse', data);
-        // dispatch(handleError({data: data.message || data, status: data.status || status}));
+        console.log('handleCatch', error)
     } catch (e) {
-        console.log(e.toString());
-        // dispatch(handleError(err));
+        console.log(e)
     }
-    dispatch({
-        type: types.SEARCH_PAGE_UPDATE,
-        payload: {
-            spinner: false,
-            pending: dispatch(getSearchPage()).pending.filter(item => item.timeRequest !== timeRequest)
-        }
-    })
-};
+}
 
-export const getListExplorerRequest = params => {
-    return async dispatch => {
+const getReducerKafka = () => (dispatch, getState) => getState().reducerKafka
 
-        const timeRequest = Date.now();
+export const loadClusters = ({params = {}}) => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
         dispatch({
-            type: types.SEARCH_PAGE_UPDATE,
+            type: types.KAFKA_UPDATE,
             payload: {
-                pending: [...dispatch(getSearchPage()).pending, {timeRequest}]
-            },
-        });
+                waiting: [...dispatch(getReducerKafka()).waiting, timeRequest]
+            }
+        })
 
-        await axios.get(`${BASE_URL}api/data-files`, {
+        axios.get(`${api.kafka_clusters}`, {
             params
         })
             .then((response) => {
-                const {pending = []} = dispatch(getSearchPage()) || {};
-                const {data = {}} = response || {};
                 dispatch({
-                    type: types.SEARCH_PAGE_UPDATE,
+                    type: types.KAFKA_UPDATE,
                     payload: {
-                        pending: pending.filter(item => item.timeRequest !== timeRequest),
-                        dataListFiles: data.dataListFiles
+                        clusters: response.data,
+                        waiting: dispatch(getReducerKafka()).waiting.filter(time => time !== timeRequest),
+                        firstReq: true
                     }
                 })
             })
             .catch(error => {
-                console.log(error);
-                handleCatch(error, dispatch, timeRequest);
+                dispatch(handleCatch(error))
             })
     }
-};
-
-export const getListOfFolderRequest = params => {
-    return async dispatch => {
-
-        const timeRequest = Date.now();
-        dispatch({
-            type: types.SEARCH_PAGE_UPDATE,
-            payload: {
-                pending: [...dispatch(getSearchPage()).pending, {timeRequest}]
-            }
-        });
-
-        await axios.get(`${BASE_URL}api/listOfFolders`, {
-            params
-        })
-            .then(response => {
-                const {pending = []} = dispatch(getSearchPage()) || {};
-                const {data = []} = response || {};
-
-                dispatch({
-                    type: types.SEARCH_PAGE_UPDATE,
-                    payload: {
-                        pending: pending.filter(item => item.timeRequest !== timeRequest),
-                        listAutocomplete: data.list
-                    }
-                })
-            })
-            .catch(error => {
-                console.log(error);
-                handleCatch(error, dispatch, timeRequest);
-            })
-    }
-};
+}
