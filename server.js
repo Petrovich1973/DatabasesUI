@@ -48,6 +48,8 @@ function randomInteger(min, max) {
     return Math.round(rand);
 }
 
+const randomBool = () => Math.round(Math.random())
+
 const shiftNumber = value => {
     const direct = Math.round(Math.random())
 
@@ -81,12 +83,13 @@ const operationClusters = () => {
 let topicsList = [...topics.topics]
 
 const operationTopics = () => {
+
     topicsList = topicsList
         .map(item => {
             return ({
                 ...item,
-                messagesRead: item.messagesRead + 1,
-                messagesWrite: item.messagesWrite + 1
+                messagesRead: randomBool() ? item.messagesRead + 1 : item.messagesRead,
+                messagesWrite: randomBool() ? item.messagesWrite + 1 : item.messagesWrite
             })
         })
 }
