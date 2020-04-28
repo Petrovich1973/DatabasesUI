@@ -1,17 +1,40 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Route, Switch, useRouteMatch} from 'react-router-dom'
+import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
 import Partition from "./Partition"
-import axios from "axios";
-import * as api from "../../constants/api";
+import {loadPartitions} from "../../actions/actionApp";
 
 const Partitions = (props) => {
-    const {cluster = {}, topic = {}} = props
-    const [waiting, setWaiting] = useState(true)
-    const [partitions, setPartitions] = useState([])
-    const [partitionActive, setPartitionActive] = useState(null)
+    const {store = {}, dispatch} = props
+    const {partitions = [], waitingPartitions = null, firstReqPartitions = false} = store
     const match = useRouteMatch()
+    const location = useLocation()
+
+    const isEqualPath = (match.url === location.pathname)
+
+    useEffect(() => {
+        dispatch(loadPartitions({}))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        let timeId = null
+        if (firstReqPartitions && !waitingPartitions && isEqualPath) {
+            timeId = setTimeout(() => dispatch(loadPartitions({})), 1000)
+        }
+
+        return () => {
+            clearTimeout(timeId)
+            dispatch({
+                type: type.KAFKA_UPDATE,
+                payload: {
+                    waitingPartitions: null
+                }
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [partitions, location])
 
     useEffect(() => {
         props.dispatch({
@@ -27,29 +50,12 @@ const Partitions = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url, partitions])
 
-    useEffect(() => {
-        setWaiting(true)
-        axios.get(`${api.kafka_clusters}/${cluster.id}/topics/${topic.id}/partitions`)
-            .then(res => {
-                setPartitions(res.data)
-                setPartitionActive(1)
-                setWaiting(false)
-            })
-            .catch(err => {
-                console.log(err)
-                setPartitions(initializePartitions)
-                setPartitionActive(1)
-                setWaiting(false)
-            })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
                     <div>
-                        {!waiting ? <table className="table">
+                        {firstReqPartitions && partitions.length ? <table className="table">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -68,7 +74,6 @@ const Partitions = (props) => {
                                     } = row
                                     return (
                                         <tr key={i} onClick={() => {
-                                            setPartitionActive(id)
                                             props.history.push(`${match.url}/${id}`)
                                         }}>
                                             <td>{id}</td>
@@ -79,13 +84,12 @@ const Partitions = (props) => {
                                     )
                                 })}
                                 </tbody>
-                            </table>
-                            : <div className="waiting">waiting...</div>}
+                            </table> : firstReqPartitions && !partitions.length ? <div className="waiting">ничего не найдено</div> :
+                            <div className="waiting">waiting topics...</div>}
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>
-                    {partitionActive ? <Partition partitions={partitions} {...props}/> :
-                        <div className="waiting">waiting...</div>}
+                    {partitions.length ? <Partition/> : <div className="waiting">waiting partition...</div>}
                 </Route>
             </Switch>
         </>
@@ -94,11 +98,8 @@ const Partitions = (props) => {
 
 Partitions.displayName = 'Partitions'
 
-export default connect()(Partitions)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
 
-const initializePartitions = [
-    {id: 1010, name: 'Partition_001', role: 'LEADER', status: 'SUCCESS'},
-    {id: 1, name: 'Partition_002', role: 'FOLLOWER', status: 'WARNING'},
-    {id: 2, name: 'Partition_003', role: 'FOLLOWER', status: 'SUCCESS'},
-    {id: 3, name: 'Partition_004', role: 'LEADER', status: 'ERROR'}
-]
+export default connect(mapStateToProps)(Partitions)

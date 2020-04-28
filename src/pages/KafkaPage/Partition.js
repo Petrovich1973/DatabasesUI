@@ -2,17 +2,43 @@ import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from '../../constants/actionTypes'
 import {useParams, useRouteMatch} from 'react-router-dom'
+import {loadPartition} from "../../actions/actionApp";
 
 const Partition = (props) => {
-    const {partitions = []} = props
+    const {store = {}, dispatch} = props
+    const {partition = {}, waitingPartition = null, firstReqPartition = false} = store
     const match = useRouteMatch()
     const {id} = useParams()
+
+    useEffect(() => {
+        dispatch(loadPartition(id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        let timeId = null
+        clearTimeout(timeId)
+        if (firstReqPartition && !waitingPartition) {
+            timeId = setTimeout(() => dispatch(loadPartition(id)), 1000)
+        }
+
+        return () => {
+            clearTimeout(timeId)
+            dispatch({
+                type: type.KAFKA_UPDATE,
+                payload: {
+                    waitingPartition: null
+                }
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [partition])
 
     const {
         name = null,
         role = null,
         status = null
-    } = partitions.find(item => item.id === +id) || {}
+    } = partition
 
     useEffect(() => {
         props.dispatch({
@@ -26,7 +52,7 @@ const Partition = (props) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url])
+    }, [match.url, partition])
 
     return (
         <div>
@@ -56,4 +82,8 @@ const Partition = (props) => {
 
 Partition.displayName = 'Partition'
 
-export default connect()(Partition)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(Partition)
