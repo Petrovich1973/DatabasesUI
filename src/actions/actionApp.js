@@ -1,96 +1,233 @@
-import axios from 'axios';
+import axios from 'axios'
 
-import * as types from '../constants/actionTypes';
-import {BASE_URL} from '../constants/urls';
+import * as types from '../constants/actionTypes'
+import * as api from "../constants/api"
 
-// network actions
-export const getSearchPage = () => {
-    return function (dispatch, getState) {
-        const store = getState();
-
-        return store.searchPage;
-    }
-};
-
-const handleCatch = (err, dispatch, timeRequest) => {
+const handleCatch = (error, timeRequest) => {
     try {
-        const {data, status} = JSON.parse(JSON.stringify(err.response));
-        console.log('isResponse', data);
-        // dispatch(handleError({data: data.message || data, status: data.status || status}));
+        console.log('handleCatch', error.response.status, error.response.data)
     } catch (e) {
-        console.log(e.toString());
-        // dispatch(handleError(err));
+        console.dir(error.message)
     }
-    dispatch({
-        type: types.SEARCH_PAGE_UPDATE,
-        payload: {
-            spinner: false,
-            pending: dispatch(getSearchPage()).pending.filter(item => item.timeRequest !== timeRequest)
-        }
-    })
-};
+    // if (!error.response) {
+    //     // network error
+    // } else {
+    //     // http status code
+    //     const code = error.response.status
+    //     // response data
+    //     const response = error.response.data
+    // }
+}
 
-export const getListExplorerRequest = params => {
-    return async dispatch => {
+const getReducerKafka = () => (dispatch, getState) => getState().reducerKafka
 
-        const timeRequest = Date.now();
+export const loadClusters = ({params = {}}) => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
         dispatch({
-            type: types.SEARCH_PAGE_UPDATE,
+            type: types.KAFKA_UPDATE,
             payload: {
-                pending: [...dispatch(getSearchPage()).pending, {timeRequest}]
-            },
-        });
+                waiting: timeRequest
+            }
+        })
 
-        await axios.get(`${BASE_URL}api/data-files`, {
+        axios.get(`${api.kafka_clusters}`, {
             params
         })
             .then((response) => {
-                const {pending = []} = dispatch(getSearchPage()) || {};
-                const {data = {}} = response || {};
-                dispatch({
-                    type: types.SEARCH_PAGE_UPDATE,
-                    payload: {
-                        pending: pending.filter(item => item.timeRequest !== timeRequest),
-                        dataListFiles: data.dataListFiles
-                    }
-                })
+                const isActualResponse = dispatch(getReducerKafka()).waiting === timeRequest
+                if(isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            clusters: response.data,
+                            waiting: null,
+                            firstReq: true
+                        }
+                    })
+                }
             })
             .catch(error => {
-                console.log(error);
-                handleCatch(error, dispatch, timeRequest);
+                dispatch({
+                    type: types.KAFKA_UPDATE,
+                    payload: {
+                        clusters: initializeClusters, // заглушка
+                        waiting: null,
+                        firstReq: true
+                    }
+                })
+                handleCatch(error, timeRequest)
             })
     }
-};
+}
 
-export const getListOfFolderRequest = params => {
-    return async dispatch => {
+export const loadCluster = id => {
+    return dispatch => {
 
-        const timeRequest = Date.now();
+        const timeRequest = Date.now()
+
         dispatch({
-            type: types.SEARCH_PAGE_UPDATE,
+            type: types.KAFKA_UPDATE,
             payload: {
-                pending: [...dispatch(getSearchPage()).pending, {timeRequest}]
+                waitingCluster: timeRequest
             }
-        });
-
-        await axios.get(`${BASE_URL}api/listOfFolders`, {
-            params
         })
-            .then(response => {
-                const {pending = []} = dispatch(getSearchPage()) || {};
-                const {data = []} = response || {};
 
-                dispatch({
-                    type: types.SEARCH_PAGE_UPDATE,
-                    payload: {
-                        pending: pending.filter(item => item.timeRequest !== timeRequest),
-                        listAutocomplete: data.list
-                    }
-                })
+        axios.get(`${api.kafka_clusters}/${id}`)
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingCluster === timeRequest
+                if(isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            cluster: response.data,
+                            waitingCluster: null,
+                            firstReqCluster: true
+                        }
+                    })
+                }
             })
             .catch(error => {
-                console.log(error);
-                handleCatch(error, dispatch, timeRequest);
+                dispatch({
+                    type: types.KAFKA_UPDATE,
+                    payload: {
+                        cluster: {name: `id ${id} not found`},
+                        waitingCluster: null,
+                        firstReqCluster: true,
+                    }
+                })
+                handleCatch(error, timeRequest)
             })
     }
-};
+}
+
+const initializeClusters = [
+    {
+        id: 1010,
+        name: 'clusterName_000',
+        host: 'localhost:9100',
+        topics: {
+            total: 23
+        },
+        partitions: {
+            total: 78,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 27,
+            disk: '1000Gb/1200Gb',
+            ram: '1320Mb/2400Mb'
+        }
+    },
+    {
+        id: 1,
+        name: 'clusterName_001',
+        host: 'localhost:4100',
+        topics: {
+            total: 42
+        },
+        partitions: {
+            total: 82,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 82,
+            disk: '2000Gb/3000Gb',
+            ram: '6200Mb/240000Mb'
+        }
+    },
+    {
+        id: 2,
+        name: 'clusterName_002',
+        host: 'localhost:2100',
+        topics: {
+            total: 24
+        },
+        partitions: {
+            total: 81,
+            online: 17,
+            inSync: 58,
+            outOfSync: 20,
+            underReplicated: 0
+        },
+        controllerId: 32461,
+        system: {
+            cpu: 67,
+            disk: '1000Gb/2000Gb',
+            ram: '7200Mb/8400Mb'
+        }
+    },
+    {
+        id: 3,
+        name: 'clusterName_003',
+        host: 'localhost:3130',
+        topics: {
+            total: 34
+        },
+        partitions: {
+            total: 66,
+            online: 47,
+            inSync: 88,
+            outOfSync: 21,
+            underReplicated: 1
+        },
+        controllerId: 72461,
+        system: {
+            cpu: 97,
+            disk: '7800Gb/9200Gb',
+            ram: '350Mb/800Mb'
+        }
+    },
+    {
+        id: 4,
+        name: 'clusterName_004',
+        host: 'localhost:4430',
+        topics: {
+            total: 94
+        },
+        partitions: {
+            total: 16,
+            online: 88,
+            inSync: 22,
+            outOfSync: 73,
+            underReplicated: 3
+        },
+        controllerId: 12461,
+        system: {
+            cpu: 96,
+            disk: '1000Gb/120000Gb',
+            ram: '6200Mb/24000Mb'
+        }
+    },
+    {
+        id: 5,
+        name: 'clusterName_005',
+        host: 'localhost:4550',
+        topics: {
+            total: 935
+        },
+        partitions: {
+            total: 106,
+            online: 288,
+            inSync: 722,
+            outOfSync: 173,
+            underReplicated: 343
+        },
+        controllerId: 12461,
+        system: {
+            cpu: 60,
+            disk: '1000Gb/120000Gb',
+            ram: '16200Mb/24000Mb'
+        }
+    }
+]

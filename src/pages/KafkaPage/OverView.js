@@ -10,27 +10,30 @@ const OverView = (props) => {
         percentDisk: {to: 100, value: 0, mimeType: ''},
         percentRam: {to: 100, value: 0, mimeType: ''}
     })
+
     const {
+        id = null,
         host = null,
-        topics: {
-            totalTopic = cluster.topics.total
+        topics = {
+            total: null
         },
-        partitions: {
-            totalPart = cluster.partitions.total,
-            online = null,
-            inSync = null,
-            outOfSync = null,
-            underReplicated = null
+        partitions = {
+            total: null,
+            online: null,
+            inSync: null,
+            outOfSync: null,
+            underReplicated: null
         },
         controllerId = null,
-        system: {
-            cpu = null,
-            disk = '',
-            ram = ''
+        system = {
+            cpu: null,
+            disk: '',
+            ram: ''
         }
     } = cluster
 
     const cpuColor = value => {
+        if (!value) return '#c3325f'
         if (value < 50) return '#46a546'
         if (value < 80) return '#ffc40d'
         return '#c3325f'
@@ -38,12 +41,14 @@ const OverView = (props) => {
 
     useEffect(() => {
         setPercent({
-            percentDisk: sep(disk),
-            percentRam: sep(ram)
+            percentDisk: sep(system.disk),
+            percentRam: sep(system.ram)
         })
-    }, [disk, ram])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [system.disk, system.ram])
 
     const sep = string => {
+        if(!string) return ''
         const [a, b] = string.split('/')
 
         const [to, mimeType] = repl(b)
@@ -54,11 +59,9 @@ const OverView = (props) => {
 
     const repl = value => value.replace(/([0-9])([a-z])/i, '$1,$2').split(',')
 
-    console.log(percent)
-
     return (
         <div className="scrollhide" style={{height: '100%', overflow: 'auto'}}>
-            <table className="table md">
+            {id ? <table className="table md">
                 <tbody>
                 <tr>
                     <td className="align-right label">
@@ -71,38 +74,38 @@ const OverView = (props) => {
                     <td className="align-right label">
                         <small>topics</small>
                     </td>
-                    <td>{totalTopic}</td>
+                    <td>{topics.total}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
                     <td className="align-right label">
                         <small>partitions</small>
                     </td>
-                    <td>{totalPart}</td>
+                    <td>{partitions.total}</td>
                     <td/>
                     <td className="align-right label">
                         <small>online</small>
                     </td>
-                    <td>{online}</td>
+                    <td>{partitions.online}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
                     <td className="align-right label">
                         <small>in Sync</small>
                     </td>
-                    <td>{inSync}</td>
+                    <td>{partitions.inSync}</td>
                     <td/>
                     <td className="align-right label">
                         <small>out Of Sync</small>
                     </td>
-                    <td>{outOfSync}</td>
+                    <td>{partitions.outOfSync}</td>
                     <td colSpan={3}/>
                 </tr>
                 <tr>
                     <td className="align-right label">
                         <small>under Replicated</small>
                     </td>
-                    <td>{underReplicated}</td>
+                    <td>{partitions.underReplicated}</td>
                     <td/>
                     <td className="align-right label">
                         <small>controller Id</small>
@@ -112,11 +115,11 @@ const OverView = (props) => {
                 </tr>
                 <tr>
                     <td className="align-right align-middle label">cpu</td>
-                    <td className={classnames(cpuColor(cpu))}>
+                    <td className={classnames(cpuColor(system.cpu))}>
                         <span style={{height: 100, width: 100, display: 'inline-block'}}>
                 <CircularProgressbar
-                    value={cpu}
-                    text={`${cpu}%`}
+                    value={system.cpu}
+                    text={`${system.cpu}%`}
                     styles={buildStyles({
                         // Rotation of path and trail, in number of turns (0-1)
                         rotation: 0,
@@ -129,8 +132,8 @@ const OverView = (props) => {
                         // Can specify path transition in more detail, or remove it entirely
                         // pathTransition: 'none',
                         // Colors
-                        pathColor: `${cpuColor(cpu)}`,
-                        textColor: `${cpuColor(cpu)}`,
+                        pathColor: `${cpuColor(system.cpu)}`,
+                        textColor: `${cpuColor(system.cpu)}`,
                         trailColor: 'rgba(255,255,255, .2)',
                         backgroundColor: 'red',
                     })}
@@ -157,7 +160,7 @@ const OverView = (props) => {
                     </td>
                 </tr>
                 </tbody>
-            </table>
+            </table> : null}
         </div>
     )
 }

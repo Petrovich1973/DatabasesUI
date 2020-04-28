@@ -60,6 +60,9 @@ main {
               display: flex;
               padding: @size / 1.8 @size / 1.4;
               border-bottom-style: dotted;
+              & > * + * {
+                margin-left: @size / 1.8;
+              }
               &:hover {
                 color: @white;
                 background-color: fade(@blue, 50%);
@@ -153,46 +156,57 @@ a {
 
 .white {
   color: @white;
+  border-color: @white;
 }
 
 .black {
   color: @black;
+  border-color: @black;
 }
 
 .gray {
   color: @gray;
+  border-color: @gray;
 }
 
 .blue {
   color: @blue;
+  border-color: @blue;
 }
 
 .green {
   color: lighten(@green, 30%);
+  border-color: lighten(@green, 30%);
 }
 
 .red {
   color: lighten(@red, 30%);
+  border-color: lighten(@red, 30%);
 }
 
 .yellow {
   color: @yellow;
+  border-color: @yellow;
 }
 
 .orange {
   color: @orange;
+  border-color: @orange;
 }
 
 .pink {
   color: @pink;
+  border-color: @pink;
 }
 
 .purple {
   color: @purple;
+  border-color: @purple;
 }
 
 .violet {
   color: @violet;
+  border-color: @violet;
 }
 
 .btn {
@@ -269,6 +283,7 @@ a {
   align-items: center;
   justify-content: space-between;
   background-color: fade(@color, 20%);
+  margin-bottom: -(@size / 4);
   .from {
     box-sizing: border-box;
     padding: @size / 5;
@@ -277,6 +292,7 @@ a {
     display: flex;
     align-items: flex-start;
     top: 100%;
+    margin-top: @size / 4;
   }
   .to {
     box-sizing: border-box;
@@ -286,6 +302,7 @@ a {
     display: flex;
     align-items: flex-start;
     top: 100%;
+    margin-top: @size / 4;
   }
   .thumb {
     position: absolute;
@@ -303,6 +320,7 @@ a {
       justify-content: center;
       bottom: 100%;
       left: 100%;
+      margin-bottom: @size / 4;
     }
   }
 }
@@ -417,7 +435,7 @@ a {
     }
   }
   .label {
-    opacity: .5;
+    opacity: .7;
     white-space: nowrap;
   }
   tbody {
