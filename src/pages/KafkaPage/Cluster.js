@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Redirect, Route, Switch, useRouteMatch, useLocation, NavLink, useParams} from 'react-router-dom'
+import {Redirect, Route, Switch, useRouteMatch, NavLink, useParams} from 'react-router-dom'
 import OverView from "./OverView"
 import Brokers from "./Brokers"
 import Topics from "./Topics"
@@ -20,10 +20,7 @@ const Cluster = (props) => {
     const {store = {}, dispatch} = props
     const {cluster = {}} = store
     const match = useRouteMatch()
-    const location = useLocation()
     const {id} = useParams()
-
-    const isEqualPath = (`${match.url}/overview` === location.pathname)
 
     const [clusterRouters] = useState([
         {title: 'OverView', path: `/overview`, component: OverView, icon: <IconOverview size={'1em'}/>},

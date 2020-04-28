@@ -1,17 +1,40 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Route, Switch, useRouteMatch} from 'react-router-dom'
+import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
 import Topic from "./Topic"
-import axios from "axios"
-import * as api from "../../constants/api";
+import {loadTopics} from '../../actions/actionApp'
 
 const Topics = (props) => {
-    const {cluster = {}} = props
-    const [waiting, setWaiting] = useState(true)
-    const [topics, setTopics] = useState([])
-    const [topicActive, setTopicActive] = useState(null)
+    const {store = {}, dispatch} = props
+    const {topics = [], waitingTopics = null, firstReqTopics = false} = store
     const match = useRouteMatch()
+    const location = useLocation()
+
+    const isEqualPath = (match.url === location.pathname)
+
+    useEffect(() => {
+        dispatch(loadTopics({}))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        let timeId = null
+        if (firstReqTopics && !waitingTopics && isEqualPath) {
+            timeId = setTimeout(() => dispatch(loadTopics({})), 1000)
+        }
+
+        return () => {
+            clearTimeout(timeId)
+            dispatch({
+                type: type.KAFKA_UPDATE,
+                payload: {
+                    waitingTopics: null
+                }
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [topics, location])
 
     useEffect(() => {
         props.dispatch({
@@ -27,29 +50,12 @@ const Topics = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url, topics])
 
-    useEffect(() => {
-        setWaiting(true)
-        axios.get(`${api.kafka_clusters}/${cluster.id}/topics`)
-            .then(res => {
-                setTopics(res.data)
-                setTopicActive(1)
-                setWaiting(false)
-            })
-            .catch(err => {
-                console.log(err)
-                setTopics(initializeTopics)
-                setTopicActive(1)
-                setWaiting(false)
-            })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
     return (
         <>
             <Switch>
                 <Route exact path={`${match.path}`}>
                     <div className="scrollhide">
-                        {!waiting ? <table className="table">
+                        {firstReqTopics ? <table className="table">
                                 <thead>
                                 <tr>
                                     <th>id</th>
@@ -78,7 +84,6 @@ const Topics = (props) => {
                                     } = row
                                     return (
                                         <tr key={i} onClick={() => {
-                                            setTopicActive(id)
                                             props.history.push(`${match.url}/${id}`)
                                         }}>
                                             <td className="align-center">{id}</td>
@@ -93,13 +98,11 @@ const Topics = (props) => {
                                         </tr>)
                                 })}
                                 </tbody>
-                            </table>
-                            : <div className="waiting">waiting...</div>}
+                            </table> : <div className="waiting">waiting topics...</div>}
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>
-                    {topicActive ? <Topic cluster={cluster} topics={topics} {...props}/> :
-                        <div className="waiting">waiting...</div>}
+                    {topics.length ? <Topic/> : <div className="waiting">waiting topic...</div>}
                 </Route>
             </Switch>
         </>
@@ -108,7 +111,11 @@ const Topics = (props) => {
 
 Topics.displayName = 'Topics'
 
-export default connect()(Topics)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(Topics)
 
 const initializeTopics = [
     {

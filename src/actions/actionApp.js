@@ -21,6 +21,8 @@ const handleCatch = (error, timeRequest) => {
 
 const getReducerKafka = () => (dispatch, getState) => getState().reducerKafka
 
+// Clusters
+
 export const loadClusters = ({params = {}}) => {
     return dispatch => {
 
@@ -102,6 +104,53 @@ export const loadCluster = id => {
             })
     }
 }
+
+// Topics
+
+export const loadTopics = ({params = {}}) => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
+        dispatch({
+            type: types.KAFKA_UPDATE,
+            payload: {
+                waitingTopics: timeRequest
+            }
+        })
+
+        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics`, {
+            params
+        })
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingTopics === timeRequest
+                if(isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            topics: response.data,
+                            waitingTopics: null,
+                            firstReqTopics: true
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: types.KAFKA_UPDATE,
+                    payload: {
+                        topics: initializeTopics, // заглушка
+                        waitingTopics: null,
+                        firstReqTopics: true
+                    }
+                })
+                handleCatch(error, timeRequest)
+            })
+    }
+}
+
+
+////////////////////////////////////////////////////////////////
 
 const initializeClusters = [
     {
@@ -229,5 +278,41 @@ const initializeClusters = [
             disk: '1000Gb/120000Gb',
             ram: '16200Mb/24000Mb'
         }
+    }
+]
+
+const initializeTopics = [
+    {
+        id: 1010,
+        name: 'topicrName_000',
+        messagesRead: 45,
+        messagesWrite: 45,
+        underReplicated: 23,
+        inSync: 89,
+        outOfSync: 36,
+        bytesInPerSec: 81,
+        bytesOutPerSec: 17
+    },
+    {
+        id: 1,
+        name: 'topicrName_001',
+        messagesRead: 75,
+        messagesWrite: 75,
+        underReplicated: 13,
+        inSync: 39,
+        outOfSync: 32,
+        bytesInPerSec: 41,
+        bytesOutPerSec: 77
+    },
+    {
+        id: 2,
+        name: 'topicrName_002',
+        messagesRead: 78,
+        messagesWrite: 56,
+        underReplicated: 23,
+        inSync: 74,
+        outOfSync: 52,
+        bytesInPerSec: 55,
+        bytesOutPerSec: 23
     }
 ]

@@ -17,6 +17,10 @@ const initialState = {
     cluster: {},
     waitingCluster: null,
     firstReqCluster: false,
+
+    topics: {},
+    waitingTopics: null,
+    firstReqTopics: false,
 }
 
 const reducer = (state = initialState, action) => {
