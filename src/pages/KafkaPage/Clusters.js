@@ -18,8 +18,8 @@ const Clusters = (props) => {
 
     useEffect(() => {
         let timeId = null
-        if (clusters.length && !waiting) {
-            timeId = setTimeout(() => dispatch(loadClusters({})), 2000)
+        if (firstReq && !waiting) {
+            timeId = setTimeout(() => dispatch(loadClusters({})), 500)
         }
 
         return () => {
@@ -137,7 +137,7 @@ const Clusters = (props) => {
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>
-                    {clusters.length ? <Cluster clusters={clusters}/> : <div className="waiting">waiting cluster...</div>}
+                    {clusters.length ? <Cluster/> : <div className="waiting">waiting cluster...</div>}
                 </Route>
             </Switch>
         </>

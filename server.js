@@ -93,11 +93,11 @@ app.get('/api/current', (req, res) => {
 app.get('/api/clusters', async (req, res) => {
     await operation()
     // res.send(clustersList)
-    setTimeout(() => res.send(clustersList), 1000)
+    setTimeout(() => res.send(clustersList), 500)
 })
 
 app.get('/api/clusters/:id', (req, res) => {
-    const result = clusters.clusters[req.params.id]
+    const result = clustersList.find(item => item.id === +req.params.id)
     if (!result) {
         res.sendStatus(404)
     } else {

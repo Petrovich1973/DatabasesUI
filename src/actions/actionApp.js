@@ -63,6 +63,46 @@ export const loadClusters = ({params = {}}) => {
     }
 }
 
+export const loadCluster = id => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
+        dispatch({
+            type: types.KAFKA_UPDATE,
+            payload: {
+                waitingCluster: timeRequest
+            }
+        })
+
+        axios.get(`${api.kafka_clusters}/${id}`)
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingCluster === timeRequest
+                if(isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            cluster: response.data,
+                            waitingCluster: null,
+                            firstReqCluster: true
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                dispatch({
+                    type: types.KAFKA_UPDATE,
+                    payload: {
+                        cluster: {name: `id ${id} not found`},
+                        waitingCluster: null,
+                        firstReqCluster: true,
+                    }
+                })
+                handleCatch(error, timeRequest)
+            })
+    }
+}
+
 const initializeClusters = [
     {
         id: 1010,
