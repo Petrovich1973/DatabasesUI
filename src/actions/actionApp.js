@@ -162,6 +162,58 @@ export const loadTopics = ({params = {}}) => {
     }
 }
 
+export const loadTopic = id => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
+        dispatch({
+            type: types.KAFKA_UPDATE,
+            payload: {
+                waitingTopic: timeRequest
+            }
+        })
+
+        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${id}`)
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingTopic === timeRequest
+                if(isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            topic: response.data,
+                            waitingTopic: null,
+                            firstReqTopic: true
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                const is404 = error.request.status === 404
+                if(is404) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            topic: {name: `id ${id} not found`},
+                            waitingTopic: null,
+                            firstReqTopic: true,
+                        }
+                    })
+                } else {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            topic: {...dispatch(getReducerKafka()).topics.find(item => item.id === +id)},
+                            waitingTopic: null,
+                            firstReqTopic: true,
+                        }
+                    })
+                }
+                handleCatch(error, timeRequest)
+            })
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////
 

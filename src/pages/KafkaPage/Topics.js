@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
 import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
@@ -119,39 +119,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps)(Topics)
-
-const initializeTopics = [
-    {
-        id: 1010,
-        name: 'topicrName_000',
-        messagesRead: 45,
-        messagesWrite: 45,
-        underReplicated: 23,
-        inSync: 89,
-        outOfSync: 36,
-        bytesInPerSec: 81,
-        bytesOutPerSec: 17
-    },
-    {
-        id: 1,
-        name: 'topicrName_001',
-        messagesRead: 75,
-        messagesWrite: 75,
-        underReplicated: 13,
-        inSync: 39,
-        outOfSync: 32,
-        bytesInPerSec: 41,
-        bytesOutPerSec: 77
-    },
-    {
-        id: 2,
-        name: 'topicrName_002',
-        messagesRead: 78,
-        messagesWrite: 56,
-        underReplicated: 23,
-        inSync: 74,
-        outOfSync: 52,
-        bytesInPerSec: 55,
-        bytesOutPerSec: 23
-    }
-]

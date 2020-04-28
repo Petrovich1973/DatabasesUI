@@ -1,13 +1,33 @@
 @import (reference) "../../styles/variables.less";
 
 header {
+  animation: colorchangeHeader 100s infinite;
   padding: @size;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1;
-  background-color: @orange;
-  background: linear-gradient(90deg, darken(@gray, 6%) 0%, fade(@violet, 20%) 75%, @gray 100%);
+  background-color: fade(@orange, 8%);
+  background-image: linear-gradient(90deg, darken(@gray, 6%) 0%, fade(@violet, 20%) 75%, @gray 100%);
+
+  @keyframes colorchangeHeader {
+    0% {
+      background-color: transparent;
+    }
+    25% {
+      background-color: fade(@orange, 10%);
+    }
+    50% {
+      background-color: fade(@purple, 10%);
+    }
+    75% {
+      background-color: fade(@green, 20%);
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
   nav {
     ul {
       list-style: none;

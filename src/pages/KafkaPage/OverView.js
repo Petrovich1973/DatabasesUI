@@ -40,7 +40,6 @@ const OverView = (props) => {
         let timeId = null
         clearTimeout(timeId)
         if (firstReqCluster && !waitingCluster) {
-            console.log('loadCluster/', id)
             timeId = setTimeout(() => dispatch(loadCluster(id)), 1000)
         }
 
