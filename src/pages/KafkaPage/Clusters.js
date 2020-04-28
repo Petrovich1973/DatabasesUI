@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Route, Switch, useRouteMatch} from 'react-router-dom'
+import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
 import Cluster from "./Cluster"
 import classnames from "classnames"
 import {loadClusters} from '../../actions/actionApp'
@@ -10,6 +10,9 @@ const Clusters = (props) => {
     const {store = {}, dispatch} = props
     const {clusters = [], waiting = null, firstReq = false} = store
     const match = useRouteMatch()
+    const location = useLocation()
+
+    const isEqualPath = (match.url === location.pathname)
 
     useEffect(() => {
         dispatch(loadClusters({}))
@@ -18,8 +21,8 @@ const Clusters = (props) => {
 
     useEffect(() => {
         let timeId = null
-        if (firstReq && !waiting) {
-            timeId = setTimeout(() => dispatch(loadClusters({})), 500)
+        if (firstReq && !waiting && isEqualPath) {
+            timeId = setTimeout(() => dispatch(loadClusters({})), 1000)
         }
 
         return () => {
@@ -32,7 +35,7 @@ const Clusters = (props) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [clusters])
+    }, [clusters, location])
 
     useEffect(() => {
         dispatch({

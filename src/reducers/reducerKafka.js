@@ -9,6 +9,7 @@ const initialState = {
         clusterChildSecond: {label: 'clusterChildSecond', path: null},
         clusterChildSecondName: {label: 'clusterChildSecondName', path: null},
     },
+
     clusters: [],
     waiting: null,
     firstReq: false,

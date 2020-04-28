@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Redirect, Route, Switch, useRouteMatch, NavLink, useParams} from 'react-router-dom'
+import {Redirect, Route, Switch, useRouteMatch, useLocation, NavLink, useParams} from 'react-router-dom'
 import OverView from "./OverView"
 import Brokers from "./Brokers"
 import Topics from "./Topics"
@@ -18,9 +18,13 @@ import {IconBroker, IconConsumers, IconOverview, IconTopic} from "../../svg";
 
 const Cluster = (props) => {
     const {store = {}, dispatch} = props
-    const {cluster = {}, waitingCluster = null, firstReqCluster = false} = store
+    const {cluster = {}} = store
     const match = useRouteMatch()
+    const location = useLocation()
     const {id} = useParams()
+
+    const isEqualPath = (`${match.url}/overview` === location.pathname)
+
     const [clusterRouters] = useState([
         {title: 'OverView', path: `/overview`, component: OverView, icon: <IconOverview size={'1em'}/>},
         {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconBroker size={'1em'}/>},
@@ -38,24 +42,6 @@ const Cluster = (props) => {
         dispatch(loadCluster(id))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        let timeId = null
-        if (firstReqCluster && !waitingCluster) {
-            timeId = setTimeout(() => dispatch(loadCluster(id)), 500)
-        }
-
-        return () => {
-            clearTimeout(timeId)
-            dispatch({
-                type: type.KAFKA_UPDATE,
-                payload: {
-                    waitingCluster: null
-                }
-            })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cluster])
 
     const {
         name = null

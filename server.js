@@ -96,7 +96,8 @@ app.get('/api/clusters', async (req, res) => {
     setTimeout(() => res.send(clustersList), 500)
 })
 
-app.get('/api/clusters/:id', (req, res) => {
+app.get('/api/clusters/:id', async (req, res) => {
+    await operation()
     const result = clustersList.find(item => item.id === +req.params.id)
     if (!result) {
         res.sendStatus(404)
