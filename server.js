@@ -120,8 +120,8 @@ app.get('/api/clusters/:id', async (req, res) => {
     }
 })
 
-app.get('/api/clusters/:id/topics', async (req, res) => {
-    const result = clustersList.find(item => item.id === +req.params.id)
+app.get('/api/clusters/:cluster/topics', async (req, res) => {
+    const result = clustersList.find(item => item.id === +req.params.cluster)
 
     if (!result) {
         res.sendStatus(404)
@@ -132,7 +132,7 @@ app.get('/api/clusters/:id/topics', async (req, res) => {
 })
 
 app.get('/api/clusters/:cluster/topics/:id', async (req, res) => {
-    await operationClusters()
+    await operationTopics()
     const result = topicsList.find(item => item.id === +req.params.id)
     if (!result) {
         res.sendStatus(404)

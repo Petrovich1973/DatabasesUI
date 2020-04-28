@@ -21,6 +21,10 @@ const initialState = {
     topics: {},
     waitingTopics: null,
     firstReqTopics: false,
+
+    topic: {},
+    waitingTopic: null,
+    firstReqTopic: false,
 }
 
 const reducer = (state = initialState, action) => {

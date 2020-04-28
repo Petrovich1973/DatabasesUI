@@ -1,21 +1,35 @@
 @import (reference) "./variables.less";
 
 body {
-  animation: colorchange 300s infinite;
   font-family: @font;
   font-size: @md;
   font-weight: 100;
   color: @color;
-  background-color: @gray;
-  background-image: linear-gradient(to top, fade(@black, 27%) 0%, fade(@black, 7%) 24%, transparent 75%, fade(@white, 7%) 90%, fade(@white, 21%) 100%), linear-gradient(15deg, transparent 0%, transparent 70%, fade(@white, 10%) 100%), radial-gradient(circle, fade(@violet, 20%) 0%, @gray 100%);
+  background-color: @black;
 }
-@keyframes colorchange
-{
-  0%   {background-color: @gray;}
-  25%  {background-color: darken(@orange, 40%);}
-  50%  {background-color: darken(@purple, 40%);}
-  75%  {background-color: darken(@green, 30%);}
-  100% {background-color: @gray;}
+
+#root {
+  animation: colorchange 300s infinite;
+  background-color: @gray;
+  background-image: linear-gradient(to top, fade(@black, 27%) 0%, fade(@black, 7%) 24%, transparent 75%, fade(@white, 7%) 94%, fade(@white, 21%) 100%), linear-gradient(15deg, transparent 0%, transparent 70%, fade(@white, 10%) 100%), radial-gradient(circle, fade(@violet, 20%) 0%, @gray 100%);
+}
+
+@keyframes colorchange {
+  0% {
+    background-color: @gray;
+  }
+  25% {
+    background-color: fade(@orange, 6%);
+  }
+  50% {
+    background-color: fade(@purple, 6%);
+  }
+  75% {
+    background-color: darken(@green, 40%);
+  }
+  100% {
+    background-color: @gray;
+  }
 }
 
 html, body, #root {
@@ -128,6 +142,9 @@ main {
   }
   & > em:last-child {
     display: none;
+  }
+  a:hover {
+    color: lighten(@blue, 30%);
   }
 }
 
