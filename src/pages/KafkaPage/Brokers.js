@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import * as type from "../../constants/actionTypes"
-import {Route, Switch, useRouteMatch, useLocation} from 'react-router-dom'
+import {Route, Switch, useRouteMatch} from 'react-router-dom'
 import Broker from "./Broker"
 import axios from "axios"
 import * as api from "../../constants/api";
-import Topic from "./Topic";
 
 const Brokers = (props) => {
     const {cluster = {}} = props

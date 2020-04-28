@@ -3,14 +3,41 @@ import {connect} from 'react-redux'
 import * as type from '../../constants/actionTypes'
 import {Redirect, Route, Switch, NavLink, Link, useParams, useRouteMatch} from 'react-router-dom'
 import Partitions from "./Partitions"
+import {loadTopic} from "../../actions/actionApp";
 
 const Topic = (props) => {
-    const {topics = []} = props
+    const {store = {}, dispatch} = props
+    const {topic = {}, waitingTopic = null, firstReqTopic = false} = store
     const match = useRouteMatch()
     const {id} = useParams()
+
     const [topicRouters] = useState([
         {title: 'Partitions', path: `/partitions`, component: Partitions}
     ])
+
+    useEffect(() => {
+        dispatch(loadTopic(id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        let timeId = null
+        clearTimeout(timeId)
+        if (firstReqTopic && !waitingTopic) {
+            timeId = setTimeout(() => dispatch(loadTopic(id)), 1000)
+        }
+
+        return () => {
+            clearTimeout(timeId)
+            dispatch({
+                type: type.KAFKA_UPDATE,
+                payload: {
+                    waitingTopic: null
+                }
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [topic])
 
     const {
         name = null,
@@ -21,7 +48,7 @@ const Topic = (props) => {
         outOfSync = null,
         bytesInPerSec = null,
         bytesOutPerSec = null
-    } = topics.find(item => item.id === +id) || {}
+    } = topic
 
     useEffect(() => {
         props.dispatch({
@@ -35,7 +62,7 @@ const Topic = (props) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url])
+    }, [match.url, topic])
 
     return (
         <div className="scrollhide" style={{fontSize: '100%', height: '100%', overflow: 'auto'}}>
@@ -110,7 +137,7 @@ const Topic = (props) => {
             &nbsp;
             <Switch>
                 <Redirect exact from={`${match.url}`} to={`${match.url}/partitions`}/>
-                {topicRouters
+                {name && topicRouters
                     .map(route => {
                         const {path} = route
                         return (
@@ -129,4 +156,8 @@ const Topic = (props) => {
 
 Topic.displayName = 'Topic'
 
-export default connect()(Topic)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(Topic)

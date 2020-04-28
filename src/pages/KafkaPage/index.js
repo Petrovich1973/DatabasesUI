@@ -14,8 +14,6 @@ const KafkaPage = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [match.url])
 
-    // console.log(breadcrumbsKafka)
-
     return (
         <main>
 
@@ -48,7 +46,7 @@ const KafkaPage = (props) => {
 KafkaPage.displayName = 'KafkaPage'
 
 const mapStateToProps = state => ({
-    breadcrumbsKafka: state.reducerApp.breadcrumbsKafka
+    breadcrumbsKafka: state.reducerKafka.breadcrumbsKafka
 })
 
 export default connect(mapStateToProps)(KafkaPage)

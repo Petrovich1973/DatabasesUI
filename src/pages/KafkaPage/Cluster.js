@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import * as type from '../../constants/actionTypes'
+import * as type from "../../constants/actionTypes"
 import {Redirect, Route, Switch, useRouteMatch, NavLink, useParams} from 'react-router-dom'
 import OverView from "./OverView"
 import Brokers from "./Brokers"
@@ -13,16 +13,20 @@ import RollingRestart from "./RollingRestart"
 import RollingUpgrade from "./RollingUpgrade"
 import KafkaSberEdition from "./KafkaSberEdition"
 import TitlePage from "../../components/TitlePage"
+import {loadCluster} from "../../actions/actionApp";
+import {IconBroker, IconConsumers, IconOverview, IconTopic} from "../../svg";
 
 const Cluster = (props) => {
-    const {clusters = []} = props
+    const {store = {}, dispatch} = props
+    const {cluster = {}} = store
     const match = useRouteMatch()
     const {id} = useParams()
+
     const [clusterRouters] = useState([
-        {title: 'OverView', path: `/overview`, component: OverView, icon: null},
-        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: null},
-        {title: 'Topics', path: `/topics`, component: Topics, icon: null},
-        {title: 'Consumers', path: `/consumers`, component: Consumers, icon: null},
+        {title: 'OverView', path: `/overview`, component: OverView, icon: <IconOverview size={'1em'}/>},
+        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconBroker size={'1em'}/>},
+        {title: 'Topics', path: `/topics`, component: Topics, icon: <IconTopic size={'1em'}/>},
+        {title: 'Consumers', path: `/consumers`, component: Consumers, icon: <IconConsumers size={'1em'}/>},
         {title: 'ACLs', path: `/acls`, component: Acls, icon: null},
         {title: 'Kafka Connect', path: `/kafkaConnect`, component: KafkaConnect, icon: null},
         {title: 'Settings', path: `/settings`, component: Settings, icon: null},
@@ -31,7 +35,10 @@ const Cluster = (props) => {
         {title: 'Kafka SberEdition', path: `/kafkaSberEdition`, component: KafkaSberEdition, icon: null}
     ])
 
-    const cluster = clusters.find(item => item.id === +id) || {}
+    useEffect(() => {
+        dispatch(loadCluster(id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const {
         name = null
@@ -49,14 +56,21 @@ const Cluster = (props) => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url])
+    }, [match.url, cluster])
 
     return (
         <>
             <TitlePage tag={'h2'} label={<>
-                <small><small><small><em>Cluster</em></small></small></small>
-                &nbsp;
-                {name}</>}/>
+                <NavLink to={`${match.url}`} className="white">
+                    <small>
+                        <small>
+                            <small><em>Cluster</em></small>
+                        </small>
+                    </small>
+                    &nbsp;
+                    {name}
+                </NavLink>
+            </>}/>
 
             <div className="content">
                 <aside>
@@ -76,7 +90,7 @@ const Cluster = (props) => {
                 <section>
                     <Switch>
                         <Redirect exact from={`${match.path}`} to={`${match.path}/overview`}/>
-                        {clusterRouters
+                        {name && clusterRouters
                             .map(route => {
                                 const {path} = route
                                 return (
@@ -97,4 +111,8 @@ const Cluster = (props) => {
 
 Cluster.displayName = 'Cluster'
 
-export default connect()(Cluster)
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(Cluster)
