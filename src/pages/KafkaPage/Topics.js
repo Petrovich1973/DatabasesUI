@@ -55,50 +55,53 @@ const Topics = (props) => {
             <Switch>
                 <Route exact path={`${match.path}`}>
                     <div className="scrollhide">
-                        {firstReqTopics ? <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>name</th>
-                                    <th>messages Read</th>
-                                    <th>messages Write</th>
-                                    <th>under Replicated</th>
-                                    <th>in Sync</th>
-                                    <th>out Of Sync</th>
-                                    <th>bytes In PerSec</th>
-                                    <th>bytes Out PerSec</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {topics.map((row, i) => {
-                                    const {
-                                        id = null,
-                                        name = null,
-                                        messagesRead = null,
-                                        messagesWrite = null,
-                                        underReplicated = null,
-                                        inSync = null,
-                                        outOfSync = null,
-                                        bytesInPerSec = null,
-                                        bytesOutPerSec = null
-                                    } = row
-                                    return (
-                                        <tr key={i} onClick={() => {
-                                            props.history.push(`${match.url}/${id}`)
-                                        }}>
-                                            <td className="align-center">{id}</td>
-                                            <td className="align-center"><small>{name}</small></td>
-                                            <td className="align-center">{messagesRead}</td>
-                                            <td className="align-center">{messagesWrite}</td>
-                                            <td className="align-center">{underReplicated}</td>
-                                            <td className="align-center">{inSync}</td>
-                                            <td className="align-center">{outOfSync}</td>
-                                            <td className="align-center">{bytesInPerSec}</td>
-                                            <td className="align-center">{bytesOutPerSec}</td>
-                                        </tr>)
-                                })}
-                                </tbody>
-                            </table> : <div className="waiting">waiting topics...</div>}
+                        {firstReqTopics && topics.length ? <table className="table">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>messages Read</th>
+                                <th>messages Write</th>
+                                <th>under Replicated</th>
+                                <th>in Sync</th>
+                                <th>out Of Sync</th>
+                                <th>bytes In PerSec</th>
+                                <th>bytes Out PerSec</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {topics.map((row, i) => {
+                                const {
+                                    id = null,
+                                    name = null,
+                                    messagesRead = null,
+                                    messagesWrite = null,
+                                    underReplicated = null,
+                                    inSync = null,
+                                    outOfSync = null,
+                                    bytesInPerSec = null,
+                                    bytesOutPerSec = null
+                                } = row
+                                return (
+                                    <tr key={i} onClick={() => {
+                                        props.history.push(`${match.url}/${id}`)
+                                    }}>
+                                        <td className="align-center">{id}</td>
+                                        <td className="align-center">
+                                            <small>{name}</small>
+                                        </td>
+                                        <td className="align-center">{messagesRead}</td>
+                                        <td className="align-center">{messagesWrite}</td>
+                                        <td className="align-center">{underReplicated}</td>
+                                        <td className="align-center">{inSync}</td>
+                                        <td className="align-center">{outOfSync}</td>
+                                        <td className="align-center">{bytesInPerSec}</td>
+                                        <td className="align-center">{bytesOutPerSec}</td>
+                                    </tr>)
+                            })}
+                            </tbody>
+                        </table> : firstReqTopics && !topics.length ? <div className="waiting">ничего не найдено</div> :
+                            <div className="waiting">waiting topics...</div>}
                     </div>
                 </Route>
                 <Route path={`${match.path}/:id`}>

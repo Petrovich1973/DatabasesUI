@@ -90,7 +90,7 @@ const Cluster = (props) => {
                 <section>
                     <Switch>
                         <Redirect exact from={`${match.path}`} to={`${match.path}/overview`}/>
-                        {clusterRouters
+                        {name && clusterRouters
                             .map(route => {
                                 const {path} = route
                                 return (

@@ -120,9 +120,15 @@ app.get('/api/clusters/:id', async (req, res) => {
     }
 })
 
-app.get('/api/clusters/:cluster/topics', async (req, res) => {
-    await operationTopics()
-    setTimeout(() => res.send(topicsList), 500)
+app.get('/api/clusters/:id/topics', async (req, res) => {
+    const result = clustersList.find(item => item.id === +req.params.id)
+
+    if (!result) {
+        res.sendStatus(404)
+    } else {
+        await operationTopics()
+        setTimeout(() => res.send(topicsList), 500)
+    }
 })
 
 app.get('/api/clusters/:cluster/topics/:id', async (req, res) => {

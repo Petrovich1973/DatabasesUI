@@ -92,14 +92,26 @@ export const loadCluster = id => {
                 }
             })
             .catch(error => {
-                dispatch({
-                    type: types.KAFKA_UPDATE,
-                    payload: {
-                        cluster: {name: `id ${id} not found`},
-                        waitingCluster: null,
-                        firstReqCluster: true,
-                    }
-                })
+                const is404 = error.request.status === 404
+                if(is404) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            cluster: {name: `id ${id} not found`},
+                            waitingCluster: null,
+                            firstReqCluster: true,
+                        }
+                    })
+                } else {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            cluster: {...dispatch(getReducerKafka()).clusters.find(item => item.id === +id)},
+                            waitingCluster: null,
+                            firstReqCluster: true,
+                        }
+                    })
+                }
                 handleCatch(error, timeRequest)
             })
     }
@@ -136,10 +148,11 @@ export const loadTopics = ({params = {}}) => {
                 }
             })
             .catch(error => {
+                const is404 = error.request.status === 404
                 dispatch({
                     type: types.KAFKA_UPDATE,
                     payload: {
-                        topics: initializeTopics, // заглушка
+                        topics: is404 ? [] : initializeTopics, // заглушка
                         waitingTopics: null,
                         firstReqTopics: true
                     }
