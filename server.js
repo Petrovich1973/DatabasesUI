@@ -142,7 +142,16 @@ app.get('/api/clusters/:cluster/topics/:id', async (req, res) => {
 })
 
 app.get('/api/clusters/:cluster/topics/:topic/partitions', (req, res) => {
-    setTimeout(() => res.send(partitions.partitions), 300)
+    const result1 = clustersList.find(item => item.id === +req.params.cluster)
+    const result2 = topicsList.find(item => item.id === +req.params.topic)
+
+    const result = result1 && result2
+
+    if (!result) {
+        res.sendStatus(404)
+    } else {
+        setTimeout(() => res.send(partitions.partitions), 300)
+    }
 })
 
 app.get('/api/clusters/:cluster/topics/:topic/partitions/:id', (req, res) => {

@@ -25,6 +25,14 @@ const initialState = {
     topic: {},
     waitingTopic: null,
     firstReqTopic: false,
+
+    partitions: {},
+    waitingPartitions: null,
+    firstReqPartitions: false,
+
+    partition: {},
+    waitingPartition: null,
+    firstReqPartition: false,
 }
 
 const reducer = (state = initialState, action) => {

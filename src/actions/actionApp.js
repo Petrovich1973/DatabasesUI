@@ -40,7 +40,7 @@ export const loadClusters = ({params = {}}) => {
         })
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waiting === timeRequest
-                if(isActualResponse) {
+                if (isActualResponse) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -80,7 +80,7 @@ export const loadCluster = id => {
         axios.get(`${api.kafka_clusters}/${id}`)
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingCluster === timeRequest
-                if(isActualResponse) {
+                if (isActualResponse) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -93,7 +93,7 @@ export const loadCluster = id => {
             })
             .catch(error => {
                 const is404 = error.request.status === 404
-                if(is404) {
+                if (is404) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -136,7 +136,7 @@ export const loadTopics = ({params = {}}) => {
         })
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingTopics === timeRequest
-                if(isActualResponse) {
+                if (isActualResponse) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -177,7 +177,7 @@ export const loadTopic = id => {
         axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${id}`)
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingTopic === timeRequest
-                if(isActualResponse) {
+                if (isActualResponse) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -190,7 +190,7 @@ export const loadTopic = id => {
             })
             .catch(error => {
                 const is404 = error.request.status === 404
-                if(is404) {
+                if (is404) {
                     dispatch({
                         type: types.KAFKA_UPDATE,
                         payload: {
@@ -206,6 +206,103 @@ export const loadTopic = id => {
                             topic: {...dispatch(getReducerKafka()).topics.find(item => item.id === +id)},
                             waitingTopic: null,
                             firstReqTopic: true,
+                        }
+                    })
+                }
+                handleCatch(error, timeRequest)
+            })
+    }
+}
+
+// Partitions
+
+export const loadPartitions = ({params = {}}) => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
+        dispatch({
+            type: types.KAFKA_UPDATE,
+            payload: {
+                waitingPartitions: timeRequest
+            }
+        })
+
+        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions`, {
+            params
+        })
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingPartitions === timeRequest
+                if (isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            partitions: response.data,
+                            waitingPartitions: null,
+                            firstReqPartitions: true
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                const is404 = error.request.status === 404
+                dispatch({
+                    type: types.KAFKA_UPDATE,
+                    payload: {
+                        partitions: is404 ? [] : initializePartitions, // заглушка
+                        waitingPartitions: null,
+                        firstReqPartitions: true
+                    }
+                })
+                handleCatch(error, timeRequest)
+            })
+    }
+}
+
+export const loadPartition = id => {
+    return dispatch => {
+
+        const timeRequest = Date.now()
+
+        dispatch({
+            type: types.KAFKA_UPDATE,
+            payload: {
+                waitingPartition: timeRequest
+            }
+        })
+
+        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions/${id}`)
+            .then((response) => {
+                const isActualResponse = dispatch(getReducerKafka()).waitingPartition === timeRequest
+                if (isActualResponse) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            partition: response.data,
+                            waitingPartition: null,
+                            firstReqPartition: true
+                        }
+                    })
+                }
+            })
+            .catch(error => {
+                const is404 = error.request.status === 404
+                if (is404) {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            partition: {name: `id ${id} not found`},
+                            waitingPartition: null,
+                            firstReqPartition: true,
+                        }
+                    })
+                } else {
+                    dispatch({
+                        type: types.KAFKA_UPDATE,
+                        payload: {
+                            partition: {...dispatch(getReducerKafka()).partitions.find(item => item.id === +id)},
+                            waitingPartition: null,
+                            firstReqPartition: true,
                         }
                     })
                 }
@@ -380,4 +477,11 @@ const initializeTopics = [
         bytesInPerSec: 55,
         bytesOutPerSec: 23
     }
+]
+
+const initializePartitions = [
+    {id: 1010, name: 'Partition_001', role: 'LEADER', status: 'SUCCESS'},
+    {id: 1, name: 'Partition_002', role: 'FOLLOWER', status: 'WARNING'},
+    {id: 2, name: 'Partition_003', role: 'FOLLOWER', status: 'SUCCESS'},
+    {id: 3, name: 'Partition_004', role: 'LEADER', status: 'ERROR'}
 ]
