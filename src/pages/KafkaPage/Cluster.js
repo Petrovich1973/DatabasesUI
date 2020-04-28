@@ -14,6 +14,7 @@ import RollingUpgrade from "./RollingUpgrade"
 import KafkaSberEdition from "./KafkaSberEdition"
 import TitlePage from "../../components/TitlePage"
 import {loadCluster} from "../../actions/actionApp";
+import {IconBroker, IconConsumers, IconOverview, IconTopic} from "../../svg";
 
 const Cluster = (props) => {
     const {store = {}, dispatch} = props
@@ -21,10 +22,10 @@ const Cluster = (props) => {
     const match = useRouteMatch()
     const {id} = useParams()
     const [clusterRouters] = useState([
-        {title: 'OverView', path: `/overview`, component: OverView, icon: null},
-        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: null},
-        {title: 'Topics', path: `/topics`, component: Topics, icon: null},
-        {title: 'Consumers', path: `/consumers`, component: Consumers, icon: null},
+        {title: 'OverView', path: `/overview`, component: OverView, icon: <IconOverview size={'1em'}/>},
+        {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconBroker size={'1em'}/>},
+        {title: 'Topics', path: `/topics`, component: Topics, icon: <IconTopic size={'1em'}/>},
+        {title: 'Consumers', path: `/consumers`, component: Consumers, icon: <IconConsumers size={'1em'}/>},
         {title: 'ACLs', path: `/acls`, component: Acls, icon: null},
         {title: 'Kafka Connect', path: `/kafkaConnect`, component: KafkaConnect, icon: null},
         {title: 'Settings', path: `/settings`, component: Settings, icon: null},
@@ -77,13 +78,16 @@ const Cluster = (props) => {
     return (
         <>
             <TitlePage tag={'h2'} label={<>
-                <small>
+                <NavLink to={`${match.url}`} className="white">
                     <small>
-                        <small><em>Cluster</em></small>
+                        <small>
+                            <small><em>Cluster</em></small>
+                        </small>
                     </small>
-                </small>
-                &nbsp;
-                {name}</>}/>
+                    &nbsp;
+                    {name}
+                </NavLink>
+            </>}/>
 
             <div className="content">
                 <aside>
