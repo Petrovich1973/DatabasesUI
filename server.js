@@ -48,7 +48,7 @@ function randomInteger(min, max) {
     return Math.round(rand);
 }
 
-let clustersList = [...clusters.clusters]
+const randomBool = () => Math.round(Math.random())
 
 const shiftNumber = value => {
     const direct = Math.round(Math.random())
@@ -65,16 +65,31 @@ const shiftNumber = value => {
     return result
 }
 
-const operation = () => {
+let clustersList = [...clusters.clusters]
+
+const operationClusters = () => {
     clustersList = clustersList
         .map(item => {
             return ({
                 ...item,
                 system: {
                     ...item.system,
-                    // cpu: randomInteger(1, 100)
                     cpu: shiftNumber(item.system.cpu)
                 }
+            })
+        })
+}
+
+let topicsList = [...topics.topics]
+
+const operationTopics = () => {
+
+    topicsList = topicsList
+        .map(item => {
+            return ({
+                ...item,
+                messagesRead: randomBool() ? item.messagesRead + 1 : item.messagesRead,
+                messagesWrite: randomBool() ? item.messagesWrite + 1 : item.messagesWrite
             })
         })
 }
@@ -91,12 +106,12 @@ app.get('/api/current', (req, res) => {
 })
 
 app.get('/api/clusters', async (req, res) => {
-    await operation()
-    // res.send(clustersList)
+    await operationClusters()
     setTimeout(() => res.send(clustersList), 500)
 })
 
-app.get('/api/clusters/:id', (req, res) => {
+app.get('/api/clusters/:id', async (req, res) => {
+    await operationClusters()
     const result = clustersList.find(item => item.id === +req.params.id)
     if (!result) {
         res.sendStatus(404)
@@ -105,12 +120,20 @@ app.get('/api/clusters/:id', (req, res) => {
     }
 })
 
-app.get('/api/clusters/:cluster/topics', (req, res) => {
-    setTimeout(() => res.send(topics.topics), 100)
+app.get('/api/clusters/:id/topics', async (req, res) => {
+    const result = clustersList.find(item => item.id === +req.params.id)
+
+    if (!result) {
+        res.sendStatus(404)
+    } else {
+        await operationTopics()
+        setTimeout(() => res.send(topicsList), 500)
+    }
 })
 
-app.get('/api/clusters/:cluster/topics/:id', (req, res) => {
-    const result = topics.topics[req.params.id]
+app.get('/api/clusters/:cluster/topics/:id', async (req, res) => {
+    await operationClusters()
+    const result = topicsList.find(item => item.id === +req.params.id)
     if (!result) {
         res.sendStatus(404)
     } else {

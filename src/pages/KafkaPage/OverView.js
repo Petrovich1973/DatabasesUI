@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react'
+import {connect} from 'react-redux'
+import * as type from "../../constants/actionTypes"
 import classnames from 'classnames'
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
-import Progress from "../../components/Progress";
+import Progress from "../../components/Progress"
+import {loadCluster} from "../../actions/actionApp"
 
 const OverView = (props) => {
-    const {cluster = {}} = props
+    const {store = {}, dispatch} = props
+    const {cluster = {}, waitingCluster = null, firstReqCluster = false} = store
     const [percent, setPercent] = useState({
         percentDisk: {to: 100, value: 0, mimeType: ''},
         percentRam: {to: 100, value: 0, mimeType: ''}
@@ -31,6 +35,26 @@ const OverView = (props) => {
             ram: ''
         }
     } = cluster
+
+    useEffect(() => {
+        let timeId = null
+        clearTimeout(timeId)
+        if (firstReqCluster && !waitingCluster) {
+            console.log('loadCluster/', id)
+            timeId = setTimeout(() => dispatch(loadCluster(id)), 1000)
+        }
+
+        return () => {
+            clearTimeout(timeId)
+            dispatch({
+                type: type.KAFKA_UPDATE,
+                payload: {
+                    waitingCluster: null
+                }
+            })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cluster])
 
     const cpuColor = value => {
         if (!value) return '#c3325f'
@@ -165,4 +189,10 @@ const OverView = (props) => {
     )
 }
 
-export default OverView
+OverView.displayName = 'OverView'
+
+const mapStateToProps = state => ({
+    store: state.reducerKafka
+})
+
+export default connect(mapStateToProps)(OverView)

@@ -18,9 +18,10 @@ import {IconBroker, IconConsumers, IconOverview, IconTopic} from "../../svg";
 
 const Cluster = (props) => {
     const {store = {}, dispatch} = props
-    const {cluster = {}, waitingCluster = null, firstReqCluster = false} = store
+    const {cluster = {}} = store
     const match = useRouteMatch()
     const {id} = useParams()
+
     const [clusterRouters] = useState([
         {title: 'OverView', path: `/overview`, component: OverView, icon: <IconOverview size={'1em'}/>},
         {title: 'Brokers', path: `/brokers`, component: Brokers, icon: <IconBroker size={'1em'}/>},
@@ -38,24 +39,6 @@ const Cluster = (props) => {
         dispatch(loadCluster(id))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        let timeId = null
-        if (firstReqCluster && !waitingCluster) {
-            timeId = setTimeout(() => dispatch(loadCluster(id)), 500)
-        }
-
-        return () => {
-            clearTimeout(timeId)
-            dispatch({
-                type: type.KAFKA_UPDATE,
-                payload: {
-                    waitingCluster: null
-                }
-            })
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cluster])
 
     const {
         name = null
@@ -107,7 +90,7 @@ const Cluster = (props) => {
                 <section>
                     <Switch>
                         <Redirect exact from={`${match.path}`} to={`${match.path}/overview`}/>
-                        {clusterRouters
+                        {name && clusterRouters
                             .map(route => {
                                 const {path} = route
                                 return (
