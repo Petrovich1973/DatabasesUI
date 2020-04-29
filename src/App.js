@@ -9,7 +9,7 @@ import isRight from "./utils/isRight"
 import SettingsPage from "./pages/SettingsPage";
 
 const App = (props) => {
-    const {rightsCurrent = []} = props
+    const {rightsCurrent = [], fontSize = 100} = props
     const [navHeader, setNavHeader] = useState([])
 
     const renderRoutes = routes => routes.filter(route => {
@@ -33,7 +33,7 @@ const App = (props) => {
     }
 
     return (
-        <div className="App">
+        <div className="App" style={{fontSize: `${fontSize}%`}}>
             <Header nav={navHeader}/>
             <Switch>
                 <Redirect exact from='/' to='/console'/>
@@ -59,7 +59,8 @@ const App = (props) => {
 App.displayName = 'App'
 
 const mapStateToProps = state => ({
-    rightsCurrent: state.reducerApp.current.user.rights
+    rightsCurrent: state.reducerApp.current.user.rights,
+    fontSize: state.reducerApp.settings.fontSize
 })
 
 export default connect(mapStateToProps)(App)
