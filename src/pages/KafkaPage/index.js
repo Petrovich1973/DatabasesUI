@@ -21,7 +21,7 @@ const KafkaPage = (props) => {
                 icon={<IconKafka size={'1em'}/>}
                 label={title}/>
 
-            <div className="breadcrumbs">
+            <div className="breadcrumbs scrollhide">
                 {Object.keys(breadcrumbsKafka)
                     .filter(key => breadcrumbsKafka[key].path)
                     .map((key, i) => (

@@ -33,7 +33,7 @@ header {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 300px;
+    width: 200px;
     height: 1em;
     color: fade(@color, 50%);
   }
@@ -42,7 +42,7 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 300px;
+    width: 200px;
     height: 1em;
     color: fade(@color, 50%);
     .user-name {
@@ -96,6 +96,41 @@ header {
             margin-left: @size / 2;
           }
         }
+      }
+    }
+  }
+  @media (orientation: portrait) {
+    nav {
+      a {
+        span {
+          display: none !important;
+        }
+      }
+    }
+    .left {
+      width: auto;
+    }
+    .right {
+      & > * + * {
+        margin-left: 0;
+      }
+      width: auto;
+      & > svg, .user-name {
+        display: none;
+      }
+    }
+  }
+  @media screen and (max-width: 1000px) and (orientation: landscape) {
+    .left {
+      width: auto;
+    }
+    .right {
+      & > * + * {
+        margin-left: 0;
+      }
+      width: auto;
+      & > svg, .user-name {
+        display: none;
       }
     }
   }
