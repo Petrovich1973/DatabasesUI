@@ -18,7 +18,7 @@ import {IconBroker, IconConsumers, IconOverview, IconTopic} from "../../svg";
 
 const Cluster = (props) => {
     const {store = {}, dispatch} = props
-    const {cluster = {}} = store
+    const {cluster = {}, waitingCluster = null, firstReqCluster = false} = store
     const match = useRouteMatch()
     const {id} = useParams()
 
@@ -60,7 +60,7 @@ const Cluster = (props) => {
 
     return (
         <>
-            <TitlePage tag={'h2'} label={<>
+            {firstReqCluster ? <TitlePage tag={'h2'} label={<>
                 <NavLink to={`${match.url}`} className="white">
                     <small>
                         <small>
@@ -70,9 +70,9 @@ const Cluster = (props) => {
                     &nbsp;
                     {name}
                 </NavLink>
-            </>}/>
+            </>}/> : <h4 style={{padding: '0 1em'}}>waiting...</h4>}
 
-            <div className="content">
+            {firstReqCluster ? <div className="content">
                 <aside>
                     <nav className="scrollhide">
                         <ul>
@@ -104,7 +104,7 @@ const Cluster = (props) => {
                             })}
                     </Switch>
                 </section>
-            </div>
+            </div> : null}
         </>
     )
 }
