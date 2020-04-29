@@ -21,29 +21,22 @@
     }
   }
   .rowGroup {
-    width: 800px;
-    height: 5em;
-    max-width: 100%;
-    box-sizing: border-box;
-    padding: @size;
-    display: flex;
-    align-items: center;
-    & > * {
+    h5, h6 {
+      text-align: right;
       margin: 0;
-    }
-    & > * + * {
-      margin-left: @size;
-    }
-    .fieldInput {
-      flex: 1;
     }
   }
   .code {
     flex: 1;
     font-size: 70%;
     color: fade(@color, 50%);
-    code:hover {
-      color: fade(@color, 80%);
+    code {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &:hover {
+        color: fade(@color, 80%);
+      }
     }
   }
 }
