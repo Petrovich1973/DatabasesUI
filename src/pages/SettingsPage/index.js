@@ -97,61 +97,82 @@ const SettingsPage = (props) => {
     }
 
     const handleUpdateFontSize = e => {
-        dispatch({
-            type: type.APP_SETTINGS_UPDATE,
-            payload: {fontSize: e.target.value}
-        })
+        const fontSize = e.target.value
+        if(fontSize < 151 && fontSize > 49) {
+            dispatch({
+                type: type.APP_SETTINGS_UPDATE,
+                payload: {fontSize}
+            })
+        }
     }
 
     return (
         <div className="settingsPage" style={{height: '100%', overflow: 'hidden'}}>
             &nbsp;
             <TitlePage icon={<IconSettings size={'1em'}/>} label={title} className="flex-center"/>
+            &nbsp;
+            <table>
+                <tbody>
+                <tr className="rowGroup">
+                    <td className="align-right">
+                        <h6>font-size App</h6>
+                    </td>
+                    <td>
+                        <div className="fieldInput">
+                            <input
+                                type="number"
+                                max={150}
+                                min={50}
+                                value={settings.fontSize}
+                                onChange={handleUpdateFontSize}/>
+                        </div>
+                    </td>
+                    <td>%</td>
+                </tr>
+                <tr className="rowGroup">
+                    <td className="align-right">
+                        <h6>host services api</h6>
+                    </td>
+                    <td>
+                        <div className="fieldInput">
+                            <input
+                                type="text"
+                                placeholder={'http://localhost:8080/api'}
+                                value={hostApi}
+                                onKeyUp={onKeyUpHostApi}
+                                onChange={e => onChangeHostApi(e.target.value)}/>
+                        </div>
+                    </td>
+                    <td>
+                        {saveBtn ? <Button
+                            text={'Save'}
+                            className="sx green"
+                            onClick={handleUpdate}/> : <span>url</span>}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-            <div className="rowGroup">
-                <h5>font-size App</h5>
-                <div className="fieldInput">
-                    <input
-                        type="number"
-                        value={settings.fontSize}
-                        onChange={handleUpdateFontSize}/>
-                </div>
-                <span>%</span>
-            </div>
-
-            <div className="rowGroup">
-                <h5>host services api</h5>
-                <div className="fieldInput">
-                    <input
-                        type="text"
-                        value={hostApi}
-                        onKeyUp={onKeyUpHostApi}
-                        onChange={e => onChangeHostApi(e.target.value)}/>
-                </div>
-                {saveBtn ? <Button
-                    text={'Save'}
-                    className="sl green"
-                    onClick={handleUpdate}/> : null}
-            </div>
-
+            <h4>API</h4>
             <div className="code scrollhide" style={{height: '100%', overflow: 'auto'}}>
+
                 <code>
-                    <pre>
-                        HOST SERVICES API/clusters and HOST SERVICES API/clusters/:id
-                        {codeClusters}
-                    </pre>
+                    <div>
+                        HOST SERVICES API/clusters<br/>HOST SERVICES API/clusters/:id
+                    </div>
+                    <pre>{codeClusters}</pre>
                 </code>
                 <code>
-                    <pre>
-                        HOST SERVICES API/clusters/:cluster/topics and HOST SERVICES API/clusters/:cluster/topics/:id
-                        {codeTopics}
-                    </pre>
+                    <div>
+                        HOST SERVICES API/clusters/:cluster/topics<br/>HOST SERVICES API/clusters/:cluster/topics/:id
+                    </div>
+                    <pre>{codeTopics}</pre>
                 </code>
                 <code>
-                    <pre>
-                        HOST SERVICES API/clusters/:cluster/topics/:topic/partitions and HOST SERVICES API/clusters/:cluster/topics/:topic/partitions/:id
-                        {codePartitions}
-                    </pre>
+                    <div>
+                        HOST SERVICES API/clusters/:cluster/topics/:topic/partitions<br/>HOST SERVICES API/clusters/:cluster/topics/:topic/partitions/:id
+                    </div>
+                    <pre>{codePartitions}</pre>
                 </code>
             </div>
 

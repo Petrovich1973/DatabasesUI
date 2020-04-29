@@ -26,7 +26,7 @@ const routes = [
                 component: KafkaPage,
                 path: '/kafka',
                 title: 'Apache Kafka',
-                icon: <IconKafka size={'1em'}/>,
+                icon: <IconKafka size={'1.2em'}/>,
                 rights: [right.WRITE_ALL, right.VIEW_ALL, right.KAFKA_USE]
             },
             {
