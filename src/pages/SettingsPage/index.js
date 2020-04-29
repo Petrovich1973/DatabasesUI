@@ -59,6 +59,17 @@ const SettingsPage = (props) => {
         ...
     ]
     `)
+    const [codePartitions] = useState(`
+    [
+        {
+          "id": 1010,
+          "name": "Partition_001",
+          "role": "LEADER",
+          "status": "SUCCESS"
+        },
+        ...
+    ]
+    `)
 
     useEffect(() => {
         document.title = title
@@ -115,6 +126,12 @@ const SettingsPage = (props) => {
                     <pre>
                         HOST SERVICES API/clusters/:cluster/topics and HOST SERVICES API/clusters/:cluster/topics/:id
                         {codeTopics}
+                    </pre>
+                </code>
+                <code>
+                    <pre>
+                        HOST SERVICES API/clusters/:cluster/topics/:topic/partitions and HOST SERVICES API/clusters/:cluster/topics/:topic/partitions/:id
+                        {codePartitions}
                     </pre>
                 </code>
             </div>
