@@ -19,6 +19,7 @@ const handleCatch = (error, timeRequest) => {
     // }
 }
 
+const getReducerApp = () => (dispatch, getState) => getState().reducerApp
 const getReducerKafka = () => (dispatch, getState) => getState().reducerKafka
 
 // Clusters
@@ -35,7 +36,7 @@ export const loadClusters = ({params = {}}) => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}`, {
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}`, {
             params
         })
             .then((response) => {
@@ -77,7 +78,7 @@ export const loadCluster = id => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}/${id}`)
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}/${id}`)
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingCluster === timeRequest
                 if (isActualResponse) {
@@ -131,7 +132,7 @@ export const loadTopics = ({params = {}}) => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics`, {
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics`, {
             params
         })
             .then((response) => {
@@ -174,7 +175,7 @@ export const loadTopic = id => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${id}`)
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${id}`)
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingTopic === timeRequest
                 if (isActualResponse) {
@@ -228,7 +229,7 @@ export const loadPartitions = ({params = {}}) => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions`, {
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions`, {
             params
         })
             .then((response) => {
@@ -271,7 +272,7 @@ export const loadPartition = id => {
             }
         })
 
-        axios.get(`${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions/${id}`)
+        axios.get(`${dispatch(getReducerApp()).settings.hostApi}${api.kafka_clusters}/${dispatch(getReducerKafka()).cluster.id}/topics/${dispatch(getReducerKafka()).topic.id}/partitions/${id}`)
             .then((response) => {
                 const isActualResponse = dispatch(getReducerKafka()).waitingPartition === timeRequest
                 if (isActualResponse) {

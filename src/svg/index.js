@@ -5,6 +5,10 @@ export { IconTopic } from './IconTopic'
 export { IconOverview } from './IconOverview'
 export { IconBroker } from './IconBroker'
 export { IconConsumers } from './IconConsumers'
+export { IconSettings } from './IconSettings'
+
+export { IconUser } from './IconUser'
+export { IconMore } from './IconMore'
 
 export { IconDelete } from './IconDelete'
 export { IconFile } from './IconFile'

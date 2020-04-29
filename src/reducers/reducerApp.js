@@ -7,6 +7,9 @@ const initialState = {
             name: 'SBT-Tanko-IP',
             rights: [/*'VIEW_ALL', 'WRITE_ALL',*/ 'KAFKA_USE']
         }
+    },
+    settings: {
+        hostApi: 'http://localhost:5000/api'
     }
 }
 
@@ -16,6 +19,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            }
+        case type.APP_SETTINGS_UPDATE:
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    ...action.payload
+                }
             }
         default:
             return state

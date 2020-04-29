@@ -1,59 +1,48 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import {NavLink, useHistory} from 'react-router-dom'
 import './Header.less'
+import {IconMore, IconUser} from "../../svg";
+import Button from "../Button";
 
-const Header = ({nav = []}) => (
-    <header>
-        <nav>
-            <ul>
-                {nav
-                    .map(route => {
-                        const {path = '', title = '', icon = null} = route
-                        return (
-                            <li key={path}>
-                                <NavLink to={path}>
-                                    {icon}
-                                    <span>{title}</span>
-                                </NavLink>
-                            </li>
-                        )
-                    })}
-            </ul>
-        </nav>
-    </header>
-)
+const Header = ({nav = []}) => {
 
-// const Header = ({nav = []}) => (
-//     <header>
-//         <nav>
-//             <ul>
-//                 {nav
-//                     .map(route => {
-//                         if (route.headerNav && route.childs && route.childs.length) {
-//                             return (
-//                                 <li key={route.path}>
-//                                     <ul>
-//                                         {route.childs.map((subRoute, idxSub) => (
-//                                             <li key={idxSub}>
-//                                                 <NavLink to={route.path + subRoute.path}>
-//                                                     <span>{subRoute.title}</span>
-//                                                 </NavLink>
-//                                             </li>
-//                                         ))}
-//                                     </ul>
-//                                 </li>
-//                             )
-//                         } else {
-//                             return (
-//                                 <li key={route.path}>
-//                                     <NavLink to={route.path}>{route.title}</NavLink>
-//                                 </li>
-//                             )
-//                         }
-//                     })}
-//             </ul>
-//         </nav>
-//     </header>
-// )
+    let history = useHistory()
+
+    const onClickSettingBtn = () => {
+        history.push("/settings")
+    }
+
+    return (
+        <header>
+            <div className="left">
+                <span>Web Console</span>
+            </div>
+            <nav>
+                <ul>
+                    {nav
+                        .map(route => {
+                            const {path = '', title = '', icon = null} = route
+                            return (
+                                <li key={path}>
+                                    <NavLink to={path}>
+                                        {icon}
+                                        <span>{title}</span>
+                                    </NavLink>
+                                </li>
+                            )
+                        })}
+                </ul>
+            </nav>
+            <div className="right">
+                <IconUser size={'1.6em'}/>
+                <span className="user-name"><small>Administrator Ivanov Ivan Ivanovich</small></span>
+                <Button
+                    onClick={onClickSettingBtn}
+                    icon={<IconMore size={'1em'}/>}
+                    className="sm" title={'Settings Web Console'}/>
+            </div>
+        </header>
+    )
+}
 
 export default Header

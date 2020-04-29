@@ -1,0 +1,46 @@
+@import (reference) "../../styles/variables.less";
+
+.settingsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .fieldInput {
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 @size / 4;
+      background-color: transparent;
+      border: none;
+      color: fade(@color, 60%);
+      border-bottom: 2px solid fade(@color, 60%);
+      outline: none;
+      &:focus {
+        background-color: fade(@yellow, 10%);
+        border-color: transparent;
+      }
+    }
+  }
+  .rowGroup {
+    width: 800px;
+    height: 5em;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: @size;
+    display: flex;
+    align-items: center;
+    & > * {
+      margin: 0;
+    }
+    & > * + * {
+      margin-left: @size;
+    }
+    .fieldInput {
+      flex: 1;
+    }
+  }
+  .code {
+    flex: 1;
+    font-size: 70%;
+    color: fade(@color, 50%);
+  }
+}
