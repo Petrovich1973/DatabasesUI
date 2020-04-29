@@ -96,10 +96,29 @@ const SettingsPage = (props) => {
         setSaveBtn(false)
     }
 
+    const handleUpdateFontSize = e => {
+        dispatch({
+            type: type.APP_SETTINGS_UPDATE,
+            payload: {fontSize: e.target.value}
+        })
+    }
+
     return (
         <div className="settingsPage" style={{height: '100%', overflow: 'hidden'}}>
             &nbsp;
             <TitlePage icon={<IconSettings size={'1em'}/>} label={title} className="flex-center"/>
+
+            <div className="rowGroup">
+                <h5>font-size App</h5>
+                <div className="fieldInput">
+                    <input
+                        type="number"
+                        value={settings.fontSize}
+                        onChange={handleUpdateFontSize}/>
+                </div>
+                <span>%</span>
+            </div>
+
             <div className="rowGroup">
                 <h5>host services api</h5>
                 <div className="fieldInput">
