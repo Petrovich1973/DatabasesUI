@@ -6,6 +6,7 @@ import './styles/App.less'
 import routesApp from './routes'
 import Header from "./components/Header"
 import isRight from "./utils/isRight"
+import SettingsPage from "./pages/SettingsPage";
 
 const App = (props) => {
     const {rightsCurrent = []} = props
@@ -48,6 +49,7 @@ const App = (props) => {
                                     {...{...route}}/>}/>
                         )
                     })}
+                <Route path={`/settings`} component={SettingsPage}/>
                 <Route component={NotFoundPage}/>
             </Switch>
         </div>
