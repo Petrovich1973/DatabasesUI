@@ -35,7 +35,9 @@ const Header = ({nav = []}) => {
             </nav>
             <div className="right">
                 <IconUser size={'1.6em'}/>
-                <span className="user-name"><small>Administrator Ivanov Ivan Ivanovich</small></span>
+                <span className="user-name" title={'Administrator Ivanov Ivan Ivanovich'}>
+                    <small>Administrator Ivanov Ivan Ivanovich</small>
+                </span>
                 <Button
                     onClick={onClickSettingBtn}
                     icon={<IconMore size={'1em'}/>}
